@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
@@ -164,7 +164,7 @@ export default function Header() {
           >
             <div className="px-2 sm:px-2.5 py-1 bg-white/95 backdrop-blur-md rounded-xl border border-white/30 shadow-md flex items-center justify-center">
               <img
-                alt="YatraBus Logo"
+                alt="VedantaBus Logo"
                 className="h-6 sm:h-7 w-auto object-contain"
                 src="/images/logo.png"
                 fetchPriority="high"
@@ -313,7 +313,7 @@ export default function Header() {
                     />
                     <div className="min-w-0">
                       <p className="text-xs font-bold text-white truncate">{currentUser.name || 'Traveler'}</p>
-                      <p className="text-[10px] text-slate-400 truncate">{currentUser.email || currentUser.phone || '+91 98765 43210'}</p>
+                      <p className="text-[10px] text-slate-400 truncate">{currentUser.email || currentUser.phone || '+91-8208024895'}</p>
                     </div>
                   </div>
 
@@ -415,7 +415,7 @@ export default function Header() {
               <div className="flex items-center gap-2">
                 <div className="px-2 py-1 bg-white/95 rounded-lg border border-white/30 shadow-sm flex items-center justify-center">
                   <img
-                    alt="YatraBus Logo"
+                    alt="VedantaBus Logo"
                     className="h-5 sm:h-6 w-auto object-contain"
                     src="/images/logo.png"
                   />
@@ -629,8 +629,8 @@ export default function Header() {
               <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
                 <div className="flex items-center justify-between text-xs text-white">
                   <span className="font-semibold text-slate-300">24/7 Helpline:</span>
-                  <a href="tel:18002099287" className="font-bold text-brand-scarlet hover:underline">
-                    1800-209-9287
+                  <a href="tel:8208024895" className="font-bold text-brand-scarlet hover:underline">
+                    +91-8208024895
                   </a>
                 </div>
                 <div className="flex items-center justify-between text-xs text-white">

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 import Header from '@/components/site/Header';
@@ -22,7 +22,7 @@ export default function TermsPage() {
             <section className="space-y-2">
               <h2 className="text-lg font-bold text-slate-900 font-serif">1. Agreement to Terms</h2>
               <p>
-                By accessing or using this website, mobile application, or services operated by <strong>Roshni Tours &amp; Travels</strong> (&ldquo;Legal Venture&rdquo;), you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you may not use our services.
+                By accessing or using this website, mobile application, or services operated by <strong>Vedanta Group Of Companies</strong> (&ldquo;Legal Venture&rdquo;), you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you may not use our services.
               </p>
             </section>
 
@@ -57,7 +57,7 @@ export default function TermsPage() {
             <section className="space-y-2">
               <h2 className="text-lg font-bold text-slate-900 font-serif">6. Contact Information</h2>
               <p>
-                For questions regarding these Terms &amp; Conditions, please contact us at <strong>support@yatrabus.in</strong> or via toll-free helpline at <strong>1800-209-9287</strong>.
+                For questions regarding these Terms &amp; Conditions, please contact us at <strong>vedantagroupofcom@gmail.com</strong> or via toll-free helpline at <strong>+91-8208024895</strong>.
               </p>
             </section>
           </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import { adminFetch } from "@/lib/api";
 // ── Mock Data ─────────────────────────────────────────────────────────────────
 
 const BOOKINGS = [
-  { id: "BK100523", user: "Rahul Sharma",    phone: "+91 98765 43210", initials: "RS", color: "#2563EB", from: "Nagpur",  to: "Pune",      via: "Wardha, Amravati", date: "15 Sep 2026", day: "Mon", seats: ["L3", "L4"],       amount: "₹ 2,400", status: "Confirmed" },
+  { id: "BK100523", user: "Rahul Sharma",    phone: "+91-8208024895", initials: "RS", color: "#2563EB", from: "Nagpur",  to: "Pune",      via: "Wardha, Amravati", date: "15 Sep 2026", day: "Mon", seats: ["L3", "L4"],       amount: "₹ 2,400", status: "Confirmed" },
   { id: "BK100522", user: "Sneha Patil",     phone: "+91 87654 32109", initials: "SP", color: "#D97706", from: "Pune",    to: "Mumbai",    via: "Lonavala",         date: "15 Sep 2026", day: "Mon", seats: ["U1"],             amount: "₹ 1,200", status: "Pending"   },
   { id: "BK100521", user: "Amit Verma",      phone: "+91 98980 12345", initials: "AV", color: "#059669", from: "Nagpur",  to: "Hyderabad", via: "Adilabad",         date: "16 Sep 2026", day: "Tue", seats: ["L5", "L6", "L7"], amount: "₹ 3,600", status: "Confirmed" },
   { id: "BK100520", user: "Priya Deshmukh",  phone: "+91 76543 21098", initials: "PD", color: "#DC2626", from: "Mumbai",  to: "Nagpur",    via: "Nashik",           date: "16 Sep 2026", day: "Tue", seats: ["U3"],             amount: "₹ 1,800", status: "Cancelled" },
@@ -78,7 +78,7 @@ export default function BusBookingsPage() {
             id: b.id,
             displayId: b.id.startsWith("YB-") || b.id.startsWith("BK") || b.id.startsWith("PB-") || b.id.length <= 12 ? b.id : b.id.slice(0, 8).toUpperCase(),
             user: userName,
-            phone: b.user?.phone || "+91 98765 43210",
+            phone: b.user?.phone || "+91-8208024895",
             initials,
             color: colors[i % colors.length],
             from: b.trip?.route?.originCity || "Origin",

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -400,7 +400,7 @@ export default function SettingsPage() {
                     </span>
                     <input
                       type="email"
-                      value={currentUser?.email || "admin@yatrabus.in"}
+                      value={currentUser?.email || "admin@VedantaBus.in"}
                       disabled
                       style={{
                         width: "100%", paddingLeft: 38, paddingRight: 40, paddingTop: 10, paddingBottom: 10,
@@ -953,7 +953,7 @@ export default function SettingsPage() {
                   <input
                     type="email"
                     required
-                    placeholder="e.g. ramesh@yatrabus.in"
+                    placeholder="e.g. ramesh@VedantaBus.in"
                     value={newAdminEmail}
                     onChange={e => setNewAdminEmail(e.target.value)}
                     style={{
@@ -970,7 +970,7 @@ export default function SettingsPage() {
                   <input
                     type="tel"
                     required
-                    placeholder="e.g. +91 98765 43210"
+                    placeholder="e.g. +91-8208024895"
                     value={newAdminPhone}
                     onChange={e => setNewAdminPhone(e.target.value)}
                     style={{

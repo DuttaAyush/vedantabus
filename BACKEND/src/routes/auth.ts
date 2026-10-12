@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+﻿import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../prisma';
 import {
@@ -102,10 +102,10 @@ router.post('/login', async (req: Request, res: Response) => {
       // Dev-only fallback mock users — NEVER in production
       if (process.env.NODE_ENV !== 'production') {
         const isSuperAdminEmail =
-          identifier === 'admin@yatrabus.com' ||
-          identifier === 'admin@yatrabus.in' ||
-          identifier === 'superadmin@yatrabus.com' ||
-          identifier === 'superadmin@yatrabus.in' ||
+          identifier === 'admin@VedantaBus.com' ||
+          identifier === 'admin@VedantaBus.in' ||
+          identifier === 'superadmin@VedantaBus.com' ||
+          identifier === 'superadmin@VedantaBus.in' ||
           identifier === 'admin@vedbus.com' ||
           identifier === 'admin@vedbus.in' ||
           identifier === 'superadmin@vedbus.com' ||
@@ -132,7 +132,7 @@ router.post('/login', async (req: Request, res: Response) => {
             id: 'dev-user-uuid-001',
             name: 'Rahul Sharma',
             email: identifier,
-            phone: '+91 98765 43210',
+            phone: '+91-8208024895',
             role: 'USER',
             passwordHash: 'dev_mock_hash',
             isActive: true,
@@ -147,10 +147,10 @@ router.post('/login', async (req: Request, res: Response) => {
     // Dev fallback if DB returned null (e.g. user not yet seeded in database)
     if (!user && process.env.NODE_ENV !== 'production') {
       const isSuperAdminEmail =
-        identifier === 'admin@yatrabus.com' ||
-        identifier === 'admin@yatrabus.in' ||
-        identifier === 'superadmin@yatrabus.com' ||
-        identifier === 'superadmin@yatrabus.in' ||
+        identifier === 'admin@VedantaBus.com' ||
+        identifier === 'admin@VedantaBus.in' ||
+        identifier === 'superadmin@VedantaBus.com' ||
+        identifier === 'superadmin@VedantaBus.in' ||
         identifier === 'admin@vedbus.com' ||
         identifier === 'admin@vedbus.in' ||
         identifier === 'superadmin@vedbus.com' ||

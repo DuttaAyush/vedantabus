@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+﻿import { Router, Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../prisma';
@@ -7,7 +7,7 @@ import { sendSuccess, sendError } from '../utils/response';
 import { tryHoldSeats, releaseSeats, getHeldSeats, verifySeatLocks, SEAT_HOLD_DURATION_SECONDS } from '../utils/seatLock';
 
 const router = Router();
-const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'yatrabus_dev_access_secret_key_super_secure_random_123456789';
+const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'VedantaBus_dev_access_secret_key_super_secure_random_123456789';
 
 // ── GET /api/bookings/seats ───────────────────────────────────────
 // Returns booked + temporarily held seat IDs for a trip

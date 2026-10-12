@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
@@ -751,7 +751,7 @@ export default function AdminsManagementPage() {
                 <input
                   type="email"
                   required
-                  placeholder="priya@yatrabus.in"
+                  placeholder="priya@VedantaBus.in"
                   value={newAdmin.email}
                   onChange={(e) => setNewAdmin({ ...newAdmin, email: e.target.value })}
                   style={{
@@ -768,7 +768,7 @@ export default function AdminsManagementPage() {
                 <input
                   type="text"
                   required
-                  placeholder="+91 98765 43210"
+                  placeholder="+91-8208024895"
                   value={newAdmin.phone}
                   onChange={(e) => setNewAdmin({ ...newAdmin, phone: e.target.value })}
                   style={{

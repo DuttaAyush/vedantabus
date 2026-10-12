@@ -1,5 +1,5 @@
-# YATRABUS — Luxury Bus Ticketing & Tour Packages Platform
-# Operated under Legal Venture: Roshni Tours & Travels
+﻿# VedantaBus — Luxury Bus Ticketing & Tour Packages Platform
+# Operated under Legal Venture: Vedanta Group Of Companies
 
 [![Express 5.2.1](https://img.shields.io/badge/Express-5.2.1-green.svg)](https://expressjs.com/)
 [![Next.js 16.3.5](https://img.shields.io/badge/Next.js-16.3.5-black.svg)](https://nextjs.org/)
@@ -7,7 +7,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14%2B-blue.svg)](https://www.postgresql.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
 
-YATRABUS (operated by Roshni Tours & Travels) is an enterprise-grade luxury bus reservation and spiritual/domestic tour package booking platform. Built with a unified **Express 5** backend serving both a **Next.js customer portal** and an **administrative dashboard**.
+VedantaBus (operated by Vedanta Group Of Companies) is an enterprise-grade luxury bus reservation and spiritual/domestic tour package booking platform. Built with a unified **Express 5** backend serving both a **Next.js customer portal** and an **administrative dashboard**.
 
 ---
 
@@ -15,7 +15,7 @@ YATRABUS (operated by Roshni Tours & Travels) is an enterprise-grade luxury bus 
 
 ```
                       ┌──────────────────────────────────────────────┐
-                      │           YATRABUS Monorepo                  │
+                      │           VedantaBus Monorepo                  │
                       └──────────────────────┬───────────────────────┘
                                              │
                ┌─────────────────────────────┼─────────────────────────────┐
@@ -48,10 +48,10 @@ YATRABUS (operated by Roshni Tours & Travels) is an enterprise-grade luxury bus 
 
 | Folder | Technology | Port | Description |
 |---|---|---|---|
-| [`/BACKEND`](file:///d:/New%20folder/YATRABUS/BACKEND) | Node.js 20+, Express 5, TypeScript, Prisma | `5000` | Unified REST API server with two-phase seat locking, JWT auth, and admin gatekeeper |
-| [`/FRONTEND`](file:///d:/New%20folder/YATRABUS/FRONTEND) | Next.js 16.3 (Turbopack), React 19, Tailwind CSS | `3000` | Customer-facing booking portal, search, seat selection, and tour package explorer |
-| [`/ADMIN`](file:///d:/New%20folder/YATRABUS/ADMIN) | Next.js 16.3 (Turbopack), React 19 | `3001` | Administrative control panel for operations, fleet, bookings, trips, and analytics |
-| [`BACKEND.md`](file:///d:/New%20folder/YATRABUS/BACKEND.md) | Markdown | — | Architectural decisions, database choices, gatekeeper design, and complete route directory |
+| [`/BACKEND`](file:///d:/New%20folder/VedantaBus/BACKEND) | Node.js 20+, Express 5, TypeScript, Prisma | `5000` | Unified REST API server with two-phase seat locking, JWT auth, and admin gatekeeper |
+| [`/FRONTEND`](file:///d:/New%20folder/VedantaBus/FRONTEND) | Next.js 16.3 (Turbopack), React 19, Tailwind CSS | `3000` | Customer-facing booking portal, search, seat selection, and tour package explorer |
+| [`/ADMIN`](file:///d:/New%20folder/VedantaBus/ADMIN) | Next.js 16.3 (Turbopack), React 19 | `3001` | Administrative control panel for operations, fleet, bookings, trips, and analytics |
+| [`BACKEND.md`](file:///d:/New%20folder/VedantaBus/BACKEND.md) | Markdown | — | Architectural decisions, database choices, gatekeeper design, and complete route directory |
 
 ---
 
@@ -132,7 +132,7 @@ After running `npm run seed` in the `BACKEND` directory, log in with:
 
 | Portal | URL | Role | Email | Password |
 |---|---|---|---|---|
-| **Admin Portal** | `http://localhost:3001` | `ADMIN` | `admin@yatrabus.in` | `Password@123` |
+| **Admin Portal** | `http://localhost:3001` | `ADMIN` | `admin@VedantaBus.in` | `Password@123` |
 | **Customer Portal** | `http://localhost:3000` | `USER` | `rahul.sharma@example.com` | `Password@123` |
 
 ---
@@ -175,4 +175,4 @@ cd ../ADMIN && npm run build      # Exits 0, 21/21 routes compiled
 ---
 
 ## 📄 License
-Proprietary software © 2026 Roshni Tours & Travels. All rights reserved.
+Proprietary software © 2026 Vedanta Group Of Companies. All rights reserved.

@@ -68,8 +68,8 @@ export default function ContactForm() {
                     <span className="material-symbols-outlined text-[18px]">call</span>
                   </div>
                   <div>
-                    <span className="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Toll-Free Helpline</span>
-                    <span className="text-sm font-bold text-white">1800-209-9287</span>
+                    <span className="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">24/7 Helpline</span>
+                    <a href="tel:918208024895" className="text-sm font-bold text-white">+91-8208024895</a>
                   </div>
                 </div>
 
@@ -79,7 +79,7 @@ export default function ContactForm() {
                   </div>
                   <div>
                     <span className="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Email Concierge</span>
-                    <span className="text-sm font-bold text-white">support@yatrabus.com</span>
+                    <a href="mailto:vedantagroupofcom@gmail.com" className="text-sm font-bold text-white">vedantagroupofcom@gmail.com</a>
                   </div>
                 </div>
               </div>
@@ -156,7 +156,7 @@ export default function ContactForm() {
                       required
                       value={formData.mobile}
                       onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                      placeholder="+91 98765 43210"
+                      placeholder="+91-8208024895"
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-900 focus:bg-white focus:border-brand-scarlet focus:ring-2 focus:ring-brand-scarlet/20 outline-none transition-all"
                     />
                   </div>

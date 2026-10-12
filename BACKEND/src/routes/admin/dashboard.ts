@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+﻿import { Router, Request, Response } from 'express';
 import { prisma } from '../../prisma';
 import { sendSuccess, sendError } from '../../utils/response';
 
@@ -85,8 +85,8 @@ router.get(['/', '/stats'], async (_req: Request, res: Response) => {
       id: b.id,
       type: 'Bus',
       customer: b.user?.name || 'Passenger',
-      email: b.user?.email || 'customer@yatrabus.in',
-      phone: b.user?.phone || '+91 98765 43210',
+      email: b.user?.email || 'customer@VedantaBus.in',
+      phone: b.user?.phone || '+91-8208024895',
       route: b.trip?.route ? `${b.trip.route.originCity} → ${b.trip.route.destinationCity}` : 'Intercity Route',
       via: b.trip?.route?.waypoints && b.trip.route.waypoints.length > 0 ? b.trip.route.waypoints.join(', ') : 'Direct Express',
       date: b.trip?.departureDatetime ? b.trip.departureDatetime.toISOString() : (b.bookingDate ? b.bookingDate.toISOString() : new Date().toISOString()),
@@ -101,8 +101,8 @@ router.get(['/', '/stats'], async (_req: Request, res: Response) => {
       id: p.id,
       type: 'Package',
       customer: p.user?.name || 'Traveler',
-      email: p.user?.email || 'customer@yatrabus.in',
-      phone: p.user?.phone || '+91 98765 43210',
+      email: p.user?.email || 'customer@VedantaBus.in',
+      phone: p.user?.phone || '+91-8208024895',
       route: p.package?.title || 'Tour Package',
       via: p.package?.category || 'Holiday',
       date: p.travelDate ? p.travelDate.toISOString() : new Date().toISOString(),

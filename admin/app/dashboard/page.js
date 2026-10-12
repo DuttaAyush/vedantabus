@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -399,7 +399,7 @@ export default function DashboardPage() {
           id: b.id,
           type: b.type || (b.package ? "Package" : "Bus"),
           customer: b.customer || b.user?.name || "Passenger",
-          email: b.email || b.user?.email || "customer@yatrabus.in",
+          email: b.email || b.user?.email || "customer@VedantaBus.in",
           route: b.route || (b.trip?.route ? `${b.trip.route.originCity} → ${b.trip.route.destinationCity}` : (b.package?.title || "Intercity Route")),
           date: b.date ? new Date(b.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : (b.bookingDate ? new Date(b.bookingDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : "Today"),
           amount: typeof b.amount === 'string' && b.amount.startsWith('₹') ? b.amount : `₹${Number(b.amount || b.totalAmount || 0).toLocaleString('en-IN')}`,

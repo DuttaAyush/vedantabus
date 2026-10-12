@@ -51,8 +51,8 @@ export default function ContactPage() {
                 </div>
                 <div className="min-w-0">
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-300 block">Toll Free 24/7</span>
-                  <a href="tel:18002099287" className="text-sm font-bold text-white hover:text-amber-300 transition-colors truncate block">
-                    1800-209-9287
+                  <a href="tel:918208024895" className="text-sm font-bold text-white hover:text-amber-300 transition-colors truncate block">
+                    +91-8208024895
                   </a>
                 </div>
               </div>
@@ -64,8 +64,8 @@ export default function ContactPage() {
                 </div>
                 <div className="min-w-0">
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-300 block">WhatsApp Ticket Assist</span>
-                  <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-white hover:text-emerald-300 transition-colors truncate block">
-                    +91 98765 43210
+                  <a href="https://wa.me/918208024895" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-white hover:text-emerald-300 transition-colors truncate block">
+                    +91-8208024895
                   </a>
                 </div>
               </div>
@@ -77,8 +77,8 @@ export default function ContactPage() {
                 </div>
                 <div className="min-w-0">
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-300 block">Corporate Email</span>
-                  <a href="mailto:support@yatrabus.com" className="text-sm font-bold text-white hover:text-amber-300 transition-colors truncate block">
-                    support@yatrabus.com
+                  <a href="mailto:vedantagroupofcom@gmail.com" className="text-sm font-bold text-white hover:text-amber-300 transition-colors truncate block">
+                    vedantagroupofcom@gmail.com
                   </a>
                 </div>
               </div>
@@ -112,49 +112,29 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Office 1 */}
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-6 max-w-lg mx-auto">
+              {/* HQ Office */}
               <div className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm hover:shadow-md transition-all space-y-2">
                 <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-[10px] font-extrabold uppercase">
                   HEADQUARTERS
                 </span>
-                <h3 className="text-lg font-serif font-bold text-slate-900">Nagpur Central Terminal</h3>
+                <h3 className="text-lg font-serif font-bold text-slate-900">Vedanta Group Of Companies</h3>
                 <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Central Fleet House, Opp. Dharampeth College, Chatrapati Square, Nagpur, Maharashtra - 440010
+                  Block No 132, Shriram Tower, Next to N.I.T,<br />
+                  Kingsway, Civil Line, Sadar,<br />
+                  Nagpur, Maharashtra - 440001
                 </p>
                 <div className="pt-2 text-xs font-bold text-brand-scarlet flex items-center gap-1">
                   <span className="material-symbols-outlined text-[16px]">schedule</span>
                   <span>Counter Open: 24 Hours Daily</span>
                 </div>
-              </div>
-
-              {/* Office 2 */}
-              <div className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm hover:shadow-md transition-all space-y-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-[10px] font-extrabold uppercase">
-                  EXPRESS HUB
-                </span>
-                <h3 className="text-lg font-serif font-bold text-slate-900">Pune Swargate Office</h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Shop 14, Swargate Bus Stand Commercial Complex, Near Flyover, Pune, Maharashtra - 411042
-                </p>
-                <div className="pt-2 text-xs font-bold text-brand-scarlet flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[16px]">schedule</span>
-                  <span>Counter Open: 05:00 AM - 11:30 PM</span>
+                <div className="pt-1 text-xs flex items-center gap-1 text-slate-600">
+                  <span className="material-symbols-outlined text-[16px] text-emerald-600">call</span>
+                  <a href="tel:918208024895" className="font-bold hover:text-brand-scarlet transition-colors">+91-8208024895</a>
                 </div>
-              </div>
-
-              {/* Office 3 */}
-              <div className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm hover:shadow-md transition-all space-y-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-[10px] font-extrabold uppercase">
-                  TERMINAL OFFICE
-                </span>
-                <h3 className="text-lg font-serif font-bold text-slate-900">Mumbai Dadar Terminal</h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Asiad Bus Stand Premises, Circle No 4, Dadar TT, Mumbai, Maharashtra - 400014
-                </p>
-                <div className="pt-2 text-xs font-bold text-brand-scarlet flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[16px]">schedule</span>
-                  <span>Counter Open: 06:00 AM - 11:00 PM</span>
+                <div className="text-xs flex items-center gap-1 text-slate-600">
+                  <span className="material-symbols-outlined text-[16px] text-amber-500">mail</span>
+                  <a href="mailto:vedantagroupofcom@gmail.com" className="font-bold hover:text-brand-scarlet transition-colors">vedantagroupofcom@gmail.com</a>
                 </div>
               </div>
             </div>

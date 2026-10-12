@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -10,7 +10,7 @@ const USER = {
   id: "U10023",
   name: "Rajesh Kumar",
   email: "rajesh.kumar@gmail.com",
-  phone: "+91 98765 43210",
+  phone: "+91-8208024895",
   joined: "12 Jan 2025",
   status: "Active",
   dob: "14 Mar 1992",

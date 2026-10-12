@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useRef } from "react";
 
@@ -11,7 +11,7 @@ export default function AdminBoardingPassModal({ isOpen, onClose, ticketData }) 
     id = "YB-20261015-0042",
     bookingId = id,
     customerName = "Rajesh Kumar",
-    customerPhone = "+91 98765 43210",
+    customerPhone = "+91-8208024895",
     customerEmail = "rajesh.kumar@gmail.com",
     operator = "Luxury Gold Express",
     busType = "Volvo B11R Multi-Axle AC Sleeper (2+1)",
@@ -29,7 +29,7 @@ export default function AdminBoardingPassModal({ isOpen, onClose, ticketData }) 
     passengers = [],
     totalAmount = "₹ 2,570",
     driverName = "Sunil Sharma (Verified Captain)",
-    driverPhone = "+91 98220 11223",
+    driverPhone = "+91-8208024895",
     status = "Confirmed",
     isPackage = false,
     packageTitle = "",

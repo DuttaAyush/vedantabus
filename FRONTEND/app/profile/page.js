@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -51,7 +51,7 @@ export default function CustomerProfilePage() {
       passengers: trip.passengers || trip.travelers || [],
       totalFare: trip.totalFare || trip.totalAmount || trip.paidAmount || 850,
       driverName: trip.driverName || 'Sunil Sharma (Verified Captain)',
-      driverPhone: trip.driverPhone || '+91 98220 11223',
+      driverPhone: trip.driverPhone || '+91-8208024895',
       reportingTime: '30 mins before scheduled departure',
       isPackage: !!trip.isPackage,
       packageTitle: trip.title || '',
@@ -196,7 +196,7 @@ export default function CustomerProfilePage() {
           totalFare: Number(b.totalAmount || 850),
           status: b.status || 'Confirmed',
           driverName: 'Assigned Driver',
-          driverPhone: '+91 98220 11223',
+          driverPhone: '+91-8208024895',
           currentLocation: 'Terminal Bay (Scheduled)',
           speed: '0 km/h',
           nextStop: 'Departure Scheduled',
@@ -487,7 +487,7 @@ export default function CustomerProfilePage() {
                 </div>
 
                 <p className="text-xs font-semibold text-slate-700">
-                  {userProfile?.email || 'traveller@yatrabus.in'} <span className="mx-1 font-normal text-slate-400">|</span> {userProfile?.phone || '+91 98765 43210'}
+                  {userProfile?.email || 'traveller@VedantaBus.in'} <span className="mx-1 font-normal text-slate-400">|</span> {userProfile?.phone || '+91-8208024895'}
                 </p>
 
                 <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-700 pt-0.5">
@@ -982,7 +982,7 @@ export default function CustomerProfilePage() {
                         <span className="text-xs font-semibold text-slate-700">
                           Driver: <strong className="text-slate-900">{trip.driverName || 'Sunil Sharma'}</strong>
                           <span className="text-slate-300 mx-1.5">|</span>
-                          <span className="text-slate-600">{trip.driverPhone || '+91 98220 11223'}</span>
+                          <span className="text-slate-600">{trip.driverPhone || '+91-8208024895'}</span>
                         </span>
                       </div>
 
@@ -1553,7 +1553,7 @@ export default function CustomerProfilePage() {
                     required
                     value={accountFormData.phone}
                     onChange={(e) => setAccountFormData({ ...accountFormData, phone: e.target.value })}
-                    placeholder="+91 98765 43210"
+                    placeholder="+91-8208024895"
                     className="w-full bg-transparent outline-none border-none text-xs font-bold text-slate-800 placeholder:text-slate-400 p-0"
                   />
                 </div>

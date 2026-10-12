@@ -1,4 +1,4 @@
-import { Router, Response } from 'express';
+﻿import { Router, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../../prisma';
 import { authenticateJWT, isSuperAdmin, AuthRequest } from '../../middleware/auth';
@@ -11,7 +11,7 @@ let devAdmins: any[] = [
   {
     id: 'dev-admin-uuid-001',
     name: 'Super Admin',
-    email: 'admin@yatrabus.in',
+    email: 'admin@VedantaBus.in',
     phone: '+91 99999 88888',
     role: 'SUPER_ADMIN',
     isActive: true,
@@ -21,7 +21,7 @@ let devAdmins: any[] = [
   {
     id: 'dev-admin-uuid-002',
     name: 'Operations Manager',
-    email: 'ops@yatrabus.in',
+    email: 'ops@VedantaBus.in',
     phone: '+91 98765 00001',
     role: 'ADMIN',
     isActive: true,
@@ -31,7 +31,7 @@ let devAdmins: any[] = [
   {
     id: 'dev-admin-uuid-003',
     name: 'Support Supervisor',
-    email: 'support.lead@yatrabus.in',
+    email: 'support.lead@VedantaBus.in',
     phone: '+91 98765 00002',
     role: 'ADMIN',
     isActive: true,

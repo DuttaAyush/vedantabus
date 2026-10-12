@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { adminFetch } from "@/lib/api";
 // ── Mock Data ─────────────────────────────────────────────────────────────────
 
 const USERS = [
-  { id: "U10023", name: "Rahul Sharma",    email: "rahul.sharma@gmail.com",  phone: "+91 98765 43210", registered: "12 Jan 2025", bookings: 14, status: "Active",  color: "#4F46E5" },
+  { id: "U10023", name: "Rahul Sharma",    email: "rahul.sharma@gmail.com",  phone: "+91-8208024895", registered: "12 Jan 2025", bookings: 14, status: "Active",  color: "#4F46E5" },
   { id: "U10024", name: "Sneha Patel",     email: "sneha.patel@gmail.com",   phone: "+91 87654 32109", registered: "08 Jan 2025", bookings: 8,  status: "Active",  color: "#D97706" },
   { id: "U10025", name: "Amit Verma",      email: "amit.verma@outlook.com",  phone: "+91 76543 21098", registered: "05 Jan 2025", bookings: 3,  status: "Blocked", color: "#059669" },
   { id: "U10026", name: "Priya Deshmukh",  email: "priya.d@email.com",       phone: "+91 99887 77665", registered: "03 Jan 2025", bookings: 12, status: "Active",  color: "#7C3AED" },
@@ -127,7 +127,7 @@ export default function UsersPage() {
             displayId: u.id.length > 8 ? u.id.slice(0, 8).toUpperCase() : u.id,
             name: u.name || "Customer",
             email: u.email,
-            phone: u.phone || "+91 98765 43210",
+            phone: u.phone || "+91-8208024895",
             registered: u.createdAt ? new Date(u.createdAt).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }) : "Recently",
             bookings: u._count?.bookings || (Array.isArray(u.bookings) ? u.bookings.length : 0),
             status: u.status === "ACTIVE" ? "Active" : u.status === "BLOCKED" ? "Blocked" : (u.status || "Active"),

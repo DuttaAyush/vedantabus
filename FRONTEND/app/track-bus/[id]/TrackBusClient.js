@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -15,7 +15,7 @@ const sampleTrackerData = {
     route: 'Nagpur ➔ Pune',
     seats: ['3A', '3B'],
     driverName: 'Sunil Sharma',
-    driverPhone: '+91 98220 11223',
+    driverPhone: '+91-8208024895',
     speed: '78 km/h',
     progressPercent: 65,
     onTimeStatus: 'On Time (Samruddhi Mahamarg)',
@@ -71,7 +71,7 @@ export default function TrackBusClient({ params }) {
     route: `${userTrip.from} ➔ ${userTrip.to}`,
     seats: userTrip.seats,
     driverName: userTrip.driverName || 'Sunil Sharma',
-    driverPhone: userTrip.driverPhone || '+91 98220 11223',
+    driverPhone: userTrip.driverPhone || '+91-8208024895',
     speed: liveTracking ? '78 km/h' : '76 km/h',
     progressPercent: liveTracking ? liveTracking.progressPercentage : 45,
     onTimeStatus: liveTracking ? `${liveTracking.status} (Live GPS Tracking)` : 'On Time (Highway Express Route)',

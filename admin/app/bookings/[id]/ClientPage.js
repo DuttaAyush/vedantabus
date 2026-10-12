@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -132,7 +132,7 @@ export default function BusBookingDetailPage({ params }) {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", marginTop: "0.25rem", fontSize: "0.78rem", color: "#64748B" }}>
                       <span className="material-symbols-outlined" style={{ fontSize: 14, color: "#94A3B8" }}>call</span>
-                      +91 98765 43210
+                      +91-8208024895
                     </div>
                   </div>
                 </div>
@@ -469,7 +469,7 @@ export default function BusBookingDetailPage({ params }) {
             id: "VB-20261015-0042",
             bookingId: "YB-20261015-0042",
             customerName: "Abhishek Sharma",
-            customerPhone: "+91 98765 43210",
+            customerPhone: "+91-8208024895",
             customerEmail: "abhishek.sharma@gmail.com",
             operator: "Luxury Gold Express",
             busType: "Volvo AC Sleeper (2+1)",
@@ -490,7 +490,7 @@ export default function BusBookingDetailPage({ params }) {
             ],
             totalAmount: "₹ 2,570",
             driverName: "Sunil Sharma (Verified Captain)",
-            driverPhone: "+91 98220 11223",
+            driverPhone: "+91-8208024895",
             status: status,
           }}
         />

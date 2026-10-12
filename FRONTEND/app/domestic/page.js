@@ -1,4 +1,4 @@
-import Header from '@/components/site/Header';
+﻿import Header from '@/components/site/Header';
 import Footer from '@/components/site/Footer';
 import IndiaLocalHero from '@/components/india-local/IndiaLocalHero';
 import IndiaLocalTrustBand from '@/components/india-local/IndiaLocalTrustBand';
@@ -11,7 +11,7 @@ import Testimonials from '@/components/site/Testimonials';
 import IndiaLocalFAQ from '@/components/india-local/IndiaLocalFAQ';
 
 export const metadata = {
-  title: 'Domestic Holiday & Travel Packages | YatraBus',
+  title: 'Domestic Holiday & Travel Packages | VedantaBus',
   description: 'Curated domestic holiday packages across coastal retreats, serene backwaters, and misty Himalayan valleys.'
 };
 

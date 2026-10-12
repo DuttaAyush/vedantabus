@@ -1,4 +1,4 @@
-import request from 'supertest';
+﻿import request from 'supertest';
 import { app } from '../src/app';
 import { prisma } from '../src/prisma';
 import { getAdminAuthHeader, cleanupTestData } from './helpers/testUtils';
@@ -168,7 +168,7 @@ describe('Verification Test Suite: Features 1, 3, and 4', () => {
         ],
         totalFare: 1550,
         driverName: 'Sunil Sharma (Verified Captain)',
-        driverPhone: '+91 98220 11223',
+        driverPhone: '+91-8208024895',
         reportingTime: '20:00 (30 mins before departure)',
       };
 

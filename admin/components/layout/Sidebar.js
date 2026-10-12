@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -30,8 +30,8 @@ export default function Sidebar({ isOpen, onClose }) {
         if (
           u.role === "SUPER_ADMIN" ||
           u.email?.includes("superadmin") ||
-          u.email === "admin@yatrabus.in" ||
-          u.email === "superadmin@yatrabus.in"
+          u.email === "admin@VedantaBus.in" ||
+          u.email === "superadmin@VedantaBus.in"
         ) {
           setIsSuperAdmin(true);
         }
@@ -99,7 +99,7 @@ export default function Sidebar({ isOpen, onClose }) {
             }}>
               <img
                 src="/logo.png"
-                alt="YatraBus Logo"
+                alt="VedantaBus Logo"
                 style={{
                   height: 32,
                   width: "auto",

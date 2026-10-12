@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
@@ -31,7 +31,7 @@ function PackageCheckoutContent() {
   const [includeAirportTransfer, setIncludeAirportTransfer] = useState(true);
 
   const [contactEmail, setContactEmail] = useState('rajesh.patel@gmail.com');
-  const [contactPhone, setContactPhone] = useState('+91 98765 43210');
+  const [contactPhone, setContactPhone] = useState('+91-8208024895');
   const [whatsappSync, setWhatsappSync] = useState(true);
 
   const [travelers, setTravelers] = useState([
@@ -505,7 +505,7 @@ function PackageCheckoutContent() {
                   value={contactPhone}
                   onChange={(e) => setContactPhone(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 focus:bg-white focus:border-brand-scarlet outline-none transition-all"
-                  placeholder="+91 98765 43210"
+                  placeholder="+91-8208024895"
                 />
               </div>
             </div>

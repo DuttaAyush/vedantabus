@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -242,7 +242,7 @@ export default function CheckoutPage() {
         discountAmount: discountAmount || 0,
         couponCode: appliedCoupon?.code || null,
         driverName: 'Sunil Sharma',
-        driverPhone: '+91 98220 11223',
+        driverPhone: '+91-8208024895',
         currentLocation: 'Terminal Bay (Scheduled)',
         speed: '0 km/h',
         nextStop: 'Departure Scheduled',
@@ -585,7 +585,7 @@ export default function CheckoutPage() {
                   value={contactPhone}
                   onChange={(e) => setContactPhone(e.target.value)}
                   className="w-full bg-slate-50 text-slate-900 rounded-xl px-3.5 py-2.5 border border-slate-200 text-xs font-bold focus:border-brand-scarlet outline-none"
-                  placeholder="+91 98765 43210"
+                  placeholder="+91-8208024895"
                 />
               </div>
             </div>
@@ -1239,7 +1239,7 @@ export default function CheckoutPage() {
           passengers: passengers,
           totalFare: grandTotal,
           driverName: 'Sunil Sharma (Verified Captain)',
-          driverPhone: '+91 98220 11223',
+          driverPhone: '+91-8208024895',
           reportingTime: '20:00 (30 mins before departure)',
         }}
       />

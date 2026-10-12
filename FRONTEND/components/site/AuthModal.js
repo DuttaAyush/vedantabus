@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
@@ -132,7 +132,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
           id: 'usr_' + Date.now(),
           name: `User ${mobileNumber.slice(-4)}`,
           phone: mobileNumber,
-          email: `${mobileNumber}@yatrabus.in`,
+          email: `${mobileNumber}@VedantaBus.in`,
           role: 'USER',
         };
         if (typeof window !== 'undefined') {
@@ -286,7 +286,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
           <div>
             <div className="flex items-center justify-between gap-4 mb-3 sm:mb-4">
               <div className="flex items-center gap-2">
-                <img src="/images/logo.png" alt="YatraBus Logo" className="h-7 sm:h-8 w-auto object-contain" />
+                <img src="/images/logo.png" alt="VedantaBus Logo" className="h-7 sm:h-8 w-auto object-contain" />
               </div>
 
               {/* Mode Toggle Switcher: Log In / Sign Up */}

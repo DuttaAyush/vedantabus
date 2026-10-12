@@ -1,4 +1,4 @@
-import 'dotenv/config';
+﻿import 'dotenv/config';
 import { app } from './app';
 
 const PORT = process.env.PORT || 5000;
@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 5000;
 // ── Start Server ──────────────────────────────────────────────────
 export const server = app.listen(PORT, () => {
   console.log(
-    `[yatrabus-api] Server running → http://localhost:${PORT} | ENV: ${process.env.NODE_ENV || 'development'}`
+    `[VedantaBus-api] Server running → http://localhost:${PORT} | ENV: ${process.env.NODE_ENV || 'development'}`
   );
 });
 
@@ -15,9 +15,9 @@ let isShuttingDown = false;
 const shutdown = (signal: string) => {
   if (isShuttingDown) return;
   isShuttingDown = true;
-  console.log(`[yatrabus-api] ${signal} received. Shutting down gracefully...`);
+  console.log(`[VedantaBus-api] ${signal} received. Shutting down gracefully...`);
   server.close(() => {
-    console.log('[yatrabus-api] HTTP server closed.');
+    console.log('[VedantaBus-api] HTTP server closed.');
     process.exit(0);
   });
 };

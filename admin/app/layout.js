@@ -1,8 +1,8 @@
-import "./globals.css";
+﻿import "./globals.css";
 
 export const metadata = {
-  title: "YatraBus Admin Panel",
-  description: "YatraBus internal admin panel — fleet, bookings, packages & analytics.",
+  title: "VedantaBus Admin Panel",
+  description: "VedantaBus internal admin panel — fleet, bookings, packages & analytics.",
 };
 
 export default function RootLayout({ children }) {

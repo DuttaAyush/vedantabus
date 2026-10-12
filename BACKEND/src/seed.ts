@@ -1,4 +1,4 @@
-import 'dotenv/config';
+﻿import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
@@ -335,8 +335,8 @@ async function main() {
   const adminUser = await prisma.user.create({
     data: {
       name: 'Super Admin',
-      email: 'admin@yatrabus.in',
-      phone: '+919876543210',
+      email: 'admin@VedantaBus.in',
+      phone: '+918208024895',
       passwordHash,
       role: 'SUPER_ADMIN',
     }
@@ -345,7 +345,7 @@ async function main() {
   const superAdminUser = await prisma.user.create({
     data: {
       name: 'Super Admin',
-      email: 'superadmin@yatrabus.in',
+      email: 'superadmin@VedantaBus.in',
       phone: '+919999988888',
       passwordHash,
       role: 'SUPER_ADMIN',
@@ -355,7 +355,7 @@ async function main() {
   const opsAdminUser = await prisma.user.create({
     data: {
       name: 'Operations Manager',
-      email: 'ops@yatrabus.in',
+      email: 'ops@VedantaBus.in',
       phone: '+919876500001',
       passwordHash,
       role: 'ADMIN',
@@ -366,7 +366,7 @@ async function main() {
   const demoCustomer = await prisma.user.create({
     data: {
       name: 'Rahul Sharma',
-      email: 'customer@yatrabus.in',
+      email: 'customer@VedantaBus.in',
       phone: '+919811122233',
       passwordHash: customerHash,
       role: 'USER',

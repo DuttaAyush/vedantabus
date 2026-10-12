@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -145,7 +145,7 @@ export default function PackageBookingDetailPage({ params }) {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", marginTop: "0.25rem", fontSize: "0.78rem", color: "#64748B" }}>
                       <span className="material-symbols-outlined" style={{ fontSize: 14, color: "#94A3B8" }}>call</span>
-                      +91 98765 43210
+                      +91-8208024895
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", marginTop: "0.25rem", fontSize: "0.78rem", color: "#64748B" }}>
                       <span className="material-symbols-outlined" style={{ fontSize: 14, color: "#94A3B8" }}>location_on</span>

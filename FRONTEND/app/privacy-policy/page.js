@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 import Header from '@/components/site/Header';
@@ -22,7 +22,7 @@ export default function PrivacyPolicyPage() {
             <section className="space-y-2">
               <h2 className="text-lg font-bold text-slate-900 font-serif">1. Information We Collect</h2>
               <p>
-                When you book tickets or travel packages with us (operated under legal entity <strong>Roshni Tours &amp; Travels</strong>), we collect personal information necessary to process your reservation, including full name, mobile number, email address, age, gender, and payment details.
+                When you book tickets or travel packages with us (operated under legal entity <strong>Vedanta Group Of Companies</strong>), we collect personal information necessary to process your reservation, including full name, mobile number, email address, age, gender, and payment details.
               </p>
             </section>
 
@@ -57,7 +57,7 @@ export default function PrivacyPolicyPage() {
             <section className="space-y-2">
               <h2 className="text-lg font-bold text-slate-900 font-serif">6. Contact Us</h2>
               <p>
-                For privacy inquiries or data requests, email our Data Protection Officer at <strong>privacy@yatrabus.in</strong>.
+                For privacy inquiries or data requests, email our Data Protection Officer at <strong>vedantagroupofcom@gmail.com</strong>.
               </p>
             </section>
           </div>

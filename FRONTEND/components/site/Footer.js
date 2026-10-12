@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -8,7 +8,7 @@ export default function Footer() {
           <div>
             <Link href="/">
               <img
-                alt="YatraBus Logo"
+                alt="VedantaBus Logo"
                 className="h-8 w-auto brightness-0 invert mb-3"
                 src="/images/logo.png"
                 loading="lazy"
@@ -20,7 +20,7 @@ export default function Footer() {
             </p>
             <div className="text-xs font-bold text-white flex items-center gap-1.5">
               <span className="material-symbols-outlined text-brand-scarlet text-[18px]">support_agent</span>
-              24/7 Helpline: 1800-209-9287
+              24/7 Helpline: +91-8208024895
             </div>
           </div>
           <div>
@@ -54,7 +54,7 @@ export default function Footer() {
         </div>
         <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <div className="flex flex-wrap items-center gap-4">
-            <span>© 2025 Roshni Tours &amp; Travels. All rights reserved.</span>
+            <span>© 2025 Vedanta Group Of Companies. All rights reserved.</span>
             <span className="hidden sm:inline">•</span>
             <Link className="hover:text-slate-300 transition-colors" href="/terms">Terms</Link>
             <Link className="hover:text-slate-300 transition-colors" href="/privacy-policy">Privacy</Link>

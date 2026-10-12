@@ -1,4 +1,4 @@
-import 'dotenv/config';
+﻿import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -97,7 +97,7 @@ app.get('/health', async (_req: Request, res: Response) => {
 
   res.status(200).json({
     status: 'ok',
-    service: 'yatrabus-api',
+    service: 'VedantaBus-api',
     database: dbStatus,
     seatLock: getSeatLockEngineStatus(),
     timestamp: new Date().toISOString(),

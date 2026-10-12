@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
+﻿import jwt from 'jsonwebtoken';
 import { prisma } from '../../src/prisma';
 
-const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'yatrabus_dev_access_secret_key_super_secure_random_123456789';
+const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'VedantaBus_dev_access_secret_key_super_secure_random_123456789';
 
 export const TEST_USER_ID = 'b9a6911a-6f7c-4654-9843-f31ea1d58523';
 export const TEST_ADMIN_ID = 'cf83b6c9-7799-4a9b-8516-21c9403fe5f8';

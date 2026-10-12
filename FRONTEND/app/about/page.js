@@ -155,7 +155,7 @@ export default function AboutUsPage() {
 
             <div className="space-y-4 text-base sm:text-lg text-slate-600 font-medium leading-relaxed">
               <p>
-                We are a travel platform operated by <strong>Roshni Tours &amp; Travels</strong> (Legal Venture), built for people who love discovering new destinations with absolute peace of mind.
+                We are a travel platform operated by <strong>Vedanta Group Of Companies</strong> (Legal Venture), built for people who love discovering new destinations with absolute peace of mind.
               </p>
               <p>
                 From everyday intercity journeys to spiritual trips, weekend escapes, and international holidays, we bring different ways of travelling together in one place.
@@ -340,7 +340,7 @@ export default function AboutUsPage() {
               What began with the idea of making bus journeys better grew into something bigger — a travel platform connecting people with places, experiences, and journeys across India and beyond.
             </p>
             <p>
-              Today, our platform brings together bus travel, spiritual journeys, domestic holidays, and international experiences under one roof. Operated under the legal venture <strong>Roshni Tours &amp; Travels</strong>, we are committed to delivering trusted, transparent, and seamless hospitality on every route.
+              Today, our platform brings together bus travel, spiritual journeys, domestic holidays, and international experiences under one roof. Operated under the legal venture <strong>Vedanta Group Of Companies</strong>, we are committed to delivering trusted, transparent, and seamless hospitality on every route.
             </p>
             <p className="text-slate-900 font-serif font-bold text-center">
               And we&apos;re still exploring where the road takes us next.
@@ -351,10 +351,17 @@ export default function AboutUsPage() {
           <div className="max-w-xl mx-auto p-5 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm text-center space-y-1">
             <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500">Legal Entity</span>
             <div className="text-base sm:text-lg font-serif font-bold text-slate-900">
-              Legal Venture Name: <span className="text-brand-scarlet">Roshni Tours &amp; Travels</span>
+              Legal Venture Name: <span className="text-brand-scarlet">Vedanta Group Of Companies</span>
             </div>
             <p className="text-xs text-slate-500">
-              All bookings, operations, and transportation agreements are officially managed under Roshni Tours &amp; Travels.
+              All bookings, operations, and transportation agreements are officially managed under Vedanta Group Of Companies.
+            </p>
+            <p className="text-xs text-slate-500 pt-1">
+              📍 Block No 132, Shriram Tower, Next to N.I.T, Kingsway, Civil Line, Sadar, Nagpur, Maharashtra - 440001
+            </p>
+            <p className="text-xs text-slate-500">
+              📞 <a href="tel:918208024895" className="font-bold text-brand-scarlet">+91-8208024895</a> &nbsp;|&nbsp;
+              ✉️ <a href="mailto:vedantagroupofcom@gmail.com" className="font-bold text-brand-scarlet">vedantagroupofcom@gmail.com</a>
             </p>
           </div>
         </div>

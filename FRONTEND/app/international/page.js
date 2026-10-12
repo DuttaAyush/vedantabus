@@ -1,4 +1,4 @@
-import Header from '@/components/site/Header';
+﻿import Header from '@/components/site/Header';
 import Footer from '@/components/site/Footer';
 import InternationalHero from '@/components/international/InternationalHero';
 import InternationalTrustBand from '@/components/international/InternationalTrustBand';
@@ -11,7 +11,7 @@ import Testimonials from '@/components/site/Testimonials';
 import InternationalFAQ from '@/components/international/InternationalFAQ';
 
 export const metadata = {
-  title: 'International Holiday & Travel Packages | YatraBus',
+  title: 'International Holiday & Travel Packages | VedantaBus',
   description: 'Personalized worldwide holiday packages with flights, handpicked stays, visa assistance, and Indian culinary experiences.'
 };
 
