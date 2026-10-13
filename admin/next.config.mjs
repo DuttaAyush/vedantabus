@@ -5,10 +5,12 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: false,
-  // Loaded from ALLOWED_DEV_ORIGINS in .env.local (gitignored) — never hardcode IPs here.
-  allowedDevOrigins: process.env.ALLOWED_DEV_ORIGINS
-    ? process.env.ALLOWED_DEV_ORIGINS.split(',').map((s) => s.trim())
-    : [],
+  // Only applies in development (`next dev`). Production builds do not use HMR.
+  ...(process.env.NODE_ENV !== 'production' && {
+    allowedDevOrigins: process.env.ALLOWED_DEV_ORIGINS
+      ? process.env.ALLOWED_DEV_ORIGINS.split(',').map((s) => s.trim())
+      : ['*'],
+  }),
 };
 
 export default nextConfig;

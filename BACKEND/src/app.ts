@@ -1,4 +1,4 @@
-﻿import 'dotenv/config';
+import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -24,18 +24,39 @@ export const app = express();
 // ── Security headers ──────────────────────────────────────────────
 app.use(helmet());
 
-// ── CORS — only allow known origins ──────────────────────────────
-const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:3000',
-  'http://127.0.0.1:3000',
-  process.env.ADMIN_URL || 'http://localhost:3001',
-  'http://127.0.0.1:3001',
-];
+// ── CORS — dynamic & flexible origin handling ─────────────────────
+const configuredOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.ADMIN_URL,
+  ...(process.env.CORS_ALLOWED_ORIGINS ? process.env.CORS_ALLOWED_ORIGINS.split(',').map((o) => o.trim()) : []),
+].filter(Boolean) as string[];
+
+const isAllowedOrigin = (origin: string | undefined): boolean => {
+  // Allow requests without Origin (e.g. server-to-server, curl, Postman, mobile native apps)
+  if (!origin) return true;
+
+  // Always allow localhost & 127.0.0.1 on any port
+  if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) return true;
+
+  // Explicitly configured origins (from env vars)
+  if (configuredOrigins.some((allowed) => origin === allowed || origin.startsWith(allowed))) return true;
+
+  // Allow production domain and any subdomains (e.g. admin.vedantabus.co.in, api.vedantabus.co.in)
+  const domainPattern = /^https?:\/\/([a-z0-9-]+\.)*vedantabus\.co\.in(:[0-9]+)?$/i;
+  if (domainPattern.test(origin)) return true;
+
+  // In development mode, allow intranet / local network IPs and dev hosts automatically
+  if (process.env.NODE_ENV === 'development') {
+    return true;
+  }
+
+  return false;
+};
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps, Postman, server-to-server) or localhost
-      if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+      if (isAllowedOrigin(origin)) {
         callback(null, true);
       } else {
         callback(new Error(`CORS: origin ${origin} not allowed.`));
