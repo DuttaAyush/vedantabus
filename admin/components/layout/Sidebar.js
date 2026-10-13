@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -27,12 +27,7 @@ export default function Sidebar({ isOpen, onClose }) {
     if (typeof window !== "undefined") {
       try {
         const u = JSON.parse(localStorage.getItem("admin_user") || "{}");
-        if (
-          u.role === "SUPER_ADMIN" ||
-          u.email?.includes("superadmin") ||
-          u.email === "admin@VedantaBus.in" ||
-          u.email === "superadmin@VedantaBus.in"
-        ) {
+        if (u.role === "SUPER_ADMIN") {
           setIsSuperAdmin(true);
         }
       } catch {}
