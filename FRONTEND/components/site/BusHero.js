@@ -146,7 +146,7 @@ export default function BusHero() {
             Daily luxury BharatBenz AC sleeper coaches, VIP Temple Darshan passes, verified Satvik dining, and handpicked local escapes across India.
           </p>
 
-          {/* Category Pills */}
+          {/* Category Pills + IATA Badge */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-1">
             <Link
               href="/spiritual"
@@ -160,6 +160,35 @@ export default function BusHero() {
             >
               🚍 Bus &amp; Local Escapes
             </Link>
+            {/* IATA Accreditation Badge — inline with pills */}
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-md">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 48 18"
+                className="h-[15px] sm:h-[17px] w-auto shrink-0"
+                aria-label="IATA logo"
+                role="img"
+              >
+                <rect width="48" height="18" rx="2.5" fill="#003087" />
+                <text
+                  x="24"
+                  y="13"
+                  textAnchor="middle"
+                  fontFamily="Arial, Helvetica, sans-serif"
+                  fontWeight="900"
+                  fontSize="10.5"
+                  letterSpacing="2"
+                  fill="#FFFFFF"
+                >
+                  IATA
+                </text>
+              </svg>
+              <span className="w-px h-3.5 bg-white/25 shrink-0" />
+              <div className="leading-tight">
+                <span className="block text-[8px] sm:text-[9px] font-semibold uppercase tracking-[0.15em] text-white/55">Accredited</span>
+                <span className="block text-[9px] sm:text-[10px] font-bold text-white tracking-wide">14041134</span>
+              </div>
+            </div>
           </div>
         </div>
 

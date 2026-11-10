@@ -148,10 +148,10 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
         onScroll={handleScroll}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
-        className={`bg-white rounded-3xl shadow-2xl border border-slate-200/80 transition-all duration-500 ease-out flex flex-col relative overflow-y-auto no-scrollbar pb-[2.5vh] mb-[2.5vh] ${
+        className={`bg-white rounded-3xl shadow-2xl border border-slate-200/80 transition-all duration-500 ease-out flex flex-col relative overflow-y-auto overflow-x-hidden no-scrollbar pb-[2.5vh] mb-[2.5vh] ${
           sheetState === 'collapsed'
             ? 'w-[90vw] max-w-2xl sm:w-[660px] h-[500px] sm:h-[530px] translate-y-0 shadow-teal-900/15'
-            : 'w-[80vw] max-w-[80vw] h-[82.5vh] max-h-[82.5vh] shadow-2xl ring-1 ring-slate-900/10'
+            : 'w-[90vw] max-w-2xl sm:w-[660px] h-[82.5vh] max-h-[82.5vh] shadow-2xl ring-1 ring-slate-900/10'
         } ${isClosing ? 'translate-y-full scale-95 opacity-0' : 'translate-y-0 scale-100 opacity-100'}`}
       >
         {/* STICKY PARALLAX HERO IMAGE HEADER */}
@@ -217,9 +217,9 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
         </div>
 
         {/* CONTENT SHEET BELOW IMAGE */}
-        <div className="relative z-10 bg-white rounded-t-3xl shadow-[0_-10px_25px_rgba(15,23,42,0.12)] border-t border-slate-100 mt-0 p-4 sm:p-8 flex flex-col justify-between">
+        <div className="relative z-10 bg-white rounded-t-3xl shadow-[0_-10px_25px_rgba(15,23,42,0.12)] border-t border-slate-100 mt-0 p-4 sm:p-5 flex flex-col justify-between">
           {/* Quick Info Header Bar: Price & Book Button */}
-          <div className="flex items-center justify-between p-3.5 sm:p-4 bg-slate-50 rounded-2xl border border-slate-200/80 mb-3 shrink-0">
+          <div className="flex flex-wrap items-center justify-between gap-2 p-3.5 sm:p-4 bg-slate-50 rounded-2xl border border-slate-200/80 mb-3 shrink-0">
             <div>
               <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
                 Package Price
@@ -279,7 +279,7 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
           {sheetState === 'expanded' && (
             <div className="space-y-6 pt-2">
               {/* Tab Navigation */}
-              <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+              <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-2">
                 <button
                   onClick={() => setActiveTab('itinerary')}
                   className={`px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider transition-all cursor-pointer ${

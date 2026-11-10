@@ -262,12 +262,12 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 bg-slate-950/75 backdrop-blur-xl animate-fadeIn overflow-y-auto overscroll-contain"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 bg-slate-950/75 backdrop-blur-xl animate-fadeIn overflow-x-hidden overflow-y-auto overscroll-contain"
       onClick={onClose}
     >
       {/* FLOATING GLASS CONTAINER (CENTERED & CONSTRAINED) */}
       <div
-        className="bg-white/95 backdrop-blur-2xl rounded-[28px] sm:rounded-[32px] overflow-hidden max-w-4xl lg:max-w-5xl w-full border border-white/60 shadow-2xl grid grid-cols-1 md:grid-cols-12 relative animate-scaleUp my-auto max-h-[92dvh] sm:max-h-[90vh] overflow-y-auto overscroll-contain"
+        className="bg-white/95 backdrop-blur-2xl rounded-[28px] sm:rounded-[32px] overflow-hidden max-w-4xl lg:max-w-5xl w-full border border-white/60 shadow-2xl grid grid-cols-1 md:grid-cols-12 relative animate-scaleUp my-auto max-h-[92dvh] sm:max-h-[90vh] overflow-x-hidden overflow-y-auto overscroll-contain"
         onClick={(e) => e.stopPropagation()}
       >
         {/* CLOSE BUTTON */}

@@ -349,10 +349,10 @@ export default function DomesticPackages() {
             onScroll={handleScroll}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
-            className={`bg-white rounded-3xl shadow-2xl border border-slate-200/80 transition-all duration-500 ease-out flex flex-col relative overflow-y-auto no-scrollbar pb-[2.5vh] mb-[2.5vh] ${
+            className={`bg-white rounded-3xl shadow-2xl border border-slate-200/80 transition-all duration-500 ease-out flex flex-col relative overflow-y-auto overflow-x-hidden no-scrollbar pb-[2.5vh] mb-[2.5vh] ${
               sheetState === 'collapsed'
                 ? 'w-[90vw] max-w-2xl sm:w-[660px] h-[500px] sm:h-[530px] translate-y-0 shadow-emerald-900/15'
-                : 'w-[80vw] max-w-[80vw] h-[82.5vh] max-h-[82.5vh] shadow-2xl ring-1 ring-slate-900/10'
+                : 'w-[90vw] max-w-2xl sm:w-[660px] h-[82.5vh] max-h-[82.5vh] shadow-2xl ring-1 ring-slate-900/10'
             } ${isClosing ? 'translate-y-full scale-95 opacity-0' : 'translate-y-0 scale-100 opacity-100'}`}
           >
             {/* STICKY PARALLAX HERO IMAGE HEADER */}
@@ -418,9 +418,9 @@ export default function DomesticPackages() {
             </div>
 
             {/* CONTENT SHEET BELOW IMAGE */}
-            <div className="relative z-10 bg-white rounded-t-3xl shadow-[0_-10px_25px_rgba(15,23,42,0.12)] border-t border-slate-100 mt-0 p-4 sm:p-8 flex flex-col justify-between">
+            <div className="relative z-10 bg-white rounded-t-3xl shadow-[0_-10px_25px_rgba(15,23,42,0.12)] border-t border-slate-100 mt-0 p-4 sm:p-5 flex flex-col justify-between">
               {/* Quick Info Header Bar */}
-              <div className="flex items-center justify-between p-3.5 sm:p-4 bg-emerald-50/70 rounded-2xl border border-emerald-200/80 mb-3 shrink-0">
+              <div className="flex flex-wrap items-center justify-between gap-2 p-3.5 sm:p-4 bg-emerald-50/70 rounded-2xl border border-emerald-200/80 mb-3 shrink-0">
                 <div>
                   <span className="text-[10px] uppercase font-bold text-emerald-800 block tracking-wider">
                     All-Inclusive Holiday Rate
@@ -501,7 +501,7 @@ export default function DomesticPackages() {
                 /* TABBED SYSTEM FOR DOMESTIC HOLIDAY */
                 <div className="mt-4 pt-4 border-t border-slate-100 space-y-6">
                   {/* Tab Navigation Switcher */}
-                  <div className="flex items-center p-1 bg-slate-100 rounded-2xl border border-slate-200 gap-1 font-bold text-xs">
+                  <div className="flex flex-wrap items-center p-1 bg-slate-100 rounded-2xl border border-slate-200 gap-1 font-bold text-xs">
                     <button
                       onClick={() => setActiveTab('itinerary')}
                       className={`flex-1 py-2 px-3 rounded-xl transition-all flex items-center justify-center gap-1.5 ${

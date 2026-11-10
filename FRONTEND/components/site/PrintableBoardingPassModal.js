@@ -63,7 +63,7 @@ export default function PrintableBoardingPassModal({ isOpen, onClose, ticketData
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md overflow-y-auto animate-fadeIn print:p-0 print:bg-white print:static print:overflow-visible">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md overflow-x-hidden overflow-y-auto animate-fadeIn print:p-0 print:bg-white print:static print:overflow-visible">
       {/* PRINT-SPECIFIC CSS RULES */}
       <style jsx global>{`
         @media print {
