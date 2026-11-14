@@ -84,11 +84,8 @@ function CinemaSeatBookingContent() {
   const searchParams = useSearchParams();
   const busIdParam = searchParams.get('busId');
 
-  useEffect(() => {
-    if (!busIdParam) {
-      router.replace('/search');
-    }
-  }, [busIdParam, router]);
+  // Fallback gracefully to default coach if direct link or route without busIdParam
+  // (Prevents jarring unexpected redirects back to search)
 
   // Target passengers from search flow (default: 2)
   const targetPassengers = parseInt(searchParams.get('passengers')) || 2;

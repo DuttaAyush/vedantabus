@@ -37,7 +37,10 @@ export default function IndiaLocalFixedDepartures() {
                 <span className="text-lg font-black text-slate-900">₹7,499</span>
                 <span className="text-xs text-slate-500"> / person</span>
               </div>
-              <button className="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold rounded-xl transition shadow">Lock Seat</button>
+              <a href="/packages/checkout?package=goa" className="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-1 cursor-pointer">
+                <span>Lock Seat</span>
+                <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+              </a>
             </div>
           </div>
 
@@ -55,7 +58,10 @@ export default function IndiaLocalFixedDepartures() {
                 <span className="text-lg font-black text-slate-900">₹9,899</span>
                 <span className="text-xs text-slate-500"> / person</span>
               </div>
-              <button className="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold rounded-xl transition shadow">Lock Seat</button>
+              <a href="/packages/checkout?package=goa" className="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-1 cursor-pointer">
+                <span>Lock Seat</span>
+                <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+              </a>
             </div>
           </div>
 
@@ -73,7 +79,10 @@ export default function IndiaLocalFixedDepartures() {
                 <span className="text-lg font-black text-slate-900">₹8,999</span>
                 <span className="text-xs text-slate-500"> / person</span>
               </div>
-              <button className="px-4 py-2 bg-slate-900 hover:bg-teal-700 text-white text-xs font-bold rounded-xl transition shadow">Lock Seat</button>
+              <a href="/packages/checkout?package=himachal" className="px-4 py-2 bg-slate-900 hover:bg-teal-700 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-1 cursor-pointer">
+                <span>Lock Seat</span>
+                <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+              </a>
             </div>
           </div>
         </div>

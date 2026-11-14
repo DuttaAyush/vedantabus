@@ -56,7 +56,15 @@ export default function DayWiseBlueprints() {
                 <span className="text-2xl font-extrabold text-slate-900">₹11,499</span>
                 <span className="text-xs text-slate-500"> / person</span>
               </div>
-              <button className="px-5 py-2.5 rounded-xl bg-brand-scarlet hover:bg-brand-hover text-white font-bold text-xs transition-all shadow-md">Download PDF Itinerary</button>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="px-5 py-2.5 rounded-xl bg-brand-scarlet hover:bg-brand-hover text-white font-bold text-xs transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+                title="Save or Print Itinerary"
+              >
+                <span className="material-symbols-outlined text-[15px]">download</span>
+                <span>Save / Print PDF Itinerary</span>
+              </button>
             </div>
           </div>
 
@@ -103,7 +111,15 @@ export default function DayWiseBlueprints() {
                 <span className="text-2xl font-extrabold text-slate-900">₹6,499</span>
                 <span className="text-xs text-slate-500"> / person</span>
               </div>
-              <button className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-brand-scarlet text-white font-bold text-xs transition-all shadow-md">Download PDF Itinerary</button>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-brand-scarlet text-white font-bold text-xs transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+                title="Save or Print Itinerary"
+              >
+                <span className="material-symbols-outlined text-[15px]">download</span>
+                <span>Save / Print PDF Itinerary</span>
+              </button>
             </div>
           </div>
         </div>

@@ -242,7 +242,7 @@ export default function BusHero() {
                 {isFromOpen && (
                   <div
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute top-full left-0 mt-3 w-64 sm:w-72 bg-slate-900/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-2 z-50 text-left animate-fadeIn"
+                    className="absolute bottom-full left-0 mb-3 w-64 sm:w-72 bg-slate-900/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-2 z-50 text-left animate-fadeIn"
                   >
                     <div className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300/80 px-3 py-1.5 border-b border-white/10 flex items-center justify-between">
                       <span>Select Departure City</span>
@@ -324,7 +324,7 @@ export default function BusHero() {
                 {isToOpen && (
                   <div
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute top-full right-0 sm:right-auto sm:left-0 mt-3 w-64 sm:w-72 max-w-[calc(100vw-2rem)] bg-slate-900/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-2 z-50 text-left animate-fadeIn"
+                    className="absolute bottom-full right-0 sm:right-auto sm:left-0 mb-3 w-64 sm:w-72 max-w-[calc(100vw-2rem)] bg-slate-900/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-2 z-50 text-left animate-fadeIn"
                   >
                     <div className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300/80 px-3 py-1.5 border-b border-white/10 flex items-center justify-between">
                       <span>Select Destination City</span>
@@ -431,7 +431,7 @@ export default function BusHero() {
                 {isPassengerOpen && (
                   <div
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute top-full right-0 sm:right-auto sm:left-0 mt-3 w-64 sm:w-72 max-w-[calc(100vw-2rem)] bg-slate-900/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-3 z-50 text-left animate-fadeIn"
+                    className="absolute bottom-full right-0 sm:right-auto sm:left-0 mb-3 w-64 sm:w-72 max-w-[calc(100vw-2rem)] bg-slate-900/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-3 z-50 text-left animate-fadeIn"
                   >
                     <div className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300/80 pb-2 border-b border-white/10 flex items-center justify-between">
                       <span>Number of Passengers</span>

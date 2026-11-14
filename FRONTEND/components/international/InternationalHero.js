@@ -433,20 +433,26 @@ export default function InternationalHero() {
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <button
-                className="px-2.5 py-1 rounded-full bg-red-600/10 text-red-600 border border-red-600/20 text-[11px] font-bold hover:bg-red-600 hover:text-white transition-all"
+                onClick={() => document.getElementById('fixed-departures')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-2.5 py-1 rounded-full bg-red-600/10 text-red-600 border border-red-600/20 text-[11px] font-bold hover:bg-red-600 hover:text-white transition-all cursor-pointer"
                 type="button"
+                title="View Nov 28 Departure"
               >
                 Nov 28 <span className="font-normal">(4 Seats Left)</span>
               </button>
               <button
-                className="px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-[11px] font-bold hover:bg-amber-500 hover:text-slate-950 transition-all"
+                onClick={() => document.getElementById('fixed-departures')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-[11px] font-bold hover:bg-amber-500 hover:text-slate-950 transition-all cursor-pointer"
                 type="button"
+                title="View Dec 05 Departure"
               >
                 Dec 05 <span className="font-normal">(Fast Filling)</span>
               </button>
               <button
-                className="px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200 text-[11px] font-bold hover:bg-teal-600 hover:text-white transition-all"
+                onClick={() => document.getElementById('fixed-departures')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200 text-[11px] font-bold hover:bg-teal-600 hover:text-white transition-all cursor-pointer"
                 type="button"
+                title="View Dec 12 Departure"
               >
                 Dec 12 <span className="font-normal">(Guaranteed Batch)</span>
               </button>

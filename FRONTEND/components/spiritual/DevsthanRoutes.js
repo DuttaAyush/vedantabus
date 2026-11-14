@@ -65,7 +65,13 @@ export default function DevsthanRoutes() {
 
             <div className="flex items-center justify-between pt-3 border-t border-slate-100">
               <span className="text-xs text-slate-500">Includes: VIP Aarti Pass • 3★ Stay • Satvik Breakfast</span>
-              <button className="px-5 py-2.5 rounded-xl bg-brand-scarlet text-white hover:bg-brand-hover font-bold text-xs shadow-md transition-all">SELECT YATRA / BUS</button>
+              <a
+                href="/select-seats?busId=shirdi-special&operator=Vedanta%20Spiritual%20Express&from=Pune&to=Shirdi&price=550&busPlate=MH-14-BT-3321&busType=BharatBenz%20AC%20Sleeper%20(2%2B1)&depTime=22:00&arrTime=03:30&depLocation=Pune%20Swargate&arrLocation=Shirdi%20Gate%202"
+                className="px-5 py-2.5 rounded-xl bg-brand-scarlet text-white hover:bg-brand-hover font-bold text-xs shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>SELECT SEATS / BUS</span>
+                <span className="material-symbols-outlined text-[15px]">event_seat</span>
+              </a>
             </div>
           </div>
 
@@ -115,7 +121,13 @@ export default function DevsthanRoutes() {
 
             <div className="flex items-center justify-between pt-3 border-t border-slate-100">
               <span className="text-xs text-slate-500">Includes: Rudrabhishek Priest • 3★ Stay • Pure Satvik Meals</span>
-              <button className="px-5 py-2.5 rounded-xl bg-slate-900 text-white hover:bg-brand-scarlet font-bold text-xs shadow-md transition-all">SELECT YATRA / BUS</button>
+              <a
+                href="/select-seats?busId=trimbak-special&operator=Vedanta%20Jyotirlinga%20Express&from=Nagpur&to=Trimbakeshwar&price=950&busPlate=MH-31-AP-4921&busType=Volvo%20B11R%20AC%20Sleeper&depTime=19:30&arrTime=05:45&depLocation=Dharampeth%2C%20Nagpur&arrLocation=Nashik%20%2F%20Trimbak"
+                className="px-5 py-2.5 rounded-xl bg-slate-900 text-white hover:bg-brand-scarlet font-bold text-xs shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>SELECT SEATS / BUS</span>
+                <span className="material-symbols-outlined text-[15px]">event_seat</span>
+              </a>
             </div>
           </div>
         </div>

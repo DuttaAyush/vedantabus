@@ -25,6 +25,7 @@ export default function CheckoutPage() {
   const [includeCabPickup, setIncludeCabPickup] = useState(false);
   const [includeSatvikMeal, setIncludeSatvikMeal] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState('upi'); // 'upi' | 'card' | 'netbanking'
+  const [selectedBank, setSelectedBank] = useState('HDFC Bank');
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [createdTicketId, setCreatedTicketId] = useState('YB-994821');
   const [shareToast, setShareToast] = useState('');
@@ -876,12 +877,17 @@ export default function CheckoutPage() {
 
             {/* NetBanking Bank Selection */}
             {paymentMethod === 'netbanking' && (
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-3 gap-2">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {['HDFC Bank', 'ICICI Bank', 'State Bank of India', 'Axis Bank', 'Kotak Bank', 'Punjab National Bank'].map((bank, i) => (
                   <button
                     key={i}
                     type="button"
-                    className="p-2.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 hover:border-brand-scarlet text-center transition-all"
+                    onClick={() => setSelectedBank(bank)}
+                    className={`p-2.5 rounded-xl border text-xs font-bold text-center transition-all cursor-pointer ${
+                      selectedBank === bank
+                        ? 'bg-brand-scarlet text-white border-brand-scarlet shadow-sm'
+                        : 'bg-white border-slate-200 text-slate-800 hover:border-brand-scarlet'
+                    }`}
                   >
                     {bank}
                   </button>

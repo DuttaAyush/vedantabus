@@ -94,12 +94,26 @@ export default function SpotlightDomesticDestinations() {
             <p className="text-slate-500 text-sm mt-1 max-w-2xl">From sun-kissed Arabian shores to tranquil emerald backwaters and pine-clad peaks</p>
           </div>
           <div className="mt-4 md:mt-0 flex items-center space-x-2">
-            <button aria-label="Previous Destinations" className="w-9 h-9 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 hover:bg-white transition">
+            <button
+              type="button"
+              onClick={() => {
+                document.getElementById('curated-packages')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              aria-label="Previous Destinations"
+              className="w-9 h-9 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 hover:bg-white transition cursor-pointer"
+            >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M15 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
               </svg>
             </button>
-            <button aria-label="Next Destinations" className="w-9 h-9 rounded-full bg-slate-900 text-white flex items-center justify-center shadow hover:bg-teal-700 transition">
+            <button
+              type="button"
+              onClick={() => {
+                document.getElementById('curated-packages')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              aria-label="Next Destinations"
+              className="w-9 h-9 rounded-full bg-slate-900 text-white flex items-center justify-center shadow hover:bg-teal-700 transition cursor-pointer"
+            >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
               </svg>

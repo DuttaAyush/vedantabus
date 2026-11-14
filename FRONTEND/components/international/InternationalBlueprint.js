@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 export default function InternationalBlueprint() {
@@ -16,9 +18,14 @@ export default function InternationalBlueprint() {
               Experience seamless private transit, verified Indian restaurants, and priority monuments access.
             </p>
           </div>
-          <button className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-teal-700 text-white font-bold text-xs transition-all flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-teal-700 text-white font-bold text-xs transition-all flex items-center gap-2 shrink-0 cursor-pointer"
+            title="Save or Print Brochure"
+          >
             <span className="material-symbols-outlined text-[16px]">download</span>
-            <span>Download PDF Brochure</span>
+            <span>Download / Print PDF Brochure</span>
           </button>
         </div>
 
