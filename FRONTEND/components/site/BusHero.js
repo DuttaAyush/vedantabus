@@ -132,6 +132,37 @@ export default function BusHero() {
       >
         {/* LEFT-ALIGNED HERO TEXT CONTENT */}
         <div className="max-w-3xl space-y-3 sm:space-y-4 text-left text-white">
+          {/* Official IATA Accreditation Trust Badge (Positioned below the VedantaBus logo in hero section) */}
+          <a
+            href="https://www.checkacode.co"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Verify IATA Accreditation Code 14041134 on CheckACode"
+            className="inline-flex items-center gap-3 px-3.5 py-1.5 rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/25 shadow-xl transition-all group cursor-pointer w-fit"
+          >
+            <div className="px-2 py-1 bg-white rounded-xl flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+              <img
+                src="/images/iata-logo.svg"
+                alt="Official IATA Logo"
+                className="h-5 sm:h-6 w-auto object-contain"
+              />
+            </div>
+            <div className="flex flex-col text-left leading-tight">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11px] sm:text-xs font-extrabold text-white tracking-wide">
+                  Proudly IATA Certified
+                </span>
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              </div>
+              <span className="text-[10px] sm:text-[11px] font-medium text-white/80">
+                Accreditation No. <span className="font-mono font-bold text-amber-300">14041134</span>
+              </span>
+            </div>
+            <span className="material-symbols-outlined text-[14px] text-white/50 group-hover:text-white group-hover:translate-x-0.5 transition-all ml-1 hidden sm:inline">
+              open_in_new
+            </span>
+          </a>
+
           {/* Tag / Badge */}
           <div className="flex items-center gap-2 sm:gap-3 text-[#e5a97d] font-semibold text-[10px] sm:text-xs uppercase tracking-[0.25em] mb-1 sm:mb-2">
             <span className="w-8 sm:w-10 h-[1.5px] bg-[#e5a97d]/80 inline-block"></span>
@@ -150,7 +181,7 @@ export default function BusHero() {
             Daily luxury BharatBenz AC sleeper coaches, VIP Temple Darshan passes, verified Satvik dining, and handpicked local escapes across India.
           </p>
 
-          {/* Category Pills + IATA Badge */}
+          {/* Category Pills */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-1">
             <Link
               href="/spiritual"
@@ -164,35 +195,6 @@ export default function BusHero() {
             >
               🚍 Bus &amp; Local Escapes
             </Link>
-            {/* IATA Accreditation Badge — inline with pills */}
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-md">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 48 18"
-                className="h-[15px] sm:h-[17px] w-auto shrink-0"
-                aria-label="IATA logo"
-                role="img"
-              >
-                <rect width="48" height="18" rx="2.5" fill="#003087" />
-                <text
-                  x="24"
-                  y="13"
-                  textAnchor="middle"
-                  fontFamily="Arial, Helvetica, sans-serif"
-                  fontWeight="900"
-                  fontSize="10.5"
-                  letterSpacing="2"
-                  fill="#FFFFFF"
-                >
-                  IATA
-                </text>
-              </svg>
-              <span className="w-px h-3.5 bg-white/25 shrink-0" />
-              <div className="leading-tight">
-                <span className="block text-[8px] sm:text-[9px] font-semibold uppercase tracking-[0.15em] text-white/55">Accredited</span>
-                <span className="block text-[9px] sm:text-[10px] font-bold text-white tracking-wide">14041134</span>
-              </div>
-            </div>
           </div>
         </div>
 
