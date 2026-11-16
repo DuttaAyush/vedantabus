@@ -7,7 +7,7 @@ import TestimonialCard from './TestimonialCard';
 const testimonialData = [
   {
     id: 'aman',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
+    avatar: '/images/testimonials/aman-verma.jpg',
     name: 'Aman Verma',
     route: 'Delhi ➔ Leh',
     quote: 'Breathtaking views and super comfortable journey!',
@@ -17,7 +17,7 @@ const testimonialData = [
   },
   {
     id: 'sneha',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200',
+    avatar: '/images/testimonials/sneha-kulkarni.jpg',
     name: 'Sneha Kulkarni',
     route: 'Delhi ➔ Varanasi',
     quote: 'A soulful journey. Everything was well organised.',
@@ -27,7 +27,7 @@ const testimonialData = [
   },
   {
     id: 'priya',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
+    avatar: '/images/testimonials/priya-sharma.jpg',
     name: 'Priya Sharma',
     route: 'Mumbai ➔ Goa',
     quote: 'On-time, clean buses and a great experience throughout!',
@@ -37,7 +37,7 @@ const testimonialData = [
   },
   {
     id: 'rohan',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
+    avatar: '/images/testimonials/rohan-iyer.jpg',
     name: 'Rohan Iyer',
     route: 'Bangalore ➔ Kerala',
     quote: 'Smooth booking, friendly staff. Will travel again!',
@@ -47,7 +47,7 @@ const testimonialData = [
   },
   {
     id: 'karan',
-    avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&q=80&w=200',
+    avatar: '/images/testimonials/karan-mehta.jpg',
     name: 'Karan Mehta',
     route: 'Pune ➔ Jaipur',
     quote: 'Comfortable seats, smooth ride and hassle-free booking.',
@@ -60,7 +60,7 @@ const testimonialData = [
 export default function Testimonials() {
   return (
     <section
-      className="w-full relative overflow-hidden bg-[#F4F2EB] scroll-mt-28 sm:scroll-mt-32"
+      className="w-full relative overflow-hidden bg-[#F4F2EB] scroll-mt-28 sm:scroll-mt-32 [content-visibility:auto] [contain-intrinsic-size:auto_720px]"
       id="testimonialsSection"
     >
       {/* BACKGROUND GRAPHIC IMAGE */}
@@ -68,6 +68,8 @@ export default function Testimonials() {
         <img
           src="/images/testimonials_bg.png"
           alt="Testimonials Section Background"
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover object-top pointer-events-none"
         />
       </div>

@@ -39,7 +39,7 @@ export default function Hospitality() {
   ];
 
   return (
-    <section className="w-full py-12 sm:py-16 bg-white border-b border-slate-200 scroll-mt-28 sm:scroll-mt-32" id="hospitalitySection">
+    <section className="w-full py-12 sm:py-16 bg-white border-b border-slate-200 scroll-mt-28 sm:scroll-mt-32 [content-visibility:auto] [contain-intrinsic-size:auto_520px]" id="hospitalitySection">
       <div className="w-full max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         
         {/* SECTION HEADER */}
@@ -68,7 +68,7 @@ export default function Hospitality() {
           {hospitalityCards.map((card, idx) => (
             <div
               key={idx}
-              className={`p-3 sm:p-5 rounded-2xl sm:rounded-3xl border ${card.bgColor} ${card.borderColor} backdrop-blur-md shadow-sm transition-all duration-300 transform-gpu hover:-translate-y-1 hover:shadow-md space-y-2 sm:space-y-3 flex flex-col justify-between group cursor-pointer`}
+              className={`p-3 sm:p-5 rounded-2xl sm:rounded-3xl border ${card.bgColor} ${card.borderColor} shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md space-y-2 sm:space-y-3 flex flex-col justify-between group cursor-pointer`}
             >
               <div className="space-y-1.5 sm:space-y-3">
                 {/* ICON & TITLE SIDE-BY-SIDE */}

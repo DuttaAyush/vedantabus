@@ -14,7 +14,7 @@ export default function TestimonialCard({
 }) {
   return (
     <div
-      className={`bg-white/95 backdrop-blur-md rounded-lg p-2.5 sm:p-3 shadow-md shadow-slate-900/5 border border-slate-200/80 flex items-center justify-between gap-2.5 sm:gap-3 max-w-[250px] sm:max-w-[280px] w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 group cursor-pointer ${className}`}
+      className={`bg-white rounded-lg p-2.5 sm:p-3 shadow-md shadow-slate-900/5 border border-slate-200/80 flex items-center justify-between gap-2.5 sm:gap-3 max-w-[250px] sm:max-w-[280px] w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 group cursor-pointer ${className}`}
     >
       {/* Left side info */}
       <div className="flex-1 min-w-0 space-y-1">
@@ -22,6 +22,8 @@ export default function TestimonialCard({
           <img
             src={avatar}
             alt={name}
+            loading="lazy"
+            decoding="async"
             className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover ring-2 ring-slate-100 shrink-0"
           />
           <div className="flex items-center text-amber-400">
@@ -55,10 +57,12 @@ export default function TestimonialCard({
           <img
             src={destImage}
             alt={destLabel || name}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover"
           />
           {destLabel && (
-            <div className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-lg bg-white/95 backdrop-blur-md text-[8px] sm:text-[8.5px] font-extrabold text-slate-800 border border-white/60 shadow-sm">
+            <div className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-lg bg-white/95 text-[8px] sm:text-[8.5px] font-extrabold text-slate-800 border border-white/60 shadow-sm">
               {destLabel}
             </div>
           )}

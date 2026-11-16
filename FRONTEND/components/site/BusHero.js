@@ -24,6 +24,8 @@ const popularCities = [
 export default function BusHero() {
   const router = useRouter();
   const searchContainerRef = useRef(null);
+  const heroBackgroundRef = useRef(null);
+  const heroContentRef = useRef(null);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isFromOpen, setIsFromOpen] = useState(false);
   const [isToOpen, setIsToOpen] = useState(false);
@@ -35,10 +37,6 @@ export default function BusHero() {
   });
   const [fromCity, setFromCity] = useState('Nagpur');
   const [toCity, setToCity] = useState('Pune, MH');
-  const [scrollScale, setScrollScale] = useState(1);
-  const [textY, setTextY] = useState(0);
-  const [textOpacity, setTextOpacity] = useState(1);
-  const [bgOpacity, setBgOpacity] = useState(1);
 
   const handleSwap = () => {
     setFromCity(toCity);
@@ -68,10 +66,15 @@ export default function BusHero() {
           const calculatedOpacity = Math.max(1 - Math.max(scrollY, 0) / 450, 0);
           const calculatedBgOpacity = Math.max(1 - Math.max(scrollY - 500, 0) / 400, 0);
 
-          setScrollScale(calculatedScale);
-          setTextY(calculatedY);
-          setTextOpacity(calculatedOpacity);
-          setBgOpacity(calculatedBgOpacity);
+          if (heroBackgroundRef.current) {
+            heroBackgroundRef.current.style.setProperty('--hero-scale', String(calculatedScale));
+            heroBackgroundRef.current.style.setProperty('--hero-background-opacity', String(calculatedBgOpacity));
+          }
+          if (heroContentRef.current) {
+            heroContentRef.current.style.setProperty('--hero-content-y', `${calculatedY}px`);
+            heroContentRef.current.style.setProperty('--hero-content-opacity', String(calculatedOpacity));
+            heroContentRef.current.style.pointerEvents = calculatedOpacity < 0.05 ? 'none' : 'auto';
+          }
           ticking = false;
         });
         ticking = true;
@@ -95,18 +98,19 @@ export default function BusHero() {
 
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-4 sm:pt-8 md:pt-10 pb-8 sm:pb-12 md:pb-16 bg-slate-950 sticky top-0 z-0"
+      className="relative isolate min-h-screen flex items-center justify-center overflow-hidden pt-4 sm:pt-8 md:pt-10 pb-8 sm:pb-12 md:pb-16 bg-slate-950 sticky top-0 z-0"
       id="heroSearch"
     >
       {/* TAJ MAHAL HERO BACKGROUND IMAGE WITH PARALLAX ZOOM & EXIT FADE */}
       <div
+        ref={heroBackgroundRef}
         className="absolute inset-0 z-0 transition-opacity duration-150"
-        style={{ opacity: bgOpacity }}
+        style={{ opacity: 'var(--hero-background-opacity, 1)' }}
       >
         <img
           alt="Ancient Indian Taj Mahal bathed in golden sunrise light"
           className="w-full h-full object-cover object-center will-change-transform transition-transform duration-100 ease-out"
-          style={{ transform: `scale(${scrollScale})` }}
+          style={{ transform: 'scale(var(--hero-scale, 1))' }}
           src="/images/domestic-hero.jpg"
           fetchPriority="high"
           loading="eager"
@@ -118,12 +122,12 @@ export default function BusHero() {
 
       {/* MAIN CONTENT CONTAINER */}
       <div
+        ref={heroContentRef}
         className="w-full max-w-[1700px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-12 relative z-10 space-y-6 sm:space-y-8 md:space-y-10"
         style={{
-          transform: `translateY(${textY}px)`,
-          opacity: textOpacity,
-          pointerEvents: textOpacity < 0.05 ? 'none' : 'auto',
-          transition: textY > 0 ? 'transform 0.1s ease-out, opacity 0.1s ease-out' : undefined,
+          transform: 'translateY(var(--hero-content-y, 0px))',
+          opacity: 'var(--hero-content-opacity, 1)',
+          transition: 'transform 0.1s ease-out, opacity 0.1s ease-out',
         }}
       >
         {/* LEFT-ALIGNED HERO TEXT CONTENT */}
