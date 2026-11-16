@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "VedantaBus-monorepo",
   "version": "1.0.0",
   "description": "Root workspace to run all VedantaBus applications concurrently",

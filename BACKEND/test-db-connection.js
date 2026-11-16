@@ -12,9 +12,9 @@ if (fs.existsSync(envPath)) {
   process.exit(1);
 }
 
-const host = process.env.DB_HOST || '82.29.161.126';
+const host = process.env.DB_HOST || 'localhost';
 const port = parseInt(process.env.DB_PORT || '5432', 10);
-const user = process.env.DB_USER || 'ayush';
+const user = process.env.DB_USER || 'postgres';
 const database = process.env.DB_NAME || 'vedbus';
 const password = process.env.DB_PASSWORD;
 

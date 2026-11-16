@@ -8,6 +8,7 @@ import Testimonials from '@/components/site/Testimonials';
 import PackageDetailModal from '@/components/site/PackageDetailModal';
 
 import { apiFetch } from '@/lib/api';
+import { allPackagesData } from '@/lib/data/packagesData';
 
 export default function CuratedPackagesMasterPage() {
   const [activeTab, setActiveTab] = useState('all');
@@ -26,6 +27,20 @@ export default function CuratedPackagesMasterPage() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    const loadFromStatic = () => {
+      const raw = Object.values(allPackagesData);
+      const unique = Array.from(new Map(raw.map(item => [item.id, item])).values()).map(p => ({
+        ...p,
+        destinations: p.subtitle || p.destinations,
+        description: p.description || p.shortPlan || p.subtitle,
+        price: `₹${Number(p.basePrice).toLocaleString('en-IN')}`,
+        pricePerPerson: p.basePrice,
+      }));
+      setSpiritualPackagesData(unique.filter(p => p.category?.toLowerCase().includes('spiritual')));
+      setInternationalPackagesData(unique.filter(p => p.category?.toLowerCase().includes('international')));
+      setDomesticPackagesData(unique.filter(p => p.category?.toLowerCase().includes('domestic')));
+    };
+
     const fetchPackages = async () => {
       setLoading(true);
       try {
@@ -33,12 +48,19 @@ export default function CuratedPackagesMasterPage() {
         if (res.ok) {
           const data = await res.json();
           const items = Array.isArray(data) ? data : data.data || [];
-          setSpiritualPackagesData(items.filter(p => p.category?.toLowerCase() === 'spiritual'));
-          setInternationalPackagesData(items.filter(p => p.category?.toLowerCase() === 'international'));
-          setDomesticPackagesData(items.filter(p => p.category?.toLowerCase() === 'domestic'));
+          if (items.length > 0) {
+            setSpiritualPackagesData(items.filter(p => p.category?.toLowerCase() === 'spiritual'));
+            setInternationalPackagesData(items.filter(p => p.category?.toLowerCase() === 'international'));
+            setDomesticPackagesData(items.filter(p => p.category?.toLowerCase() === 'domestic'));
+          } else {
+            loadFromStatic();
+          }
+        } else {
+          loadFromStatic();
         }
       } catch (err) {
         console.error('Failed to fetch packages from API:', err);
+        loadFromStatic();
       } finally {
         setLoading(false);
       }

@@ -8,13 +8,15 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "seed": "ts-node src/seed.ts",
+    "seed:packages": "ts-node src/seedPackages.ts",
     "test": "jest --runInBand --detectOpenHandles",
     "test:ci": "jest --runInBand --forceExit --ci",
     "test:coverage": "jest --coverage --runInBand --forceExit",
     "test:watch": "jest --watch",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "checkdb": "node checkdb.js"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

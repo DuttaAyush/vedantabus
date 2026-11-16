@@ -6,11 +6,11 @@ import { apiFetch } from '@/lib/api';
 
 const yatraPackages = [
   {
-    id: 1,
+    id: 'chardham',
     category: 'chardham',
     title: 'Char Dham Yatra & Haridwar Special',
     duration: '10 Days / 9 Nights',
-    destinations: 'Kedarnath • Badrinath • Gangotri • Yamunotri',
+    destinations: 'Kedarnath • Badrinath • Gangotri • Yamunotri • Haridwar',
     image: '/images/yatra_all_india_spiritual_darshan_bus_tickets_holiday_packages_9.jpg',
     badge: 'VIP Darshan & Helicopter Assist',
     description: 'Complete Himalayan circuit with 2x2 BharatBenz AC Pushback transit, verified warm Himalayan stays, hot Satvik meals, and medical oxygen kit onboard.',
@@ -18,9 +18,9 @@ const yatraPackages = [
     price: '₹24,499'
   },
   {
-    id: 2,
+    id: 'maharashtra-5jyotirlinga',
     category: 'jyotirlinga maharashtra',
-    title: 'Maharashtra 5 Jyotirlinga Darshan Circuit',
+    title: 'Maharashtra 5 Jyotirlinga Circuit',
     duration: '7 Days / 6 Nights',
     destinations: 'Trimbak • Bhimashankar • Grishneshwar • Aundha • Parli',
     image: '/images/yatra_all_india_spiritual_darshan_bus_tickets_holiday_packages_6.jpg',
@@ -30,9 +30,9 @@ const yatraPackages = [
     price: '₹11,499'
   },
   {
-    id: 3,
+    id: 'kashi-ayodhya',
     category: 'jyotirlinga ayodhya',
-    title: 'Kashi Vishwanath & Ayodhya Ram Mandir',
+    title: 'Ayodhya Ram Mandir & Kashi Corridor',
     duration: '4 Days / 3 Nights',
     destinations: 'Ayodhya • Varanasi • Prayagraj Sangam',
     image: '/images/yatra_all_india_spiritual_darshan_bus_tickets_holiday_packages_10.jpg',
@@ -42,35 +42,35 @@ const yatraPackages = [
     price: '₹6,499'
   },
   {
-    id: 4,
+    id: 'tirupati-south',
     category: 'south',
     title: 'Tirupati Balaji & Meenakshi Amman',
     duration: '5 Days / 4 Nights',
-    destinations: 'Tirupati • Madurai • Rameshwaram',
+    destinations: 'Tirupati • Madurai • Rameshwaram • Dhanushkodi',
     image: '/images/yatra_all_india_spiritual_darshan_bus_tickets_holiday_packages_11.jpg',
-    badge: '₹300 Seeghra Darshan & Laddu Prasadam',
+    badge: '₹300 Seeghra Darshan & Laddu Prasadam Guaranteed',
     description: 'Pre-booked Tirumala special entry darshan, tonsure assistance, holy snan at 22 teerthams of Rameshwaram, and Madurai Meenakshi temple guide.',
     tags: ['VIP Laddu Combo', 'Uphill AC Transit', 'South Satvik Meals'],
     price: '₹8,950'
   },
   {
-    id: 5,
+    id: 'shirdi-express',
     category: 'maharashtra',
-    title: 'Shirdi Sai Baba & Shani Shingnapur Express',
+    title: 'Shirdi Sai & Shani Shingnapur Express',
     duration: '2 Days / 1 Night',
     destinations: 'Shirdi Samadhi • Dwarkamai • Shani Shingnapur',
     image: '/images/yatra_dedicated_spiritual_yatra_sacred_darshan_booking_refined_2.jpg',
     badge: 'Samadhi Mandir Kakad Aarti Pass',
-    description: 'Short devotional getaway: Guaranteed morning Kakad Aarti entry pass, 100m walking-distance hotel from Gate No 2, and oil puja at Shani Shingnapur.',
+    description: 'Short devotional getaway: Guaranteed morning Kakad Aarti entry pass, 100m walking-distance hotel from Gate No 2, early check-in, and holy mustard oil pooja at Shani Shingnapur.',
     tags: ['Hotel Gate 2', 'Breakfast + Dinner', 'Early 6 AM Check-in'],
     price: '₹2,899'
   },
   {
-    id: 6,
+    id: 'somnath-dwarka',
     category: 'jyotirlinga',
     title: 'Gujarat Somnath-Dwarka & Nageshwar',
     duration: '4 Days / 3 Nights',
-    destinations: 'Somnath • Dwarka • Bet Dwarka • Nageshwar',
+    destinations: 'Dwarkadhish • Somnath • Nageshwar • Bet Dwarka',
     image: '/images/yatra_all_india_spiritual_darshan_bus_tickets_holiday_packages_12.jpg',
     badge: 'Sound & Light Show + Dhwajarohan Assist',
     description: 'Somnath Jyotirlinga sea temple darshan with evening light show, Bet Dwarka ferry ride, Nageshwar Jyotirlinga Abhishek, and comfortable AC transit.',

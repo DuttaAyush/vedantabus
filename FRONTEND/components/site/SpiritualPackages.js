@@ -120,8 +120,8 @@ const spiritualData = [
   {
     id: 'somnath-dwarka',
     title: 'Gujarat Somnath-Dwarka & Nageshwar',
-    subtitle: 'Dwarkadhish • Somnath • Nageshwar',
-    badge: 'Guided Purohit Escort',
+    subtitle: 'Dwarkadhish • Somnath • Nageshwar • Bet Dwarka',
+    badge: 'Sound & Light Show + Dhwajarohan Assist',
     badgeColor: 'bg-amber-600 text-white',
     duration: '4 Days / 3 Nights',
     price: '₹5,850',
@@ -151,6 +151,81 @@ const spiritualData = [
       'Somnath Sound & Light Show Entry Ticket',
     ],
     exclusions: ['Personal Abhishek Pujas', 'Auto Rickshaw to Temple Gates'],
+  },
+  {
+    id: 'maharashtra-5jyotirlinga',
+    title: 'Maharashtra 5 Jyotirlinga Circuit',
+    subtitle: 'Trimbak • Bhimashankar • Grishneshwar • Aundha • Parli',
+    badge: 'Complete Maharashtra Shiv Teerth',
+    badgeColor: 'bg-amber-600 text-white',
+    duration: '7 Days / 6 Nights',
+    price: '₹11,499',
+    perPerson: 'per person',
+    image: '/images/yatra_all_india_spiritual_darshan_bus_tickets_holiday_packages_6.jpg',
+    transitInfo: 'Direct 2+1 AC Sleeper Coach with experienced mountain drivers & onboard devotional music.',
+    stayInfo: 'Handpicked AC Hotels and Lodges near holy temple shrines with family accommodations.',
+    meals: '100% Satvik Pure Veg Meals (traditional Maharashtrian dishes, Varadi thali & fasting options).',
+    highlights: [
+      'Complete circumambulation of all 5 Maharashtra Jyotirlingas',
+      'Pre-arranged Trimbakeshwar Rudrabhishek Puja Slot',
+      'Shirdi Sai Baba Samadhi Mandir VIP Darshan Pass',
+      'UNESCO World Heritage Ellora Caves & Kailasa Temple Visit',
+      'Experienced Hindi & Marathi Speaking Yatra Captain',
+    ],
+    shortPlan:
+      'Complete circumambulation of all five sacred Jyotirlingas in Maharashtra with Shirdi Sai Baba darshan included. Pre-booked Rudrabhishek slots and verified Satvik pure veg meals throughout.',
+    itinerary: [
+      { day: 'Day 1', title: 'Pune / Mumbai to Trimbakeshwar & Nashik', desc: 'Board AC coach. Drive to Trimbakeshwar Jyotirlinga for holy darshan and Abhishek. Evening visit to Panchavati and Godavari Aarti.' },
+      { day: 'Day 2', title: 'Nashik to Bhimashankar Jyotirlinga', desc: 'Early morning drive through Western Ghats to Bhimashankar Jyotirlinga. Perform special archana pooja and explore nature sanctuary.' },
+      { day: 'Day 3', title: 'Bhimashankar to Shirdi Sai Samadhi', desc: 'Scenic morning transit to holy town of Shirdi. Check-in and afternoon VIP Samadhi Mandir darshan, Dwarkamai, and Chavadi.' },
+      { day: 'Day 4', title: 'Shirdi to Grishneshwar & Ellora Caves', desc: 'Drive to Grishneshwar (12th Jyotirlinga). Holy Abhishek and afternoon guided tour of Ellora Caves Kailasa monolithic rock temple.' },
+      { day: 'Day 5', title: 'Aurangabad to Aundha Nagnath Jyotirlinga', desc: 'Morning drive to Aundha Nagnath (associated with the Pandavas). Evening Shiv aarti and overnight stay at temple lodge.' },
+      { day: 'Day 6', title: 'Aundha Nagnath to Parli Vaijnath Jyotirlinga', desc: 'Drive to Parli Vaijnath atop the hillock. Perform holy darshan and archana. Evening devotional bhajan satsang.' },
+      { day: 'Day 7', title: 'Parli to Pune / Mumbai Return Transit', desc: 'Morning Maha-Prasadam followed by comfortable return coach journey back to Pune/Mumbai.' },
+    ],
+    inclusions: [
+      'Round-Trip AC Sleeper Coach Transit',
+      '6 Nights Verified AC Hotel Accommodations',
+      '100% Pure Satvik Veg Breakfast & Dinner Daily',
+      'Trimbakeshwar Special Rudrabhishek Assistance',
+      'Shirdi Sai Baba VIP Samadhi Darshan Pass',
+    ],
+    exclusions: ['Personal Ritual Donations', 'Auto Rickshaw to Narrow Ghat Lanes'],
+  },
+  {
+    id: 'shirdi-express',
+    title: 'Shirdi Sai & Shani Shingnapur Express',
+    subtitle: 'Shirdi Samadhi • Dwarkamai • Shani Shingnapur',
+    badge: 'Samadhi Mandir Kakad Aarti Pass',
+    badgeColor: 'bg-amber-600 text-white',
+    duration: '2 Days / 1 Night',
+    price: '₹2,899',
+    perPerson: 'per person',
+    image: '/images/yatra_dedicated_spiritual_yatra_sacred_darshan_booking_refined_2.jpg',
+    transitInfo: 'Daily AC Express Coach ex-Pune / Mumbai / Nashik with comfortable pushback seats.',
+    stayInfo: 'Verified AC Hotel located 100 meters walking distance from Shirdi Gate No. 2 with 6:00 AM early check-in.',
+    meals: 'Daily Satvik Breakfast + Deluxe Buffet Dinner (No onion, no garlic options available).',
+    highlights: [
+      'Guaranteed Early Morning Samadhi Mandir Kakad Aarti Line Entry',
+      'Hotel within 100m of Gate No. 2 (No local travel needed)',
+      'Dwarkamai, Chavadi, Gurusthan & Lendi Baug Guided Walk',
+      'Afternoon AC Transfer to Shani Shingnapur with Mustard Oil Pooja',
+      'Guaranteed 6:00 AM Early Morning Check-in',
+    ],
+    shortPlan:
+      'Short devotional getaway: Guaranteed morning Kakad Aarti entry pass, 100m walking-distance hotel from Gate No 2, early check-in, and holy mustard oil pooja coordination at Shani Shingnapur.',
+    itinerary: [
+      { day: 'Day 1', title: 'Arrival in Shirdi & Afternoon Darshan', desc: 'Morning pickup from Pune/Mumbai/Nashik. 6 AM early check-in at hotel near Gate 2. Afternoon visit to Dwarkamai, Chavadi & Gurusthan with special evening Aarti.' },
+      { day: 'Day 2', title: 'Kakad Aarti, Shani Shingnapur & Departure', desc: '5:00 AM guaranteed Kakad Aarti / Samadhi Darshan line assistance. Post breakfast, AC coach drive to Shani Shingnapur for oil pooja before evening return journey.' },
+    ],
+    inclusions: [
+      'Intercity AC Express Coach Transfers',
+      '1 Night AC Hotel Stay (100m from Gate No. 2) with 6 AM Check-in',
+      'Satvik Breakfast & Deluxe Dinner Buffet',
+      'Kakad Aarti Coordination & Line Assistance',
+      'Shani Shingnapur Excursion & Pooja Coordination',
+    ],
+    exclusions: ['Personal Temple Donation Receipts', 'Special Puja Offerings'],
   },
 ];
 
@@ -283,7 +358,7 @@ export default function SpiritualPackages() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-4 md:gap-6">
           {packages.map((pkg) => (
             <div
               key={pkg.id}

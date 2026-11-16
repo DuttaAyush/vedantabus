@@ -231,19 +231,21 @@ const packagesData = [
   },
   {
     id: 'thailand-holiday',
-    title: 'Thailand: Bangkok & Phuket Holiday',
-    subtitle: 'Island Speedboat Transfers',
-    badge: 'Tropical Beach Package',
+    title: 'Thailand Bangkok & Phuket / Pattaya Holiday',
+    subtitle: 'Phuket • Phi Phi Islands • Bangkok City',
+    badge: 'Speedboat Coral Island Tour',
     badgeColor: 'bg-teal-600 text-white',
     duration: '6 Days / 5 Nights',
-    price: '₹38,900',
+    price: '₹36,999',
     perPerson: 'per person',
-    image: '/images/yatra_all_india_spiritual_darshan_bus_tickets_holiday_packages_8.jpg',
+    image: '/images/yatra_international_holiday_travel_packages_5.jpg',
     flightInfo: 'Round-Trip International Flights ex-India + Internal Domestic Flight (Phuket to Bangkok) included.',
     visaDetails: 'Thailand Visa Waiver / Visa on Arrival Express Clearance Assistance at Phuket International Airport.',
     mealPlan: 'Daily Resort Breakfast + Pure Veg Indian Dinners at Indian Delights Phuket & Bangkok.',
     cancellationPolicy: 'Cancel up to 10 days before travel with 100% money back.',
     shortPlan:
+      '6-Day Tropical Paradise Escape: 3 Nights Beachfront Resort in Phuket + 2 Nights City Hotel in Bangkok. Includes Phi Phi Island speedboat tour, Golden Buddha temple tour, and Chao Phraya cruise.',
+    overview:
       '6-Day Tropical Paradise Escape: 3 Nights Beachfront Resort in Phuket + 2 Nights City Hotel in Bangkok. Includes Phi Phi Island speedboat tour, Golden Buddha temple tour, and Chao Phraya cruise.',
     hotels: [
       { city: 'Phuket Beachfront (3 Nights)', hotel: 'Patong Beach Resort & Spa (4★)', meal: 'Daily Breakfast & Indian Dinner' },
@@ -296,6 +298,162 @@ const packagesData = [
       'Thailand Visa Waiver / Visa on Arrival Support',
     ],
     exclusions: ['Optional Water Sports Fees', 'Personal Tipping'],
+  },
+  {
+    id: 'bali-escape',
+    title: 'Bali Tropical Beaches & Ubud Culture',
+    subtitle: 'Seminyak • Ubud Villa • Nusa Penida Island',
+    badge: 'Private Pool Villa & Floating Breakfast',
+    badgeColor: 'bg-teal-600 text-white',
+    duration: '6 Days / 5 Nights',
+    price: '₹39,999',
+    perPerson: 'per person',
+    image: '/images/yatra_international_holiday_travel_packages_8.jpg',
+    flightInfo: 'Round-Trip International Flights ex-India via Singapore Airlines / Malindo Air with 25kg checked baggage.',
+    visaDetails: 'Indonesia 30-Day Visa on Arrival / e-VOA express clearance assistance at Denpasar Ngurah Rai Airport.',
+    mealPlan: 'Daily Breakfast with iconic Floating Pool Breakfast + 100% Guaranteed Indian Veg/Jain Dinners at Queens Tandoor Bali.',
+    cancellationPolicy: '100% Refundable up to 14 days before departure. Zero cancellation fee guarantee.',
+    shortPlan:
+      '6-Day Island Paradise Escape: 2 Nights in Private Pool Luxury Villa in Seminyak + 3 Nights in Ubud Scenic Rainforest Resort with floating breakfast, Tegalalang rice terrace swing, and Nusa Penida island ferry.',
+    overview:
+      '6-Day Island Paradise Escape: 2 Nights in Private Pool Luxury Villa in Seminyak + 3 Nights in Ubud Scenic Rainforest Resort with floating breakfast, Tegalalang rice terrace swing, and Nusa Penida island ferry.',
+    hotels: [
+      { city: 'Seminyak (2 Nights)', hotel: 'Aksari Villa Seminyak (Private Pool Villa)', meal: 'Floating Breakfast & Indian Dinner' },
+      { city: 'Ubud (3 Nights)', hotel: 'Kamandalu Ubud Resort (5★)', meal: 'Daily Buffet Breakfast & Jain Meals' },
+    ],
+    highlights: [
+      'Private Pool Villa with Iconic Floating Breakfast',
+      'Tegalalang Rice Terraces & Jungle Swing Excursion',
+      'Nusa Penida West Coast Island Ferry & Snorkeling',
+      'Kintamani Mount Batur Volcano Viewpoint',
+      'Uluwatu Sunset Cliff Temple & Kecak Fire Dance',
+      '100% Verified Indian Satvik Veg & Jain Dining',
+    ],
+    itinerary: [
+      {
+        day: 'Day 1',
+        title: 'Arrival in Bali & Private Villa Check-in',
+        desc: 'Land at Denpasar Airport with flower garland welcome. Private AC transfer to luxury private pool villa in Seminyak. Evening beach sunset walk.',
+      },
+      {
+        day: 'Day 2',
+        title: 'Iconic Floating Breakfast & Water Sports',
+        desc: 'Enjoy iconic morning floating breakfast in your private pool. Afternoon water sports at Tanjung Benoa (parasailing, jet ski) & Tanah Lot sunset temple.',
+      },
+      {
+        day: 'Day 3',
+        title: 'Transfer to Ubud via Tegalalang Rice Terraces',
+        desc: 'Scenic drive to Ubud cultural capital. Visit Tegalalang Rice Terraces, coffee tasting at Luwak plantation, and giant jungle swing.',
+      },
+      {
+        day: 'Day 4',
+        title: 'Kintamani Volcano & Ubud Sacred Monkey Forest',
+        desc: 'Panoramic views of Mount Batur active volcano and Lake Batur. Afternoon guided walk through Ubud Sacred Monkey Forest Sanctuary and art market.',
+      },
+      {
+        day: 'Day 5',
+        title: 'Nusa Penida Island Speedboat Day Tour',
+        desc: 'Fast boat ferry to Nusa Penida island. Visit iconic Kelingking T-Rex Beach, Broken Beach, Angel’s Billabong, and snorkeling at Crystal Bay.',
+      },
+      {
+        day: 'Day 6',
+        title: 'Uluwatu Temple & Return Flight to India',
+        desc: 'Check-out from resort. Visit clifftop Uluwatu Temple before airport transfer for flight back home.',
+      },
+    ],
+    inclusions: [
+      'Return International Flights ex-India',
+      '2 Nights Private Pool Villa + 3 Nights 5★ Ubud Resort',
+      'Iconic Floating Breakfast in Villa Pool Included',
+      'Nusa Penida Island Fast Boat Ferry & Island Tour',
+      'All Sightseeing Entry Passes & Private AC Transfers',
+      'Indonesia e-VOA Visa Assistance',
+    ],
+    exclusions: ['Bali Tourism Tax (IDR 150,000 / ~₹800)', 'Personal Spa Treatments'],
+  },
+  {
+    id: 'europe-wonders',
+    title: 'Grand Wonders of Europe: Swiss & Paris',
+    subtitle: 'Zurich • Mt Titlis • Lucerne • Paris',
+    badge: 'Jungfrau Train & Eiffel Tower Entry',
+    badgeColor: 'bg-purple-600 text-white',
+    duration: '8 Days / 7 Nights',
+    price: '₹1,24,999',
+    perPerson: 'per person',
+    image: '/images/yatra_international_holiday_travel_packages_10.jpg',
+    flightInfo: 'Return International Flights ex-Delhi / Mumbai via Swiss International Airlines / Air France (30kg baggage included).',
+    visaDetails: 'Schengen Visa Concierge Assistance with biometric appointment scheduling and complete documentation review.',
+    mealPlan: 'Daily Continental Buffet Breakfasts + Curated Pure Veg Indian Dinners with strict Jain options in Paris & Switzerland.',
+    cancellationPolicy: 'Free cancellation and full refund up to 21 days before departure.',
+    shortPlan:
+      '8-Day European Fairytale Odyssey: 4 Nights in Switzerland (Zurich & Lucerne) + 3 Nights in Paris. Features Eiffel Tower 2nd Level, Seine River cruise, Mt. Titlis revolving Rotair cable car, Swiss Travel Pass, and Hindi/English speaking tour manager.',
+    overview:
+      '8-Day European Fairytale Odyssey: 4 Nights in Switzerland (Zurich & Lucerne) + 3 Nights in Paris. Features Eiffel Tower 2nd Level, Seine River cruise, Mt. Titlis revolving Rotair cable car, Swiss Travel Pass, and Hindi/English speaking tour manager.',
+    hotels: [
+      { city: 'Switzerland (4 Nights)', hotel: 'Radisson Blu Zurich / Hotel Astoria Lucerne (4★)', meal: 'Daily Breakfast & Indian Dinner' },
+      { city: 'Paris (3 Nights)', hotel: 'Novotel Paris Centre Tour Eiffel (4★)', meal: 'Daily Continental Breakfast & Indian Meals' },
+    ],
+    highlights: [
+      'Eiffel Tower 2nd Level Priority Access',
+      'Romantic Seine River Bateaux Mouches Cruise',
+      'Mt. Titlis 360° Revolving Rotair Cable Car & Ice Flyer',
+      'Lucerne Lion Monument & Chapel Bridge Tour',
+      'Rhine Falls Boat Ride to the Middle Rock',
+      'Swiss Travel Pass First Class Rail Transit',
+      'Guaranteed Indian Satvik Veg & Jain Dinners',
+    ],
+    itinerary: [
+      {
+        day: 'Day 1',
+        title: 'Arrival in Zurich & Rhine Falls Boat Ride',
+        desc: 'Land at Zurich Airport. Private AC transfer to hotel. Afternoon excursion to Rhine Falls, Europe’s largest waterfall, with boat ride right to the rock.',
+      },
+      {
+        day: 'Day 2',
+        title: 'Lucerne City Tour & Lake Lucerne Cruise',
+        desc: 'Scenic train ride to Lucerne. Guided walking tour to Chapel Bridge and Lion Monument. Afternoon steamboat cruise on Lake Lucerne.',
+      },
+      {
+        day: 'Day 3',
+        title: 'Mount Titlis Snow Mountain & Rotair Cable Car',
+        desc: 'Ascend to 10,000 feet on Mt. Titlis via world’s first revolving Rotair cable car. Experience Cliff Walk suspension bridge, Glacier Cave & Ice Flyer.',
+      },
+      {
+        day: 'Day 4',
+        title: 'Interlaken & Optional Jungfraujoch Excursion',
+        desc: 'Day trip to Interlaken between Lake Thun and Lake Brienz. Optional mountain train excursion to Jungfraujoch - Top of Europe at 3,454m.',
+      },
+      {
+        day: 'Day 5',
+        title: 'TGV High-Speed Train to Paris & Evening Seine Cruise',
+        desc: 'Board TGV Lyria high-speed train to Paris (3 hours). Check-in to hotel. Evening 1-hour Seine River cruise past illuminated Parisian monuments.',
+      },
+      {
+        day: 'Day 6',
+        title: 'Paris City Tour & Eiffel Tower 2nd Level Access',
+        desc: 'Guided tour past Champs-Élysées, Arc de Triomphe, Louvre, and Notre Dame. Priority elevator access to Eiffel Tower 2nd floor with panoramic view.',
+      },
+      {
+        day: 'Day 7',
+        title: 'Full Day at Leisure or Optional Disneyland Paris',
+        desc: 'Free day for shopping at Galeries Lafayette or optional full-day 1-Park ticket to Disneyland Paris.',
+      },
+      {
+        day: 'Day 8',
+        title: 'Louvre Museum Photo Stop & Flight Back to India',
+        desc: 'Morning stroll around Louvre glass pyramid before afternoon transfer to Paris Charles de Gaulle Airport for return flight home.',
+      },
+    ],
+    inclusions: [
+      'Return International Flights ex-India',
+      '4 Nights in Switzerland + 3 Nights in Paris (4★ Hotels)',
+      'TGV High-Speed Train Ticket Switzerland to Paris',
+      'Eiffel Tower 2nd Level Entry & Seine River Cruise',
+      'Mt. Titlis Cable Car & Ice Flyer Tickets Included',
+      'Daily Breakfast & Pure Veg Indian Dinners Throughout',
+      'Schengen Visa Concierge Assistance',
+    ],
+    exclusions: ['Optional Jungfraujoch Rail Pass (₹9,500)', 'Optional Disneyland Ticket (₹6,800)', 'City Tourist Tax (~€3/night)'],
   },
 ];
 
@@ -456,7 +614,7 @@ export default function InternationalPackages() {
                     {packages[0].title}
                   </h3>
                   <p className="text-xs md:text-sm text-slate-200 leading-relaxed mb-2.5 sm:mb-4 line-clamp-2">
-                    {packages[0].overview}
+                    {packages[0].overview || packages[0].shortPlan}
                   </p>
                   <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                     <div className="bg-white/10 backdrop-blur-md px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl border border-white/20">
@@ -500,7 +658,7 @@ export default function InternationalPackages() {
                   <h3 className="text-xs sm:text-base font-bold text-slate-900 mb-1 sm:mb-2 group-hover:text-teal-600 transition-colors font-serif line-clamp-1 sm:line-clamp-2">
                     {pkg.title}
                   </h3>
-                  <p className="text-[10px] sm:text-xs text-slate-600 leading-snug sm:leading-relaxed mb-2 sm:mb-4 line-clamp-1 sm:line-clamp-2">{pkg.overview}</p>
+                  <p className="text-[10px] sm:text-xs text-slate-600 leading-snug sm:leading-relaxed mb-2 sm:mb-4 line-clamp-1 sm:line-clamp-2">{pkg.overview || pkg.shortPlan}</p>
                 </div>
                 <div className="pt-2 sm:pt-3 border-t border-slate-100 flex items-center justify-between gap-1">
                   <div>
