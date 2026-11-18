@@ -132,36 +132,38 @@ export default function BusHero() {
       >
         {/* LEFT-ALIGNED HERO TEXT CONTENT */}
         <div className="max-w-3xl space-y-3 sm:space-y-4 text-left text-white">
-          {/* Official IATA Accreditation Trust Badge (Positioned below the VedantaBus logo in hero section) */}
-          <a
-            href="https://www.checkacode.co"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Verify IATA Accreditation Code 14041134 on CheckACode"
-            className="inline-flex items-center gap-3 px-3.5 py-1.5 rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/25 shadow-xl transition-all group cursor-pointer w-fit"
-          >
-            <div className="px-2 py-1 bg-white rounded-xl flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
-              <img
-                src="/images/iata-logo.svg"
-                alt="Official IATA Logo"
-                className="h-5 sm:h-6 w-auto object-contain"
-              />
-            </div>
-            <div className="flex flex-col text-left leading-tight">
-              <div className="flex items-center gap-1.5">
-                <span className="text-[11px] sm:text-xs font-extrabold text-white tracking-wide">
-                  Proudly IATA Certified
-                </span>
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          {/* Official IATA Accreditation Trust Badge (Prominent in upper empty space below header logo) */}
+          <div className="mb-4 sm:mb-6 md:mb-8 -mt-2 sm:-mt-4">
+            <a
+              href="https://www.checkacode.co"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Verify IATA Accreditation Code 14041134 on CheckACode"
+              className="inline-flex items-center gap-3.5 sm:gap-4 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl bg-white/15 hover:bg-white/20 backdrop-blur-xl border border-white/30 shadow-2xl transition-all duration-300 group cursor-pointer hover:scale-[1.02] active:scale-[0.98] w-fit"
+            >
+              <div className="px-2.5 sm:px-3 py-1.5 sm:py-2 bg-white rounded-xl flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                <img
+                  src="/images/iata-logo.svg"
+                  alt="Official IATA Logo"
+                  className="h-7 sm:h-8 md:h-9 w-auto object-contain"
+                />
               </div>
-              <span className="text-[10px] sm:text-[11px] font-medium text-white/80">
-                Accreditation No. <span className="font-mono font-bold text-amber-300">14041134</span>
+              <div className="flex flex-col text-left leading-snug">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs sm:text-sm md:text-base font-extrabold text-white tracking-wide">
+                    Proudly IATA Certified
+                  </span>
+                  <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                </div>
+                <span className="text-[11px] sm:text-xs md:text-sm font-medium text-white/85">
+                  Accreditation No. <span className="font-mono font-bold text-amber-300">14041134</span>
+                </span>
+              </div>
+              <span className="material-symbols-outlined text-[16px] sm:text-[18px] text-white/60 group-hover:text-white group-hover:translate-x-0.5 transition-all ml-1 hidden sm:inline">
+                open_in_new
               </span>
-            </div>
-            <span className="material-symbols-outlined text-[14px] text-white/50 group-hover:text-white group-hover:translate-x-0.5 transition-all ml-1 hidden sm:inline">
-              open_in_new
-            </span>
-          </a>
+            </a>
+          </div>
 
           {/* Tag / Badge */}
           <div className="flex items-center gap-2 sm:gap-3 text-[#e5a97d] font-semibold text-[10px] sm:text-xs uppercase tracking-[0.25em] mb-1 sm:mb-2">
