@@ -6,8 +6,8 @@ const spiritualData = [
   {
     id: 'chardham',
     title: 'Char Dham Yatra & Haridwar Special',
-    subtitle: 'Kedarnath • Badrinath • Gangotri • Yamunotri',
-    badge: 'VIP Darshan Pass Included',
+    subtitle: 'Kedarnath • Badrinath • Gangotri • Yamunotri • Haridwar',
+    badge: 'VIP Darshan & Helicopter Assist',
     badgeColor: 'bg-amber-600 text-white',
     duration: '10 Days / 9 Nights',
     price: '₹24,499',
@@ -48,9 +48,9 @@ const spiritualData = [
   },
   {
     id: 'kashi-ayodhya',
-    title: 'Kashi Vishwanath & Ayodhya Ram Mandir',
+    title: 'Ayodhya Ram Mandir & Kashi Corridor',
     subtitle: 'Ayodhya • Varanasi • Prayagraj Sangam',
-    badge: 'Aarti & Darshan Assist',
+    badge: 'Ram Lalla & Kashi Corridor Pass',
     badgeColor: 'bg-amber-600 text-white',
     duration: '4 Days / 3 Nights',
     price: '₹6,499',
@@ -84,8 +84,8 @@ const spiritualData = [
   {
     id: 'tirupati-south',
     title: 'Tirupati Balaji & Meenakshi Amman',
-    subtitle: 'Tirupati • Madurai • Rameshwaram Jyotirlinga',
-    badge: 'Special Entry Darshan Confirmed',
+    subtitle: 'Tirupati • Madurai • Rameshwaram • Dhanushkodi',
+    badge: '₹300 Seeghra Darshan & Laddu Prasadam Guaranteed',
     badgeColor: 'bg-amber-600 text-white',
     duration: '5 Days / 4 Nights',
     price: '₹8,950',
