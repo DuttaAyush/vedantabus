@@ -131,7 +131,7 @@ router.post('/book', authenticateJWT, async (req: AuthRequest, res: Response) =>
       }
       const validUserId = validUser ? validUser.id : userId;
 
-      const serverAmount = validPackage ? Number(validPackage.pricePerPerson) * (Number(travelersCount) || 1) : Number(totalAmount) || 24499;
+      const serverAmount = validPackage ? Number(validPackage.pricePerPerson) * (Number(travelersCount) || 1) : Number(totalAmount) || 74999;
 
       booking = await prisma.packageBooking.create({
         data: {

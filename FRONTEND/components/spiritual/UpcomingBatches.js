@@ -46,7 +46,7 @@ export default function UpcomingBatches() {
                 <span className="text-[10px] text-slate-500"> /devotee</span>
               </div>
               <a
-                href="/select-seats?busId=shirdi-batch-26nov&operator=Vedanta%20Kakad%20Aarti%20Express&from=Pune%20Swargate&to=Shirdi%20Gate%202&price=2899&busPlate=MH-14-BT-3321&busType=BharatBenz%20AC%20Sleeper&depTime=21:30&arrTime=04:00&date=Tuesday,%2026%20November"
+                href="/select-seats?busId=shirdi-batch-26nov&operator=Kakad%20Aarti%20Express&from=Pune%20Swargate&to=Shirdi%20Gate%202&price=49999&busPlate=MH-14-BT-3321&busType=BharatBenz%20AC%20Sleeper&depTime=21:30&arrTime=04:00&date=Tuesday,%2026%20November"
                 className="px-4 py-2.5 rounded-xl bg-brand-scarlet hover:bg-brand-hover text-white font-bold text-xs shadow-md transition-all flex items-center gap-1 cursor-pointer"
               >
                 <span>Reserve Seat</span>
@@ -81,7 +81,7 @@ export default function UpcomingBatches() {
                 <span className="text-[10px] text-slate-500"> /devotee</span>
               </div>
               <a
-                href="/select-seats?busId=jyotirlinga-batch-2dec&operator=Vedanta%205%20Jyotirlinga%20Flagship&from=Mumbai%20Dadar&to=Trimbak%20Circuit&price=11499&busPlate=MH-12-RN-9908&busType=Volvo%20Multi-Axle%20Sleeper&depTime=05:45&arrTime=18:00&date=Monday,%2002%20December"
+                href="/select-seats?busId=jyotirlinga-batch-2dec&operator=Flagship%205%20Jyotirlinga%20Circuit&from=Mumbai%20Dadar&to=Trimbak%20Circuit&price=64999&busPlate=MH-12-RN-9908&busType=Volvo%20Multi-Axle%20Sleeper&depTime=05:45&arrTime=18:00&date=Monday,%2002%20December"
                 className="px-4 py-2.5 rounded-xl bg-brand-scarlet hover:bg-brand-hover text-white font-bold text-xs shadow-md transition-all flex items-center gap-1 cursor-pointer"
               >
                 <span>Reserve Seat</span>
@@ -116,7 +116,7 @@ export default function UpcomingBatches() {
                 <span className="text-[10px] text-slate-500"> /devotee</span>
               </div>
               <a
-                href="/select-seats?busId=kashi-batch-10dec&operator=Vedanta%20Ram%20Mandir%20Corridor&from=Varanasi%20Cantt&to=Ayodhya%20Dham&price=6499&busPlate=UP-65-AX-7714&busType=BharatBenz%20AC%20Coach&depTime=07:00&arrTime=17:00&date=Wednesday,%2010%20December"
+                href="/select-seats?busId=kashi-batch-10dec&operator=Ram%20Mandir%20Corridor%20Special&from=Varanasi%20Cantt&to=Ayodhya%20Dham&price=54999&busPlate=UP-65-AX-7714&busType=BharatBenz%20AC%20Coach&depTime=07:00&arrTime=17:00&date=Wednesday,%2010%20December"
                 className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-brand-scarlet text-white font-bold text-xs shadow-md transition-all flex items-center gap-1 cursor-pointer"
               >
                 <span>Reserve Seat</span>

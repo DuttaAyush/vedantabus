@@ -6,22 +6,22 @@ This document provides the definitive, comprehensive catalogue of all tour packa
 
 | # | Package Name | Category | Key Circuit / Route | Duration | Starting Price | Package ID |
 |---|---|---|---|---|---|---|
-| 1 | Char Dham Yatra & Haridwar Special | Spiritual Yatra | Kedarnath • Badrinath • Gangotri • Yamunotri | 10D / 9N | ₹24,499 | `chardham` |
-| 2 | Ayodhya Ram Mandir & Kashi Corridor | Spiritual Yatra | Ayodhya • Varanasi • Prayagraj Sangam | 4D / 3N | ₹6,499 | `kashi-ayodhya` |
-| 3 | Tirupati Balaji & Meenakshi Amman | Spiritual Yatra | Tirupati • Madurai • Rameshwaram | 5D / 4N | ₹8,950 | `tirupati-south` |
-| 4 | Maharashtra 5 Jyotirlinga Circuit | Spiritual Yatra | Trimbak • Bhimashankar • Grishneshwar • Aundha • Parli | 7D / 6N | ₹11,499 | `maharashtra-5jyotirlinga` |
-| 5 | Gujarat Somnath-Dwarka & Nageshwar | Spiritual Yatra | Dwarkadhish • Somnath • Nageshwar • Bet Dwarka | 4D / 3N | ₹5,850 | `somnath-dwarka` |
-| 6 | Shirdi Sai & Shani Shingnapur Express | Spiritual Yatra | Shirdi Samadhi • Dwarkamai • Shani Shingnapur | 2D / 1N | ₹2,899 | `shirdi-express` |
-| 7 | Himachal Snow Valley & Rohtang Pass | Domestic Holiday | Shimla • Kullu • Manali • Solang • Rohtang | 5D / 4N | ₹9,499 | `himachal-manali` |
-| 8 | Kerala Backwaters & Munnar Tea Trails | Domestic Holiday | Kochi • Munnar Hills • Alleppey Houseboat | 5D / 4N | ₹11,200 | `kerala-backwaters` |
-| 9 | Goa Coastal & Heritage Villa / Watersports | Domestic Holiday | Calangute • Baga • Mandovi Cruise • Aguada | 4D / 3N | ₹6,999 | `goa-coastal` |
-| 10 | Jim Corbett Safari & Nainital Lake | Domestic Holiday | Dhikala Tiger Zone • Naini Lake • Bhimtal | 4D / 3N | ₹7,450 | `corbett-nainital` |
-| 11 | Luxury Dubai & Singapore Combo Escape | International | Dubai (4N) + Singapore (5N) Grand Tour | 10D / 9N | ₹89,999 | `dubai-combo` |
-| 12 | Dubai Desert Safari & Marina Skyline | International | Dubai Downtown • Desert Safari • Abu Dhabi | 5D / 4N | ₹44,999 | `dubai-dunes` |
-| 13 | Singapore & Malaysia Twin Explorer | International | Singapore • Malacca • Genting • Kuala Lumpur | 7D / 6N | ₹62,500 | `singapore-malaysia` |
-| 14 | Thailand Bangkok & Phuket / Pattaya Holiday | International | Phuket • Phi Phi Islands • Bangkok City | 6D / 5N | ₹36,999 | `thailand-holiday` |
-| 15 | Bali Tropical Beaches & Ubud Culture | International | Seminyak • Ubud Villa • Nusa Penida Island | 6D / 5N | ₹39,999 | `bali-escape` |
-| 16 | Grand Wonders of Europe: Swiss & Paris | International | Zurich • Mt Titlis • Lucerne • Paris | 8D / 7N | ₹1,24,999 | `europe-wonders` |
+| 1 | Char Dham Yatra & Haridwar Special | Spiritual Yatra | Kedarnath • Badrinath • Gangotri • Yamunotri | 10D / 9N | ₹74,999 | `chardham` |
+| 2 | Ayodhya Ram Mandir & Kashi Corridor | Spiritual Yatra | Ayodhya • Varanasi • Prayagraj Sangam | 4D / 3N | ₹54,999 | `kashi-ayodhya` |
+| 3 | Tirupati Balaji & Meenakshi Amman | Spiritual Yatra | Tirupati • Madurai • Rameshwaram | 5D / 4N | ₹56,999 | `tirupati-south` |
+| 4 | Maharashtra 5 Jyotirlinga Circuit | Spiritual Yatra | Trimbak • Bhimashankar • Grishneshwar • Aundha • Parli | 7D / 6N | ₹64,999 | `maharashtra-5jyotirlinga` |
+| 5 | Gujarat Somnath-Dwarka & Nageshwar | Spiritual Yatra | Dwarkadhish • Somnath • Nageshwar • Bet Dwarka | 4D / 3N | ₹52,499 | `somnath-dwarka` |
+| 6 | Shirdi Sai & Shani Shingnapur Express | Spiritual Yatra | Shirdi Samadhi • Dwarkamai • Shani Shingnapur | 2D / 1N | ₹49,999 | `shirdi-express` |
+| 7 | Himachal Snow Valley & Rohtang Pass | Domestic Holiday | Shimla • Kullu • Manali • Solang • Rohtang | 5D / 4N | ₹54,999 | `himachal-manali` |
+| 8 | Kerala Backwaters & Munnar Tea Trails | Domestic Holiday | Kochi • Munnar Hills • Alleppey Houseboat | 5D / 4N | ₹58,500 | `kerala-backwaters` |
+| 9 | Goa Coastal & Heritage Villa / Watersports | Domestic Holiday | Calangute • Baga • Mandovi Cruise • Aguada | 4D / 3N | ₹51,999 | `goa-coastal` |
+| 10 | Jim Corbett Safari & Nainital Lake | Domestic Holiday | Dhikala Tiger Zone • Naini Lake • Bhimtal | 4D / 3N | ₹52,499 | `corbett-nainital` |
+| 11 | Luxury Dubai & Singapore Combo Escape | International | Dubai (4N) + Singapore (5N) Grand Tour | 10D / 9N | ₹1,89,999 | `dubai-combo` |
+| 12 | Dubai Desert Safari & Marina Skyline | International | Dubai Downtown • Desert Safari • Abu Dhabi | 5D / 4N | ₹1,44,999 | `dubai-dunes` |
+| 13 | Singapore & Malaysia Twin Explorer | International | Singapore • Malacca • Genting • Kuala Lumpur | 7D / 6N | ₹1,62,500 | `singapore-malaysia` |
+| 14 | Thailand Bangkok & Phuket / Pattaya Holiday | International | Phuket • Phi Phi Islands • Bangkok City | 6D / 5N | ₹1,36,999 | `thailand-holiday` |
+| 15 | Bali Tropical Beaches & Ubud Culture | International | Seminyak • Ubud Villa • Nusa Penida Island | 6D / 5N | ₹1,39,999 | `bali-escape` |
+| 16 | Grand Wonders of Europe: Swiss & Paris | International | Zurich • Mt Titlis • Lucerne • Paris | 8D / 7N | ₹2,24,999 | `europe-wonders` |
 
 ---
 
@@ -30,7 +30,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 2.1 Char Dham Yatra & Haridwar Special (Package ID: `chardham`)
 * **Circuit:** Kedarnath • Badrinath • Gangotri • Yamunotri • Haridwar
-* **Duration & Base Price:** 10 Days / 9 Nights | Starting at ₹24,499 per person
+* **Duration & Base Price:** 10 Days / 9 Nights | Starting at ₹74,999 per person
 * **Badge / Specialty:** VIP Darshan & Helicopter Assist | Emergency Oxygen Kit Onboard
 * **Transit Vehicle:** 2x2 BharatBenz AC Pushback / AC Sleeper Coach ex-Delhi / Haridwar with certified Himalayan mountain drivers.
 * **Accommodations:** Deluxe Temple View Hotels in Haridwar, Barkot, Uttarkashi, Guptkashi, Badrinath & Kedarnath Homestays.
@@ -44,7 +44,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 2.2 Ayodhya Shri Ram Mandir & Kashi Vishwanath Corridor (Package ID: `kashi-ayodhya`)
 * **Circuit:** Ayodhya • Varanasi (Kashi) • Prayagraj Triveni Sangam
-* **Duration & Base Price:** 4 Days / 3 Nights | Starting at ₹6,499 per person
+* **Duration & Base Price:** 4 Days / 3 Nights | Starting at ₹54,999 per person
 * **Badge / Specialty:** Ram Lalla & Kashi Corridor Pass | Private Ganga Boat Included
 * **Transit Vehicle:** Direct Luxury Volvo 2+1 AC Sleeper Coach with multi-city departures (Nagpur, Pune, Delhi).
 * **Accommodations:** 3-Star Deluxe AC Hotels situated within 1 km of Ram Janmabhoomi & Kashi Vishwanath Corridor.
@@ -57,7 +57,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 2.3 Tirupati Balaji & Meenakshi Amman (Package ID: `tirupati-south`)
 * **Circuit:** Tirupati Tirumala • Madurai • Rameshwaram Jyotirlinga • Dhanushkodi
-* **Duration & Base Price:** 5 Days / 4 Nights | Starting at ₹8,950 per person
+* **Duration & Base Price:** 5 Days / 4 Nights | Starting at ₹56,999 per person
 * **Badge / Specialty:** ₹300 Seeghra Darshan & Laddu Prasadam Guaranteed
 * **Transit Vehicle:** Luxury Volvo AC Multi-Axle Coach ex-Bengaluru / Chennai with dedicated Tirumala uphill transit.
 * **Accommodations:** Handpicked 3-Star Hotels in Tirupati, Madurai, and Rameshwaram Beach Road.
@@ -70,7 +70,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 2.4 Maharashtra 5 Jyotirlinga Darshan Circuit (Package ID: `maharashtra-5jyotirlinga`)
 * **Circuit:** Trimbakeshwar • Bhimashankar • Grishneshwar • Aundha Nagnath • Parli Vaijnath (+ Shirdi Sai)
-* **Duration & Base Price:** 7 Days / 6 Nights | Starting at ₹11,499 per person
+* **Duration & Base Price:** 7 Days / 6 Nights | Starting at ₹64,999 per person
 * **Badge / Specialty:** Complete Maharashtra Shiv Teerth | Pundit Escort & VIP Rudrabhishek
 * **Transit Vehicle:** Direct 2+1 AC Sleeper Coach with onboard devotional audio players.
 * **Accommodations:** Verified AC Hotels and Lodges near holy temple shrines with family rooms.
@@ -83,7 +83,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 2.5 Gujarat Somnath-Dwarka & Nageshwar (Package ID: `somnath-dwarka`)
 * **Circuit:** Dwarkadhish • Somnath • Nageshwar Jyotirlinga • Bet Dwarka • Porbandar
-* **Duration & Base Price:** 4 Days / 3 Nights | Starting at ₹5,850 per person
+* **Duration & Base Price:** 4 Days / 3 Nights | Starting at ₹52,499 per person
 * **Badge / Specialty:** Sound & Light Show + Dhwajarohan Assist | Guided Purohit
 * **Transit Vehicle:** Luxury BharatBenz AC Coach ex-Ahmedabad / Rajkot.
 * **Accommodations:** Premium Seafront and Temple-facing Hotels in Dwarka and Somnath.
@@ -92,7 +92,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 2.6 Shirdi Sai Baba & Shani Shingnapur Express (Package ID: `shirdi-express`)
 * **Circuit:** Shirdi Samadhi Mandir • Dwarkamai • Gurusthan • Shani Shingnapur
-* **Duration & Base Price:** 2 Days / 1 Night | Starting at ₹2,899 per person
+* **Duration & Base Price:** 2 Days / 1 Night | Starting at ₹49,999 per person
 * **Badge / Specialty:** Samadhi Mandir Kakad Aarti Pass | 100m from Gate No. 2
 * **Transit Vehicle:** Daily AC Express Coach ex-Pune / Mumbai / Nashik.
 * **Accommodations:** Verified AC Hotel located 100 meters walking distance from Shirdi Gate No. 2 with 6:00 AM early check-in.
@@ -105,7 +105,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 3.1 Himachal Snow Valley & Rohtang Pass / Manali Escape (Package ID: `himachal-manali`)
 * **Circuit:** Shimla • Kullu Valley • Manali • Solang Valley • Rohtang Pass • Atal Tunnel
-* **Duration & Base Price:** 5 Days / 4 Nights | Starting at ₹9,499 per person
+* **Duration & Base Price:** 5 Days / 4 Nights | Starting at ₹54,999 per person
 * **Badge / Specialty:** Atal Tunnel & Solang Snow Pass Included | Heated Chalet
 * **Transit Vehicle:** Round-trip Volvo AC Semi-Sleeper Coach ex-Delhi / Chandigarh + private mountain cab.
 * **Accommodations:** 4-Star Cedar Wood Mountain Resort in Manali with private balconies and evening bonfire.
@@ -118,7 +118,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 3.2 Kerala Backwaters & Munnar Tea Trails (Package ID: `kerala-backwaters`)
 * **Circuit:** Kochi • Munnar Hills • Alleppey Backwaters • Fort Kochi
-* **Duration & Base Price:** 5 Days / 4 Nights | Starting at ₹11,200 per person
+* **Duration & Base Price:** 5 Days / 4 Nights | Starting at ₹58,500 per person
 * **Badge / Specialty:** Private AC Houseboat & Tea Trails | Pure Veg / Jain Chef
 * **Transit Vehicle:** Private AC Highway Coach / Sedan ex-Kochi / Madurai.
 * **Accommodations:** 2 Nights Tea Garden Resort in Munnar + 1 Night Private Deluxe Alleppey Houseboat + 1 Night Fort Kochi Hotel.
@@ -131,7 +131,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 3.3 Goa Coastal & Heritage Villa / Water Sports (Package ID: `goa-coastal`)
 * **Circuit:** Calangute • Baga • Mandovi River Cruise • Fort Aguada • Old Goa
-* **Duration & Base Price:** 4 Days / 3 Nights | Starting at ₹6,999 per person
+* **Duration & Base Price:** 4 Days / 3 Nights | Starting at ₹51,999 per person
 * **Badge / Specialty:** Beachfront Villa & Sunset Cruise | 5-in-1 Water Sports Included
 * **Transit Vehicle:** Direct Luxury Sleeper Coach ex-Mumbai, Pune, Bengaluru or airport private cab.
 * **Accommodations:** 4-Star Beachside Boutique Resort / Heritage Villa with swimming pool (5 min walk to Calangute/Candolim).
@@ -144,7 +144,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 3.4 Jim Corbett National Park & Nainital (Package ID: `corbett-nainital`)
 * **Circuit:** Corbett Tiger Reserve (Dhikala/Bijrani Zone) • Nainital Naini Lake • Bhimtal
-* **Duration & Base Price:** 4 Days / 3 Nights | Starting at ₹7,450 per person
+* **Duration & Base Price:** 4 Days / 3 Nights | Starting at ₹52,499 per person
 * **Badge / Specialty:** Open 4x4 Jeep Safari Included | 4-Star Heritage Stays
 * **Transit Vehicle:** Comfortable AC Highway Coach ex-Delhi/NCR + 4x4 Open Gypsy.
 * **Accommodations:** 2 Nights Luxury Jungle Resort in Ramnagar Corbett + 1 Night Scenic Lake View Hotel in Nainital.
@@ -161,7 +161,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 4.1 Luxury Dubai & Singapore Combo Escape (Grand Tour ID: `dubai-combo`)
 * **Circuit:** Dubai (4 Nights) + Singapore (5 Nights) Grand Odyssey
-* **Duration & Base Price:** 10 Days / 9 Nights | Starting at ₹89,999 per person
+* **Duration & Base Price:** 10 Days / 9 Nights | Starting at ₹1,89,999 per person
 * **Badge / Specialty:** Featured Worldwide Grand Tour | Visa Assist + Return Flights + 5★ Stays
 * **Flights & Visa:** Direct Round-Trip Flights ex-BOM/DEL/PNQ via Emirates & Singapore Airlines (25kg baggage included). UAE Express 30-Day E-Visa & Singapore E-Visa included with fast-track processing.
 * **Accommodations:** JW Marriott Marquis Dubai (5★, 4 Nights) + Marina Bay Sands & Shangri-La Singapore (5★, 5 Nights).
@@ -170,7 +170,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 4.2 Dubai Desert Safari & Marina Skyline (Package ID: `dubai-dunes`)
 * **Circuit:** Dubai Downtown • Palm Jumeirah • Desert Safari • Abu Dhabi
-* **Duration & Base Price:** 5 Days / 4 Nights | Starting at ₹44,999 per person
+* **Duration & Base Price:** 5 Days / 4 Nights | Starting at ₹1,44,999 per person
 * **Badge / Specialty:** 4-Star Marina Hotel & Visa Included | Red Dune Bashing & BBQ
 * **Flights & Visa:** Direct Non-Stop Flights ex-Mumbai & Pune via Air India Express / Indigo (20kg luggage + 7kg cabin). UAE 30-Day Tourist E-Visa with complimentary COVID & travel health insurance.
 * **Accommodations:** 4★/5★ Downtown & Marina Hotels (Canal Central / Millennium Plaza Downtown / Marriott).
@@ -183,7 +183,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 4.3 Singapore & Malaysia Twin Explorer (Package ID: `singapore-malaysia`)
 * **Circuit:** Singapore • Malacca • Kuala Lumpur • Genting Highlands
-* **Duration & Base Price:** 7 Days / 6 Nights (3N Singapore + 3N KL & Genting) | Starting at ₹62,500 per person
+* **Duration & Base Price:** 7 Days / 6 Nights (3N Singapore + 3N KL & Genting) | Starting at ₹1,62,500 per person
 * **Badge / Specialty:** Universal Studios & Cable Car Pass | Dual Country Visa Assist
 * **Flights & Visa:** Direct flight into Singapore Changi & return out of Kuala Lumpur International via Singapore Airlines / Malaysia Airlines. Dual country e-visas and MDAC cards processed.
 * **Accommodations:** 4-Star City Center Hotels (Hotel Royal Singapore / Swiss-Garden KL / First World Genting).
@@ -196,7 +196,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 4.4 Thailand: Bangkok & Phuket Holiday (Package ID: `thailand-holiday`)
 * **Circuit:** Phuket • Phi Phi Islands • Bangkok City
-* **Duration & Base Price:** 6 Days / 5 Nights | Starting at ₹36,999 per person
+* **Duration & Base Price:** 6 Days / 5 Nights | Starting at ₹1,36,999 per person
 * **Badge / Specialty:** Island Speedboat Transfers | Speedboat Coral Island Tour
 * **Flights & Visa:** Round-trip International Flights ex-India + Internal Phuket-to-Bangkok flight. Thailand Visa Waiver / Visa on Arrival express clearance support.
 * **Accommodations:** 4-Star Patong Beachfront Resort & Spa (Phuket) + The Berkeley Hotel Pratunam (Bangkok).
@@ -205,7 +205,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 4.5 Bali Tropical Beaches & Ubud Culture (Package ID: `bali-escape`)
 * **Circuit:** Seminyak • Ubud • Kintamani Volcano • Nusa Penida Island
-* **Duration & Base Price:** 6 Days / 5 Nights | Starting at ₹39,999 per person
+* **Duration & Base Price:** 6 Days / 5 Nights | Starting at ₹1,39,999 per person
 * **Badge / Specialty:** Private Pool Villa & Floating Breakfast | Pure Veg / Jain Dining
 * **Accommodations:** 2 Nights in Private Pool Luxury Villa + 3 Nights in Ubud Scenic Rainforest Resort.
 * **Dining Plan:** Daily Breakfast with iconic Floating Pool Breakfast + Indian Veg/Jain Buffet Dinners.
@@ -217,7 +217,7 @@ All spiritual packages feature verified temple proximity stays, experienced Vedi
 
 ### 4.6 Grand Wonders of Europe: Swiss Alps & Paris (Package ID: `europe-wonders`)
 * **Circuit:** Zurich • Mount Titlis • Lucerne • Rhine Falls • Paris
-* **Duration & Base Price:** 8 Days / 7 Nights | Starting at ₹1,24,999 per person
+* **Duration & Base Price:** 8 Days / 7 Nights | Starting at ₹2,24,999 per person
 * **Badge / Specialty:** Jungfrau Train & Eiffel Tower Entry | Schengen Visa Concierge
 * **Accommodations:** Premium 4-Star Central City & Alpine Stays with Indian dinner arrangements.
 * **Dining Plan:** Daily Continental Breakfast + Curated Indian Dinners with strict Jain & Pure Veg options.

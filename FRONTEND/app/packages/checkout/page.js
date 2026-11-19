@@ -117,10 +117,10 @@ function PackageCheckoutContent() {
       badge: customPackageData.badge || basePkg.badge,
       badgeColor: customPackageData.badgeColor || basePkg.badgeColor,
       inclusions: (customPackageData.inclusions && customPackageData.inclusions.length > 0) ? customPackageData.inclusions : basePkg.inclusions || [],
-      price: customPackageData.basePrice || basePkg.basePrice || 24499,
+      price: customPackageData.basePrice || basePkg.basePrice || 74999,
     } : {
       destinations: basePkg.subtitle,
-      price: basePkg.basePrice || 24499,
+      price: basePkg.basePrice || 74999,
       inclusions: basePkg.inclusions || []
     })
   };
