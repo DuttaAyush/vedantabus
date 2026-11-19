@@ -53,7 +53,7 @@ export default function DayWiseBlueprints() {
             <div className="pt-6 border-t border-amber-100 mt-6 flex items-center justify-between">
               <div>
                 <span className="text-[10px] text-slate-400 block font-semibold">All-Inclusive Package Price</span>
-                <span className="text-2xl font-extrabold text-slate-900">₹11,499</span>
+                <span className="text-2xl font-extrabold text-slate-900">₹64,999</span>
                 <span className="text-xs text-slate-500"> / person</span>
               </div>
               <button
@@ -108,7 +108,7 @@ export default function DayWiseBlueprints() {
             <div className="pt-6 border-t border-amber-100 mt-6 flex items-center justify-between">
               <div>
                 <span className="text-[10px] text-slate-400 block font-semibold">All-Inclusive Package Price</span>
-                <span className="text-2xl font-extrabold text-slate-900">₹6,499</span>
+                <span className="text-2xl font-extrabold text-slate-900">₹54,999</span>
                 <span className="text-xs text-slate-500"> / person</span>
               </div>
               <button

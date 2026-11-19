@@ -15,7 +15,7 @@ const yatraPackages = [
     badge: 'VIP Darshan & Helicopter Assist',
     description: 'Complete Himalayan circuit with 2x2 BharatBenz AC Pushback transit, verified warm Himalayan stays, hot Satvik meals, and medical oxygen kit onboard.',
     tags: ['Deluxe Stays', 'Pure Satvik Food', 'Har Ki Pauri Aarti'],
-    price: '₹24,499'
+    price: '₹74,999'
   },
   {
     id: 'maharashtra-5jyotirlinga',
@@ -27,7 +27,7 @@ const yatraPackages = [
     badge: 'Complete Maharashtra Shiv Teerth',
     description: 'Holy circumambulation covering all five sacred Jyotirlingas in Maharashtra with Shirdi Sai Baba darshan included. Pre-booked Rudrabhishek slots.',
     tags: ['Direct AC Sleeper', 'Pundit Escort', 'VIP Abhishek'],
-    price: '₹11,499'
+    price: '₹64,999'
   },
   {
     id: 'kashi-ayodhya',
@@ -39,7 +39,7 @@ const yatraPackages = [
     badge: 'Ram Lalla & Kashi Corridor Pass',
     description: 'Experience grand Ram Mandir darshan in Ayodhya, holy Triveni Sangam snan in Prayagraj, and private reserved boat for evening Varanasi Ganga Aarti.',
     tags: ['3★ AC Hotel', 'Ganga Boat Included', 'Fast-track Mandir Entry'],
-    price: '₹6,499'
+    price: '₹54,999'
   },
   {
     id: 'tirupati-south',
@@ -51,7 +51,7 @@ const yatraPackages = [
     badge: '₹300 Seeghra Darshan & Laddu Prasadam Guaranteed',
     description: 'Pre-booked Tirumala special entry darshan, tonsure assistance, holy snan at 22 teerthams of Rameshwaram, and Madurai Meenakshi temple guide.',
     tags: ['VIP Laddu Combo', 'Uphill AC Transit', 'South Satvik Meals'],
-    price: '₹8,950'
+    price: '₹56,999'
   },
   {
     id: 'shirdi-express',
@@ -63,7 +63,7 @@ const yatraPackages = [
     badge: 'Samadhi Mandir Kakad Aarti Pass',
     description: 'Short devotional getaway: Guaranteed morning Kakad Aarti entry pass, 100m walking-distance hotel from Gate No 2, early check-in, and holy mustard oil pooja at Shani Shingnapur.',
     tags: ['Hotel Gate 2', 'Breakfast + Dinner', 'Early 6 AM Check-in'],
-    price: '₹2,899'
+    price: '₹49,999'
   },
   {
     id: 'somnath-dwarka',
@@ -75,7 +75,7 @@ const yatraPackages = [
     badge: 'Sound & Light Show + Dhwajarohan Assist',
     description: 'Somnath Jyotirlinga sea temple darshan with evening light show, Bet Dwarka ferry ride, Nageshwar Jyotirlinga Abhishek, and comfortable AC transit.',
     tags: ['Seafront Hotel', 'Gujarati Satvik Thali', 'Ferry Pass Included'],
-    price: '₹5,850'
+    price: '₹52,499'
   }
 ];
 

@@ -37,7 +37,7 @@ export default function DevsthanRoutes() {
                 </div>
                 <div className="text-right">
                   <span className="text-xs text-slate-400 block font-semibold">Seat Only Starts from ₹550</span>
-                  <span className="text-2xl md:text-3xl font-extrabold text-brand-scarlet">₹2,899</span>
+                  <span className="text-2xl md:text-3xl font-extrabold text-brand-scarlet">₹49,999</span>
                   <span className="text-[10px] text-slate-500 block">All-Inclusive Yatra</span>
                 </div>
               </div>
@@ -93,7 +93,7 @@ export default function DevsthanRoutes() {
                 </div>
                 <div className="text-right">
                   <span className="text-xs text-slate-400 block font-semibold">Seat Only Starts from ₹950</span>
-                  <span className="text-2xl md:text-3xl font-extrabold text-brand-scarlet">₹4,499</span>
+                  <span className="text-2xl md:text-3xl font-extrabold text-brand-scarlet">₹54,999</span>
                   <span className="text-[10px] text-slate-500 block">All-Inclusive /person</span>
                 </div>
               </div>

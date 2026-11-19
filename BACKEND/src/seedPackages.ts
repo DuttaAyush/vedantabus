@@ -8,7 +8,7 @@ const PACKAGES = [
   {
     title: 'Char Dham Yatra & Haridwar Special',
     category: 'Spiritual',
-    pricePerPerson: 24499,
+    pricePerPerson: 74999,
     durationDays: 10,
     itinerary: {
       id: 'chardham',
@@ -34,7 +34,7 @@ const PACKAGES = [
   {
     title: 'Ayodhya Ram Mandir & Kashi Corridor',
     category: 'Spiritual',
-    pricePerPerson: 6499,
+    pricePerPerson: 54999,
     durationDays: 4,
     itinerary: {
       id: 'kashi-ayodhya',
@@ -59,7 +59,7 @@ const PACKAGES = [
   {
     title: 'Tirupati Balaji & Meenakshi Amman',
     category: 'Spiritual',
-    pricePerPerson: 8950,
+    pricePerPerson: 56999,
     durationDays: 5,
     itinerary: {
       id: 'tirupati-south',
@@ -84,7 +84,7 @@ const PACKAGES = [
   {
     title: 'Maharashtra 5 Jyotirlinga Circuit',
     category: 'Spiritual',
-    pricePerPerson: 11499,
+    pricePerPerson: 64999,
     durationDays: 7,
     itinerary: {
       id: 'maharashtra-5jyotirlinga',
@@ -109,7 +109,7 @@ const PACKAGES = [
   {
     title: 'Gujarat Somnath-Dwarka & Nageshwar',
     category: 'Spiritual',
-    pricePerPerson: 5850,
+    pricePerPerson: 52499,
     durationDays: 4,
     itinerary: {
       id: 'somnath-dwarka',
@@ -134,7 +134,7 @@ const PACKAGES = [
   {
     title: 'Shirdi Sai & Shani Shingnapur Express',
     category: 'Spiritual',
-    pricePerPerson: 2899,
+    pricePerPerson: 49999,
     durationDays: 2,
     itinerary: {
       id: 'shirdi-express',

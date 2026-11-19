@@ -42,7 +42,7 @@ export default function UpcomingBatches() {
             <div className="flex items-center justify-between pt-3 border-t border-amber-100">
               <div>
                 <span className="text-[10px] text-slate-400 block font-semibold">All-Inclusive Fare</span>
-                <span className="text-2xl font-extrabold text-slate-900">₹2,899</span>
+                <span className="text-2xl font-extrabold text-slate-900">₹49,999</span>
                 <span className="text-[10px] text-slate-500"> /devotee</span>
               </div>
               <a
@@ -77,7 +77,7 @@ export default function UpcomingBatches() {
             <div className="flex items-center justify-between pt-3 border-t border-amber-100">
               <div>
                 <span className="text-[10px] text-slate-400 block font-semibold">All-Inclusive Fare</span>
-                <span className="text-2xl font-extrabold text-slate-900">₹11,499</span>
+                <span className="text-2xl font-extrabold text-slate-900">₹64,999</span>
                 <span className="text-[10px] text-slate-500"> /devotee</span>
               </div>
               <a
@@ -112,7 +112,7 @@ export default function UpcomingBatches() {
             <div className="flex items-center justify-between pt-3 border-t border-amber-100">
               <div>
                 <span className="text-[10px] text-slate-400 block font-semibold">All-Inclusive Fare</span>
-                <span className="text-2xl font-extrabold text-slate-900">₹6,499</span>
+                <span className="text-2xl font-extrabold text-slate-900">₹54,999</span>
                 <span className="text-[10px] text-slate-500"> /devotee</span>
               </div>
               <a
