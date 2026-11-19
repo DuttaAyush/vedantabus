@@ -34,7 +34,7 @@ export default function IndiaLocalFixedDepartures() {
             <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
               <div>
                 <span className="text-[10px] text-slate-400 uppercase font-bold block">Batch Fare</span>
-                <span className="text-lg font-black text-slate-900">₹7,499</span>
+                <span className="text-lg font-black text-slate-900">₹51,499</span>
                 <span className="text-xs text-slate-500"> / person</span>
               </div>
               <a href="/packages/checkout?package=goa" className="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-1 cursor-pointer">
@@ -55,7 +55,7 @@ export default function IndiaLocalFixedDepartures() {
             <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
               <div>
                 <span className="text-[10px] text-slate-400 uppercase font-bold block">Batch Fare</span>
-                <span className="text-lg font-black text-slate-900">₹9,899</span>
+                <span className="text-lg font-black text-slate-900">₹58,999</span>
                 <span className="text-xs text-slate-500"> / person</span>
               </div>
               <a href="/packages/checkout?package=goa" className="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-1 cursor-pointer">
@@ -76,7 +76,7 @@ export default function IndiaLocalFixedDepartures() {
             <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
               <div>
                 <span className="text-[10px] text-slate-400 uppercase font-bold block">Batch Fare</span>
-                <span className="text-lg font-black text-slate-900">₹8,999</span>
+                <span className="text-lg font-black text-slate-900">₹54,999</span>
                 <span className="text-xs text-slate-500"> / person</span>
               </div>
               <a href="/packages/checkout?package=himachal" className="px-4 py-2 bg-slate-900 hover:bg-teal-700 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-1 cursor-pointer">

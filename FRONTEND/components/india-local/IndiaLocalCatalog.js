@@ -15,7 +15,7 @@ const domesticPackagesData = [
     desc: 'Candolim beachside resort, private cab for North/South Goa, Spice plantation tour with Goan buffet lunch.',
     tag1: '4★ Heritage Villa',
     tag2: 'Daily Breakfast & Dinner',
-    price: '₹7,499'
+    price: '₹51,499'
   },
   {
     id: 2,
@@ -51,7 +51,7 @@ const domesticPackagesData = [
     desc: 'Historic monument entries, guided royal fort walks, luxury coach transit with comfortable reclining leg-rests.',
     tag1: '4★ Heritage Hotels',
     tag2: 'Guided Excursions',
-    price: '₹8,999'
+    price: '₹54,999'
   }
 ];
 

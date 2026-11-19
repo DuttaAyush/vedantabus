@@ -161,7 +161,7 @@ const PACKAGES = [
   {
     title: 'Himachal Snow Valley & Rohtang Pass',
     category: 'Domestic',
-    pricePerPerson: 9499,
+    pricePerPerson: 54999,
     durationDays: 5,
     itinerary: {
       id: 'himachal-manali',
@@ -186,7 +186,7 @@ const PACKAGES = [
   {
     title: 'Kerala Backwaters & Munnar Tea Trails',
     category: 'Domestic',
-    pricePerPerson: 11200,
+    pricePerPerson: 58500,
     durationDays: 5,
     itinerary: {
       id: 'kerala-backwaters',
@@ -211,7 +211,7 @@ const PACKAGES = [
   {
     title: 'Goa Coastal & Heritage Villa / Watersports',
     category: 'Domestic',
-    pricePerPerson: 6999,
+    pricePerPerson: 51999,
     durationDays: 4,
     itinerary: {
       id: 'goa-coastal',
@@ -236,7 +236,7 @@ const PACKAGES = [
   {
     title: 'Jim Corbett Safari & Nainital Lake',
     category: 'Domestic',
-    pricePerPerson: 7450,
+    pricePerPerson: 52499,
     durationDays: 4,
     itinerary: {
       id: 'corbett-nainital',
@@ -263,7 +263,7 @@ const PACKAGES = [
   {
     title: 'Luxury Dubai & Singapore Combo Escape',
     category: 'International',
-    pricePerPerson: 89999,
+    pricePerPerson: 189999,
     durationDays: 10,
     itinerary: {
       id: 'dubai-combo',
@@ -288,7 +288,7 @@ const PACKAGES = [
   {
     title: 'Dubai Desert Safari & Marina Skyline',
     category: 'International',
-    pricePerPerson: 44999,
+    pricePerPerson: 144999,
     durationDays: 5,
     itinerary: {
       id: 'dubai-dunes',
@@ -313,7 +313,7 @@ const PACKAGES = [
   {
     title: 'Singapore & Malaysia Twin Explorer',
     category: 'International',
-    pricePerPerson: 62500,
+    pricePerPerson: 162500,
     durationDays: 7,
     itinerary: {
       id: 'singapore-malaysia',
@@ -338,7 +338,7 @@ const PACKAGES = [
   {
     title: 'Thailand Bangkok & Phuket / Pattaya Holiday',
     category: 'International',
-    pricePerPerson: 36999,
+    pricePerPerson: 136999,
     durationDays: 6,
     itinerary: {
       id: 'thailand-holiday',
@@ -363,7 +363,7 @@ const PACKAGES = [
   {
     title: 'Bali Tropical Beaches & Ubud Culture',
     category: 'International',
-    pricePerPerson: 39999,
+    pricePerPerson: 139999,
     durationDays: 6,
     itinerary: {
       id: 'bali-escape',
@@ -388,7 +388,7 @@ const PACKAGES = [
   {
     title: 'Grand Wonders of Europe: Swiss & Paris',
     category: 'International',
-    pricePerPerson: 124999,
+    pricePerPerson: 224999,
     durationDays: 8,
     itinerary: {
       id: 'europe-wonders',

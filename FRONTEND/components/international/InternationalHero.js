@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import DatePickerPopover from '@/components/ui/DatePickerPopover';
 
 const internationalPackagesList = [
-  { id: 'dubai-safari', title: 'Dubai Desert Safari & Marina Skyline', duration: '5 Days / 4 Nights', price: '₹48,999', badge: 'Best Seller', highlight: 'Burj Khalifa • Desert Camp • Marina Cruise' },
+  { id: 'dubai-safari', title: 'Dubai Desert Safari & Marina Skyline', duration: '5 Days / 4 Nights', price: '₹1,48,999', badge: 'Best Seller', highlight: 'Burj Khalifa • Desert Camp • Marina Cruise' },
   { id: 'dubai-luxury', title: 'Dubai Luxury Dunes & Atlantis Aquaventure', duration: '6 Days / 5 Nights', price: '₹54,999', badge: 'Luxury Stays', highlight: 'Atlantis Palm • Private Yacht • Safari' },
   { id: 'singapore-wonders', title: 'Singapore Wonders & Sentosa Island', duration: '5 Days / 4 Nights', price: '₹62,500', badge: 'Family Favorite', highlight: 'Universal Studios • Marina Bay • Cable Car' },
   { id: 'thailand-bangkok', title: 'Thailand Bangkok & Pattaya Beach Resort', duration: '5 Days / 4 Nights', price: '₹36,999', badge: 'Island Tour', highlight: 'Coral Island • Chao Phraya Dinner Cruise' },

@@ -12,7 +12,7 @@ const destinationsData = [
     reviews: '918',
     tag: 'Best Seller',
     tagBg: 'bg-[#EA384D] text-white',
-    price: '₹44,999',
+    price: '₹1,44,999',
     priceLabel: 'STARTING FROM',
     description: 'Private pool villa in Seminyak, rice terrace jungle swing, and Mount Batur sunrise breakfast.',
     image: '/images/yatra_international_holiday_travel_packages_2.jpg'
@@ -38,7 +38,7 @@ const destinationsData = [
     reviews: '1,240',
     tag: 'Quick Visa 24H',
     tagBg: 'bg-[#F59E0B] text-slate-950',
-    price: '₹48,999',
+    price: '₹1,48,999',
     priceLabel: 'STARTING FROM',
     description: 'Burj Khalifa 124th floor VIP access, red dunes 4x4 safari with BBQ dinner, and luxury Marina yacht tour.',
     image: '/images/yatra_international_holiday_travel_packages_5.jpg'

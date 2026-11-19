@@ -39,7 +39,7 @@ export default function FixedDepartures() {
             <div className="flex items-center justify-between pt-3 border-t border-slate-200">
               <div className="text-xs">
                 <span className="text-slate-400 block text-[10px]">BATCH FARE</span>
-                <span className="font-extrabold text-slate-900 text-sm">₹58,999 / person</span>
+                <span className="font-extrabold text-slate-900 text-sm">₹1,58,999 / person</span>
               </div>
               <a
                 href="/packages/checkout?package=dubai"
@@ -63,7 +63,7 @@ export default function FixedDepartures() {
             <div className="flex items-center justify-between pt-3 border-t border-slate-200">
               <div className="text-xs">
                 <span className="text-slate-400 block text-[10px]">BATCH FARE</span>
-                <span className="font-extrabold text-slate-900 text-sm">₹44,999 / person</span>
+                <span className="font-extrabold text-slate-900 text-sm">₹1,44,999 / person</span>
               </div>
               <a
                 href="/packages/checkout?package=dubai"
@@ -87,7 +87,7 @@ export default function FixedDepartures() {
             <div className="flex items-center justify-between pt-3 border-t border-slate-200">
               <div className="text-xs">
                 <span className="text-slate-400 block text-[10px]">BATCH FARE</span>
-                <span className="font-extrabold text-slate-900 text-sm">₹1,49,999 / person</span>
+                <span className="font-extrabold text-slate-900 text-sm">₹2,49,999 / person</span>
               </div>
               <a
                 href="/packages/checkout?package=europe"
