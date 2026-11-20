@@ -5,13 +5,11 @@ import { createPortal } from 'react-dom';
 
 export default function PackageDetailModal({ pkg, isOpen, onClose }) {
   const [mounted, setMounted] = useState(false);
-  const [sheetState, setSheetState] = useState('collapsed'); // 'collapsed' | 'expanded'
   const [activeTab, setActiveTab] = useState('itinerary'); // 'itinerary' | 'summary' | 'inclusions'
   const [isClosing, setIsClosing] = useState(false);
   const [cardScrollTop, setCardScrollTop] = useState(0);
 
   const cardContainerRef = useRef(null);
-  const touchStartY = useRef(0);
 
   useEffect(() => {
     setMounted(true);
@@ -19,7 +17,6 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
 
   useEffect(() => {
     if (isOpen) {
-      setSheetState('collapsed');
       setActiveTab('itinerary');
       setIsClosing(false);
       setCardScrollTop(0);
@@ -48,62 +45,12 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
     setIsClosing(true);
     setTimeout(() => {
       setIsClosing(false);
-      setSheetState('collapsed');
       if (onClose) onClose();
     }, 250);
   };
 
-  const handleExpandFullWindow = () => {
-    setSheetState('expanded');
-    if (cardContainerRef.current) {
-      cardContainerRef.current.scrollTop = 0;
-    }
-    setCardScrollTop(0);
-  };
-
-  const handleDownsizeToPeek = () => {
-    setSheetState('collapsed');
-  };
-
-  const handleWheel = (e) => {
-    if (sheetState === 'collapsed' && e.deltaY > 5) {
-      handleExpandFullWindow();
-    } else if (sheetState === 'expanded' && cardContainerRef.current) {
-      if (cardContainerRef.current.scrollTop <= 0 && e.deltaY < -15) {
-        handleDownsizeToPeek();
-      }
-    }
-  };
-
   const handleScroll = (e) => {
-    const st = e.target.scrollTop;
-    setCardScrollTop(st);
-    if (sheetState === 'collapsed' && st > 10) {
-      handleExpandFullWindow();
-    } else if (sheetState === 'expanded' && st < -20) {
-      handleDownsizeToPeek();
-    }
-  };
-
-  const handleTouchStart = (e) => {
-    touchStartY.current = e.touches[0].clientY;
-  };
-
-  const handleTouchMove = (e) => {
-    const touchY = e.touches[0].clientY;
-    const diffY = touchStartY.current - touchY;
-
-    if (sheetState === 'collapsed') {
-      if (diffY > 25) {
-        handleExpandFullWindow();
-      } else if (diffY < -40) {
-        handleClose();
-      }
-    } else if (sheetState === 'expanded' && cardContainerRef.current) {
-      if (cardContainerRef.current.scrollTop <= 0 && diffY < -40) {
-        handleDownsizeToPeek();
-      }
-    }
+    setCardScrollTop(e.target.scrollTop);
   };
 
   // Fallback defaults for missing properties
@@ -141,7 +88,7 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
 
   return createPortal(
     <div
-      className={`fixed inset-0 z-[9999] flex items-end justify-center p-0 bg-slate-950/60 backdrop-blur-[3px] transition-opacity duration-300 ${
+      className={`fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 md:p-6 bg-slate-950/70 backdrop-blur-sm transition-opacity duration-300 ${
         isClosing ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
       onClick={handleClose}
@@ -150,22 +97,13 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
       <div
         ref={cardContainerRef}
         onClick={(e) => e.stopPropagation()}
-        onWheel={handleWheel}
         onScroll={handleScroll}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        className={`bg-white rounded-3xl shadow-2xl border border-slate-200/80 transition-all duration-500 ease-out flex flex-col relative overflow-y-auto overflow-x-hidden no-scrollbar pb-[2.5vh] mb-[2.5vh] ${
-          sheetState === 'collapsed'
-            ? 'w-[90vw] max-w-2xl sm:w-[660px] h-[500px] sm:h-[530px] translate-y-0 shadow-teal-900/15'
-            : 'w-[90vw] max-w-2xl sm:w-[660px] h-[82.5vh] max-h-[82.5vh] shadow-2xl ring-1 ring-slate-900/10'
-        } ${isClosing ? 'translate-y-full scale-95 opacity-0' : 'translate-y-0 scale-100 opacity-100'}`}
+        className={`bg-white rounded-3xl shadow-2xl border border-slate-200/80 transition-all duration-300 flex flex-col relative overflow-y-auto overflow-x-hidden no-scrollbar w-full max-w-2xl max-h-[88vh] sm:max-h-[85vh] ${
+          isClosing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
+        }`}
       >
         {/* STICKY PARALLAX HERO IMAGE HEADER */}
-        <div
-          className={`sticky top-0 z-0 w-full overflow-hidden bg-slate-900 shrink-0 transition-all duration-500 rounded-t-3xl ${
-            sheetState === 'collapsed' ? 'h-[250px] sm:h-[270px]' : 'h-72 sm:h-96 md:h-[360px]'
-          }`}
-        >
+        <div className="sticky top-0 z-10 w-full overflow-hidden bg-slate-900 shrink-0 h-64 sm:h-72 md:h-80 rounded-t-3xl">
           <img
             src={image}
             alt={title}
@@ -189,21 +127,9 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
             </div>
 
             <div className="flex items-center gap-2">
-              {/* Downsize Card button (Commented out as requested)
-              {sheetState === 'expanded' && (
-                <button
-                  onClick={handleDownsizeToPeek}
-                  className="px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white text-xs font-bold backdrop-blur-md flex items-center gap-1 transition-all cursor-pointer"
-                  title="Downsize Card"
-                >
-                  <span className="material-symbols-outlined text-[16px]">south</span>
-                  <span className="hidden sm:inline font-sans">Downsize Card</span>
-                </button>
-              )}
-              */}
               <button
                 onClick={handleClose}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/25 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-md transition-transform active:scale-90 cursor-pointer"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/25 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-md transition-transform active:scale-90 cursor-pointer shadow-md"
                 aria-label="Close Card"
               >
                 <span className="material-symbols-outlined text-[20px]">close</span>
@@ -268,22 +194,8 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
             </div>
           </div>
 
-          {/* Collapsed Peek State Action Prompt */}
-          {sheetState === 'collapsed' && (
-            <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
-              <button
-                onClick={handleExpandFullWindow}
-                className="w-full py-2.5 rounded-xl bg-slate-900 text-white hover:bg-teal-700 font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
-              >
-                <span>Scroll or Tap to Expand Full Itinerary</span>
-                <span className="material-symbols-outlined text-[16px] animate-bounce">expand_more</span>
-              </button>
-            </div>
-          )}
-
-          {/* Expanded Full State Content Tabs */}
-          {sheetState === 'expanded' && (
-            <div className="space-y-6 pt-2">
+          {/* Full State Content Tabs */}
+          <div className="space-y-6 pt-2">
               {/* Tab Navigation */}
               <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-2">
                 <button
@@ -418,8 +330,7 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
                 </button>
               </div>
               */}
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </div>,

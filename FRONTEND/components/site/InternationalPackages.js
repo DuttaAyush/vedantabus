@@ -461,7 +461,7 @@ const packagesData = [
 export default function InternationalPackages() {
   const [mounted, setMounted] = useState(false);
   const [selectedPkg, setSelectedPkg] = useState(null);
-  const [sheetState, setSheetState] = useState('collapsed'); // 'collapsed' | 'expanded'
+  const [sheetState, setSheetState] = useState('expanded'); // 'collapsed' | 'expanded'
   const [activeTab, setActiveTab] = useState('itinerary'); // 'itinerary' | 'summary' | 'inclusions'
   const [isClosing, setIsClosing] = useState(false);
   const [cardScrollTop, setCardScrollTop] = useState(0);
@@ -499,7 +499,7 @@ export default function InternationalPackages() {
 
   const handleOpenSheet = (pkg) => {
     setSelectedPkg(pkg);
-    setSheetState('collapsed');
+    setSheetState('expanded');
     setActiveTab('itinerary');
     setIsClosing(false);
     setCardScrollTop(0);
@@ -509,7 +509,7 @@ export default function InternationalPackages() {
     setIsClosing(true);
     setTimeout(() => {
       setSelectedPkg(null);
-      setSheetState('collapsed');
+      setSheetState('expanded');
       setIsClosing(false);
     }, 280);
   };
@@ -694,7 +694,7 @@ export default function InternationalPackages() {
          ========================================================================= */}
       {selectedPkg && mounted && createPortal(
         <div
-          className={`fixed inset-0 z-[9999] flex items-end justify-center p-0 bg-slate-950/60 backdrop-blur-[3px] transition-opacity duration-300 ${
+          className={`fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 md:p-6 bg-slate-950/70 backdrop-blur-sm transition-opacity duration-300 ${
             isClosing ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
           onClick={handleCloseSheet}
@@ -703,22 +703,13 @@ export default function InternationalPackages() {
           <div
             ref={cardContainerRef}
             onClick={(e) => e.stopPropagation()}
-            onWheel={handleWheel}
             onScroll={handleScroll}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            className={`bg-white rounded-3xl shadow-2xl border border-slate-200/80 transition-all duration-500 ease-out flex flex-col relative overflow-y-auto overflow-x-hidden no-scrollbar pb-[2.5vh] mb-[2.5vh] ${
-              sheetState === 'collapsed'
-                ? 'w-[90vw] max-w-2xl sm:w-[660px] h-[500px] sm:h-[530px] translate-y-0 shadow-teal-900/15'
-                : 'w-[90vw] max-w-2xl sm:w-[660px] h-[82.5vh] max-h-[82.5vh] shadow-2xl ring-1 ring-slate-900/10'
-            } ${isClosing ? 'translate-y-full scale-95 opacity-0' : 'translate-y-0 scale-100 opacity-100'}`}
+            className={`bg-white rounded-3xl shadow-2xl border border-slate-200/80 transition-all duration-300 flex flex-col relative overflow-y-auto overflow-x-hidden no-scrollbar w-full max-w-2xl max-h-[88vh] sm:max-h-[85vh] ${
+              isClosing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
+            }`}
           >
             {/* STICKY PARALLAX HERO IMAGE HEADER */}
-            <div
-              className={`sticky top-0 z-0 w-full overflow-hidden bg-slate-900 shrink-0 transition-all duration-500 rounded-t-3xl ${
-                sheetState === 'collapsed' ? 'h-[250px] sm:h-[270px]' : 'h-72 sm:h-96 md:h-[360px]'
-              }`}
-            >
+            <div className="sticky top-0 z-10 w-full overflow-hidden bg-slate-900 shrink-0 h-64 sm:h-72 md:h-80 rounded-t-3xl">
               <img
                 src={selectedPkg.image}
                 alt={selectedPkg.title}
