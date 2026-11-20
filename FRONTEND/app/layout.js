@@ -1,7 +1,7 @@
 ﻿import "./globals.css";
 
 export const metadata = {
-  title: "VedantaBus - India's Dedicated Intercity Bus & Curated Travel Packages",
+  title: "VedBus",
   description:
     "Book luxury BharatBenz & Volvo sleeper coaches, spiritual yatra packages, international holidays, and curated India travel experiences. Direct fleet operator — 0% convenience markup.",
 };
