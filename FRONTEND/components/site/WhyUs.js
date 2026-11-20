@@ -49,7 +49,7 @@ export default function WhyUs() {
 
   return (
     <section
-      className="w-full relative isolate pt-10 sm:pt-14 pb-12 sm:pb-16 border-none overflow-hidden bg-[#F4F2EB] scroll-mt-28 sm:scroll-mt-32"
+      className="w-full relative isolate pt-10 sm:pt-14 pb-12 sm:pb-16 border-none overflow-hidden bg-[#F4F2EB] scroll-mt-28 sm:scroll-mt-32 [content-visibility:auto] [contain-intrinsic-size:auto_520px]"
       id="advantageSection"
     >
       {/* BACKGROUND GRAPHIC IMAGE */}
@@ -57,6 +57,8 @@ export default function WhyUs() {
         <img
           src="/images/why_us_bg.png"
           alt="Why Book With Us Background"
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover object-center pointer-events-none"
         />
         {/* Light Tint Overlay */}
@@ -84,7 +86,7 @@ export default function WhyUs() {
           {advantageCards.map((card, idx) => (
             <div
               key={idx}
-              className={`rounded-xl sm:rounded-2xl p-3 sm:p-5 min-h-[140px] sm:min-h-[180px] border ${card.bgColor} ${card.borderColor} backdrop-blur-md shadow-sm transition-all duration-300 transform-gpu hover:-translate-y-1.5 hover:shadow-md flex flex-col justify-between space-y-2 sm:space-y-4 group cursor-pointer`}
+              className={`rounded-xl sm:rounded-2xl p-3 sm:p-5 min-h-[140px] sm:min-h-[180px] border ${card.bgColor} ${card.borderColor} shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-md flex flex-col justify-between space-y-2 sm:space-y-4 group cursor-pointer`}
             >
               <div className="space-y-1.5 sm:space-y-3">
                 {/* ICON & TITLE SIDE-BY-SIDE */}
