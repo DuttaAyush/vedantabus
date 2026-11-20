@@ -1,4 +1,19 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+function resolveApiBaseUrl() {
+  if (
+    typeof window !== 'undefined' &&
+    window.location.protocol === 'https:' &&
+    rawApiUrl.startsWith('http://') &&
+    !rawApiUrl.includes('localhost') &&
+    !rawApiUrl.includes('127.0.0.1')
+  ) {
+    return rawApiUrl.replace(/^http:\/\//i, 'https://');
+  }
+  return rawApiUrl;
+}
+
+export const API_BASE_URL = resolveApiBaseUrl();
 
 export async function adminFetch(endpoint, options = {}) {
   const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null;

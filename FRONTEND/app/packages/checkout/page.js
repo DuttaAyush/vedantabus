@@ -58,9 +58,18 @@ function PackageCheckoutContent() {
             setCustomPackageData(parsed);
             if (parsed.hotelTier) setHotelUpgrade(parsed.hotelTier);
             if (parsed.travelerCount) {
-              setTravelerCount(parsed.travelerCount);
-              const newTravelers = [];
+              const count = Math.max(1, Math.min(10, Number(parsed.travelerCount) || 2));
+              setTravelerCount(count);
               const defaultNames = ['Rajesh Patel', 'Sneha Patel', 'Aarav Patel', 'Pooja Patel', 'Vikram Patel', 'Kavita Patel'];
+              const newTravelers = [];
+              for (let i = 0; i < count; i++) {
+                newTravelers.push({
+                  name: defaultNames[i] || `Traveler ${i + 1}`,
+                  age: i === 0 ? '34' : i === 1 ? '31' : '28',
+                  gender: i % 2 === 0 ? 'male' : 'female',
+                  idType: 'Aadhaar / Passport'
+                });
+              }
               setTravelers(newTravelers);
             }
           }

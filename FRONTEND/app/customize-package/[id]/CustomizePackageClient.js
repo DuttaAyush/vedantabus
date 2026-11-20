@@ -11,35 +11,42 @@ import { allPackagesData } from '@/lib/data/packagesData';
 export default function CustomizePackageClient({ params }) {
   const router = useRouter();
   const packageId = params?.id || 'chardham';
+  const defaultPkg = allPackagesData[packageId] || allPackagesData['chardham'];
   
-  const [pkg, setPkg] = useState(allPackagesData[packageId] || allPackagesData['chardham']);
+  const [pkg, setPkg] = useState(defaultPkg);
   const [hotelTier, setHotelTier] = useState('4star'); // '3star' | '4star' | '5star'
   const [transportMode, setTransportMode] = useState('coach'); // 'coach' | 'private-suv' | 'private-sedan'
   const [mealPlan, setMealPlan] = useState('satvik'); // 'satvik' | 'standard'
   const [travelerCount, setTravelerCount] = useState(2);
-  const [activeAddons, setActiveAddons] = useState(pkg.addons || []);
+  const [activeAddons, setActiveAddons] = useState(defaultPkg.addons || []);
 
   useEffect(() => {
+    const currentBase = allPackagesData[packageId] || allPackagesData['chardham'];
+    setPkg(currentBase);
+    setActiveAddons(currentBase.addons || []);
+
     apiFetch(`/api/packages/${packageId}`)
       .then(res => res.ok ? res.json() : null)
       .then(data => {
         if (data && (data.data || data.title)) {
           const fetchedPkg = data.data || data;
           const merged = {
-            id: fetchedPkg.id || packageId,
-            title: fetchedPkg.title || pkg.title,
-            subtitle: fetchedPkg.subtitle || fetchedPkg.destinations || pkg.subtitle,
+            id: fetchedPkg.id || currentBase.id || packageId,
+            title: fetchedPkg.title || currentBase.title,
+            subtitle: fetchedPkg.subtitle || fetchedPkg.destinations || currentBase.subtitle,
             duration: fetchedPkg.duration || `${fetchedPkg.durationDays || 5} Days`,
-            basePrice: fetchedPkg.pricePerPerson ? Number(fetchedPkg.pricePerPerson) : pkg.basePrice,
-            image: fetchedPkg.image || pkg.image,
-            category: fetchedPkg.category || pkg.category,
-            badge: fetchedPkg.badge || pkg.badge,
-            badgeColor: fetchedPkg.badgeColor || pkg.badgeColor,
-            inclusions: fetchedPkg.highlights || fetchedPkg.inclusions || pkg.inclusions,
-            addons: fetchedPkg.addons || pkg.addons,
+            basePrice: fetchedPkg.pricePerPerson ? Number(fetchedPkg.pricePerPerson) : currentBase.basePrice,
+            image: fetchedPkg.image || currentBase.image,
+            category: fetchedPkg.category || currentBase.category,
+            badge: fetchedPkg.badge || currentBase.badge,
+            badgeColor: fetchedPkg.badgeColor || currentBase.badgeColor,
+            inclusions: fetchedPkg.highlights || fetchedPkg.inclusions || currentBase.inclusions,
+            addons: fetchedPkg.addons || currentBase.addons,
           };
           setPkg(merged);
-          if (merged.addons) setActiveAddons(merged.addons);
+          if (merged.addons && Array.isArray(merged.addons)) {
+            setActiveAddons(merged.addons);
+          }
         }
       })
       .catch(() => {});
@@ -287,7 +294,7 @@ export default function CustomizePackageClient({ params }) {
 
             <div className="space-y-3">
               {activeAddons.map(addon => (
-                <label
+                <div
                   key={addon.id}
                   onClick={() => toggleAddon(addon.id)}
                   className={`flex items-center justify-between p-4 rounded-2xl border-2 transition-all cursor-pointer ${
@@ -299,14 +306,15 @@ export default function CustomizePackageClient({ params }) {
                   <div className="flex items-center gap-3">
                     <input
                       type="checkbox"
-                      checked={addon.selected}
-                      onChange={() => {}}
-                      className="w-4 h-4 rounded text-brand-scarlet focus:ring-brand-scarlet"
+                      checked={Boolean(addon.selected)}
+                      onChange={() => toggleAddon(addon.id)}
+                      onClick={(e) => e.stopPropagation()}
+                      className="w-4 h-4 rounded text-brand-scarlet focus:ring-brand-scarlet cursor-pointer"
                     />
                     <span className="text-xs font-extrabold text-slate-900">{addon.label}</span>
                   </div>
-                  <span className="text-xs font-extrabold text-brand-scarlet">+₹{addon.price} / person</span>
-                </label>
+                  <span className="text-xs font-extrabold text-brand-scarlet">+₹{Number(addon.price || 0).toLocaleString('en-IN')} / person</span>
+                </div>
               ))}
             </div>
           </div>

@@ -6,19 +6,19 @@ import { apiFetch } from '@/lib/api';
 
 const domesticPackagesData = [
   {
-    id: 1,
+    id: 'goa-coastal',
     category: 'coastal',
     image: '/images/yatra_india_local_holiday_travel_packages_5.jpg',
     duration: '4 Nights / 5 Days',
     subtitle: 'Luxury Bus / Flight + Cab',
-    title: 'Goa Luxury Coastal & Heritage Villa',
+    title: 'Goa Coastal & Heritage Villa / Watersports',
     desc: 'Candolim beachside resort, private cab for North/South Goa, Spice plantation tour with Goan buffet lunch.',
     tag1: '4★ Heritage Villa',
     tag2: 'Daily Breakfast & Dinner',
-    price: '₹51,499'
+    price: '₹51,999'
   },
   {
-    id: 2,
+    id: 'kerala-backwaters',
     category: 'heritage',
     image: '/images/yatra_india_local_holiday_travel_packages_6.jpg',
     duration: '5 Nights / 6 Days',
@@ -27,10 +27,10 @@ const domesticPackagesData = [
     desc: 'Alleppey luxury houseboat overnight cruise, tea plantations in Munnar, Kathakali dance cultural show.',
     tag1: 'Private Houseboat',
     tag2: 'Pure Veg / Jain Chef',
-    price: '₹11,899'
+    price: '₹58,500'
   },
   {
-    id: 3,
+    id: 'himachal-manali',
     category: 'hills',
     image: '/images/yatra_india_local_holiday_travel_packages_7.jpg',
     duration: '6 Nights / 7 Days',
@@ -39,19 +39,19 @@ const domesticPackagesData = [
     desc: 'Delhi/Chandigarh Volvo semi-sleeper transit, Beas river valley cottage, Solang snow sports, Manikaran hot springs.',
     tag1: 'Heated Chalet',
     tag2: 'All Meals Included',
-    price: '₹10,499'
+    price: '₹54,999'
   },
   {
-    id: 4,
+    id: 'corbett-nainital',
     category: 'heritage',
     image: '/images/yatra_india_local_holiday_travel_packages_8.jpg',
-    duration: '5 Nights / 6 Days',
+    duration: '4 Days / 3 Nights',
     subtitle: 'BharatBenz AC Coach',
-    title: 'Golden Triangle & Coastal Heritage Circuit',
-    desc: 'Historic monument entries, guided royal fort walks, luxury coach transit with comfortable reclining leg-rests.',
-    tag1: '4★ Heritage Hotels',
-    tag2: 'Guided Excursions',
-    price: '₹54,999'
+    title: 'Jim Corbett Safari & Nainital Lake',
+    desc: 'Open 4x4 Jeep tiger safari in Corbett zone, Naini lake private boat ride, cable car ropeway pass to snow view.',
+    tag1: '4★ Jungle Resort',
+    tag2: '4x4 Jeep Safari',
+    price: '₹52,499'
   }
 ];
 
