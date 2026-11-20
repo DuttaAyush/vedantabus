@@ -41,8 +41,12 @@ const isAllowedOrigin = (origin: string | undefined): boolean => {
   // Explicitly configured origins (from env vars)
   if (configuredOrigins.some((allowed) => origin === allowed || origin.startsWith(allowed))) return true;
 
-  // Allow production domain and any subdomains (e.g. admin.vedantabus.co.in, api.vedantabus.co.in)
-  const domainPattern = /^https?:\/\/([a-z0-9-]+\.)*vedantabus\.co\.in(:[0-9]+)?$/i;
+  // Allow production domain and any subdomains (e.g. vedbus.com, admin.vedbus.com, api.vedbus.com)
+  const vedbusPattern = /^https?:\/\/([a-z0-9-]+\.)*vedbus\.com(:[0-9]+)?$/i;
+  if (vedbusPattern.test(origin)) return true;
+
+  // Allow vedantabus domain and any subdomains (e.g. admin.vedantabus.co.in, api.vedantabus.co.in)
+  const domainPattern = /^https?:\/\/([a-z0-9-]+\.)*vedantabus\.(com|co\.in)(:[0-9]+)?$/i;
   if (domainPattern.test(origin)) return true;
 
   // In development mode, allow intranet / local network IPs and dev hosts automatically
