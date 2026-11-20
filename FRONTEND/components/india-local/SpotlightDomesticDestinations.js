@@ -5,11 +5,11 @@ import PackageDetailModal from '@/components/site/PackageDetailModal';
 
 const domesticSpotlightData = [
   {
-    id: 'goa-spotlight',
-    title: 'Goa Beach & Heritage Haven',
+    id: 'goa-coastal',
+    title: 'Goa Coastal & Heritage Haven',
     subtitle: 'West Coast • Goa',
     duration: '4 Days / 3 Nights',
-    price: '₹6,999',
+    price: '₹51,999',
     image: '/images/yatra_india_local_holiday_travel_packages_2.jpg',
     badge: 'Best Seller',
     rating: '4.8',
@@ -27,11 +27,11 @@ const domesticSpotlightData = [
     inclusions: ['3 Nights Beach Villa Stay', 'Daily Breakfast & Dinner', 'Private Catamaran Cruise', 'AC Vehicle Transfers']
   },
   {
-    id: 'kerala-spotlight',
+    id: 'kerala-backwaters',
     title: 'Kerala Backwaters & Lagoons',
     subtitle: "God's Own Country • Alleppey",
     duration: '5 Days / 4 Nights',
-    price: '₹9,499',
+    price: '₹58,500',
     image: '/images/yatra_india_local_holiday_travel_packages_3.jpg',
     badge: '⭐ Top Recommended',
     rating: '4.9',
@@ -50,11 +50,11 @@ const domesticSpotlightData = [
     inclusions: ['1 Night Private AC Houseboat Stay + 3 Nights 4★ Resort', 'All Houseboat Meals Included', 'Private Sedan Sightseeing Transfers']
   },
   {
-    id: 'himachal-spotlight',
+    id: 'himachal-manali',
     title: 'Himachal Pine & Snow Retreat',
     subtitle: 'Himachal • Manali',
     duration: '5 Days / 4 Nights',
-    price: '₹8,499',
+    price: '₹54,999',
     image: '/images/yatra_india_local_holiday_travel_packages_4.jpg',
     badge: 'Winter Special',
     rating: '4.8',

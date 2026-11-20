@@ -6,48 +6,48 @@ import { apiFetch } from '@/lib/api';
 
 const packagesData = [
   {
-    id: 1,
+    id: 'dubai-dunes',
     category: 'family',
     image: '/images/yatra_international_holiday_travel_packages_6.jpg',
-    duration: '5 Nights / 6 Days',
+    duration: '5 Days / 4 Nights',
     subtitle: 'Return Flights • Visa',
-    title: 'Dubai & Abu Dhabi Royal Extravaganza',
+    title: 'Dubai Desert Safari & Marina Skyline',
     desc: 'Burj Khalifa VIP, Ferrari World, Desert Dune Safari & Marina Yacht Cruise with Indian Dinner.',
     tag: '5★ Marriott Stay • Daily Indian Meals',
-    price: '₹1,58,999'
-  },
-  {
-    id: 2,
-    category: 'honeymoon',
-    image: '/images/yatra_international_holiday_travel_packages_8.jpg',
-    duration: '6 Nights / 7 Days',
-    subtitle: 'Direct Flights Included',
-    title: 'Bali & Southeast Asia Island Odyssey',
-    desc: 'Ubud private pool villa, Tegalalang rice terraces swing, Uluwatu sunset temple & water sports.',
-    tag: 'Private Pool Villa • Pure Veg / Jain',
     price: '₹1,44,999'
   },
   {
-    id: 3,
-    category: 'europe',
-    image: '/images/yatra_international_holiday_travel_packages_9.jpg',
-    duration: '8 Nights / 9 Days',
-    subtitle: 'Schengen Visa Concierge',
-    title: 'Grand Wonders of Europe: Swiss Alps & Paris',
-    desc: 'Eiffel Tower 2nd Level, Mt. Titlis Rotair Cable Car, Rhine Falls cruise, and scenic Interlaken trains.',
-    tag: 'Premium 4★ Hotels • Hindi Tour Manager',
-    price: '₹2,49,999'
+    id: 'bali-escape',
+    category: 'honeymoon',
+    image: '/images/yatra_international_holiday_travel_packages_8.jpg',
+    duration: '6 Days / 5 Nights',
+    subtitle: 'Direct Flights Included',
+    title: 'Bali Tropical Beaches & Ubud Culture',
+    desc: 'Ubud private pool villa, Tegalalang rice terraces swing, Uluwatu sunset temple & water sports.',
+    tag: 'Private Pool Villa • Pure Veg / Jain',
+    price: '₹1,39,999'
   },
   {
-    id: 4,
-    category: 'honeymoon',
-    image: '/images/yatra_international_holiday_travel_packages_10.jpg',
-    duration: '5 Nights / 6 Days',
-    subtitle: 'Island Flight + Ferry',
-    title: 'Santorini Romantic Cyclades Getaway',
-    desc: 'Caldera sunset catamaran sailing, Akrotiri archaeological tour, volcanic beach picnic & wine tasting.',
-    tag: 'Cliffside Suite • VIP Transfers',
-    price: '₹89,999'
+    id: 'europe-wonders',
+    category: 'europe',
+    image: '/images/yatra_international_holiday_travel_packages_9.jpg',
+    duration: '8 Days / 7 Nights',
+    subtitle: 'Schengen Visa Concierge',
+    title: 'Grand Wonders of Europe: Swiss & Paris',
+    desc: 'Eiffel Tower 2nd Level, Mt. Titlis Rotair Cable Car, Rhine Falls cruise, and scenic Interlaken trains.',
+    tag: 'Premium 4★ Hotels • Hindi Tour Manager',
+    price: '₹2,24,999'
+  },
+  {
+    id: 'dubai-combo',
+    category: 'family',
+    image: '/images/yatra_international_holiday_travel_packages_1.jpg',
+    duration: '10 Days / 9 Nights',
+    subtitle: 'Dual Country Grand Tour',
+    title: 'Luxury Dubai & Singapore Combo Escape',
+    desc: 'Burj Khalifa VIP, Universal Studios Singapore, Marina Bay Sands SkyPark, and dual country e-visas.',
+    tag: '5★ Luxury Resorts • All Inclusive',
+    price: '₹1,89,999'
   }
 ];
 
