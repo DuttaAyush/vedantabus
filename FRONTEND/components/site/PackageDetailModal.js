@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 export default function PackageDetailModal({ pkg, isOpen, onClose }) {
+  const [mounted, setMounted] = useState(false);
   const [sheetState, setSheetState] = useState('collapsed'); // 'collapsed' | 'expanded'
   const [activeTab, setActiveTab] = useState('itinerary'); // 'itinerary' | 'summary' | 'inclusions'
   const [isClosing, setIsClosing] = useState(false);
@@ -10,6 +12,10 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
 
   const cardContainerRef = useRef(null);
   const touchStartY = useRef(0);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -36,7 +42,7 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
-  if (!isOpen || !pkg) return null;
+  if (!isOpen || !pkg || !mounted) return null;
 
   const handleClose = () => {
     setIsClosing(true);
@@ -133,9 +139,9 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
     { city: 'Excursion Resort (2 Nights)', hotel: 'Heritage Hill Palace (4★)', meal: 'All Meals Included' }
   ];
 
-  return (
+  return createPortal(
     <div
-      className={`fixed inset-0 z-50 flex items-end justify-center p-0 bg-slate-950/45 backdrop-blur-[3px] transition-opacity duration-300 ${
+      className={`fixed inset-0 z-[9999] flex items-end justify-center p-0 bg-slate-950/60 backdrop-blur-[3px] transition-opacity duration-300 ${
         isClosing ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
       onClick={handleClose}
@@ -416,6 +422,7 @@ export default function PackageDetailModal({ pkg, isOpen, onClose }) {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

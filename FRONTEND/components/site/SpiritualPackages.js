@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 const spiritualData = [
   {
@@ -230,6 +231,7 @@ const spiritualData = [
 ];
 
 export default function SpiritualPackages() {
+  const [mounted, setMounted] = useState(false);
   const [selectedPkg, setSelectedPkg] = useState(null);
   const [sheetState, setSheetState] = useState('collapsed'); // 'collapsed' | 'expanded'
   const [activeTab, setActiveTab] = useState('itinerary');
@@ -239,6 +241,10 @@ export default function SpiritualPackages() {
 
   const cardContainerRef = useRef(null);
   const touchStartY = useRef(0);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -424,9 +430,9 @@ export default function SpiritualPackages() {
       {/* =========================================================================
           SPIRITUAL DARSHAN 2D EXPANSION & 82.5% VH SCROLL CARD SHEET
          ========================================================================= */}
-      {selectedPkg && (
+      {selectedPkg && mounted && createPortal(
         <div
-          className={`fixed inset-0 z-50 flex items-end justify-center p-0 bg-slate-950/25 backdrop-blur-[3px] transition-opacity duration-300 ${
+          className={`fixed inset-0 z-[9999] flex items-end justify-center p-0 bg-slate-950/60 backdrop-blur-[3px] transition-opacity duration-300 ${
             isClosing ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
           onClick={handleCloseSheet}
@@ -737,7 +743,8 @@ export default function SpiritualPackages() {
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );

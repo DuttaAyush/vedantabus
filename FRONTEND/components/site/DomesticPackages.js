@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 const domesticData = [
   {
@@ -148,6 +149,7 @@ const domesticData = [
 ];
 
 export default function DomesticPackages() {
+  const [mounted, setMounted] = useState(false);
   const [selectedPkg, setSelectedPkg] = useState(null);
   const [sheetState, setSheetState] = useState('collapsed');
   const [activeTab, setActiveTab] = useState('itinerary');
@@ -157,6 +159,10 @@ export default function DomesticPackages() {
 
   const cardContainerRef = useRef(null);
   const touchStartY = useRef(0);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -334,9 +340,9 @@ export default function DomesticPackages() {
       {/* =========================================================================
           DOMESTIC HOLIDAY 2D EXPANSION & 82.5% VH SCROLL CARD SHEET
          ========================================================================= */}
-      {selectedPkg && (
+      {selectedPkg && mounted && createPortal(
         <div
-          className={`fixed inset-0 z-50 flex items-end justify-center p-0 bg-slate-950/25 backdrop-blur-[3px] transition-opacity duration-300 ${
+          className={`fixed inset-0 z-[9999] flex items-end justify-center p-0 bg-slate-950/60 backdrop-blur-[3px] transition-opacity duration-300 ${
             isClosing ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
           onClick={handleCloseSheet}
@@ -647,7 +653,8 @@ export default function DomesticPackages() {
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );

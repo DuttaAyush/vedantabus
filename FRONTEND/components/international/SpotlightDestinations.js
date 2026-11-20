@@ -152,7 +152,7 @@ export default function SpotlightDestinations({ rotating = true }) {
 
   return (
     <section
-      className="w-full py-12 md:py-16 bg-[#F8FAFB] overflow-hidden select-none isolate"
+      className="w-full py-12 md:py-16 bg-[#F8FAFB] overflow-hidden select-none"
       id="destinations"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

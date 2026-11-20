@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 const packagesData = [
   {
@@ -458,6 +459,7 @@ const packagesData = [
 ];
 
 export default function InternationalPackages() {
+  const [mounted, setMounted] = useState(false);
   const [selectedPkg, setSelectedPkg] = useState(null);
   const [sheetState, setSheetState] = useState('collapsed'); // 'collapsed' | 'expanded'
   const [activeTab, setActiveTab] = useState('itinerary'); // 'itinerary' | 'summary' | 'inclusions'
@@ -467,6 +469,10 @@ export default function InternationalPackages() {
 
   const cardContainerRef = useRef(null);
   const touchStartY = useRef(0);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Keyboard Escape key handler
   useEffect(() => {
@@ -686,9 +692,9 @@ export default function InternationalPackages() {
       {/* =========================================================================
           LARGER HERO IMAGE SIZE (H-[270px] peek / H-72-h-96 expanded)
          ========================================================================= */}
-      {selectedPkg && (
+      {selectedPkg && mounted && createPortal(
         <div
-          className={`fixed inset-0 z-50 flex items-end justify-center p-0 bg-slate-950/25 backdrop-blur-[3px] transition-opacity duration-300 ${
+          className={`fixed inset-0 z-[9999] flex items-end justify-center p-0 bg-slate-950/60 backdrop-blur-[3px] transition-opacity duration-300 ${
             isClosing ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
           onClick={handleCloseSheet}
@@ -1028,7 +1034,8 @@ export default function InternationalPackages() {
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );
