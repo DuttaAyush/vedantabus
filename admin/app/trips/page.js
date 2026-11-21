@@ -107,7 +107,7 @@ function ActionBtn({ icon, label, variant, disabled, href, onClick }) {
     whiteSpace: "nowrap",
   };
   if (href && !disabled) {
-    return <Link href={href} style={shared}><span className="material-symbols-outlined" style={{ fontSize: 13 }}>{icon}</span>{label}</Link>;
+    return <Link href={href} prefetch={false} style={shared}><span className="material-symbols-outlined" style={{ fontSize: 13 }}>{icon}</span>{label}</Link>;
   }
   return <button disabled={disabled} onClick={onClick} style={shared}><span className="material-symbols-outlined" style={{ fontSize: 13 }}>{icon}</span>{label}</button>;
 }
@@ -402,14 +402,14 @@ export default function TripsPage() {
                     >
                       {/* Trip ID */}
                       <td style={{ padding: "0.75rem 0.875rem", fontSize: "0.8125rem", fontWeight: 700, color: cancelled ? "#94A3B8" : "#0F172A", whiteSpace: "nowrap" }}>
-                        <Link href={`/trips/${t.id}/seats`} style={{ color: cancelled ? "#94A3B8" : "#B91C1C", textDecoration: "none" }}>
+                        <Link href={`/trips/${t.id}/seats`} prefetch={false} style={{ color: cancelled ? "#94A3B8" : "#B91C1C", textDecoration: "none" }}>
                           {t.id}
                         </Link>
                       </td>
 
                       {/* Route */}
                       <td style={{ padding: "0.75rem 0.875rem" }}>
-                        <Link href={`/routes/new`} style={{ textDecoration: "none", color: "inherit" }}>
+                        <Link href={`/routes/new`} prefetch={false} style={{ textDecoration: "none", color: "inherit" }}>
                           <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: cancelled ? "#94A3B8" : "#0F172A", whiteSpace: "nowrap" }}>
                             {t.from} <span style={{ color: "#B91C1C" }}>→</span> {t.to}
                           </div>
@@ -419,7 +419,7 @@ export default function TripsPage() {
 
                       {/* Bus */}
                       <td style={{ padding: "0.75rem 0.875rem" }}>
-                        <Link href={`/buses/${t.plate}/edit`} style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none", color: "inherit" }}>
+                        <Link href={`/buses/${t.plate}/edit`} prefetch={false} style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none", color: "inherit" }}>
                           <BusThumbnail style={t.busStyle} />
                           <div>
                             <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: cancelled ? "#94A3B8" : "#0F172A" }}>{t.plate}</div>
@@ -650,6 +650,7 @@ export default function TripsPage() {
                   </button>
                   <Link
                     href={`/trips/${trip.id}/seats`}
+                    prefetch={false}
                     style={{
                       flex: 1, padding: "0.35rem", borderRadius: 6, border: "none",
                       backgroundColor: "#EFF6FF", color: "#1D4ED8", fontSize: "0.72rem", fontWeight: 600,

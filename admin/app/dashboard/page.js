@@ -596,7 +596,7 @@ export default function DashboardPage() {
               {recentBookings.map((b, idx) => (
                 <tr key={`${b.id}-${idx}`} style={{ borderBottom: idx < recentBookings.length - 1 ? "1px solid #F8FAFC" : "none" }}>
                   <td style={{ padding: "0.875rem 1rem" }}>
-                    <Link href={b.type === "Package" ? "/package-bookings" : `/bookings`} style={{ color: "#B91C1C", fontWeight: 600, fontSize: "0.8125rem", textDecoration: "none" }}>
+                    <Link href={b.type === "Package" ? "/package-bookings" : `/bookings`} prefetch={false} style={{ color: "#B91C1C", fontWeight: 600, fontSize: "0.8125rem", textDecoration: "none" }}>
                       {b.id}
                     </Link>
                   </td>

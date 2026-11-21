@@ -34,8 +34,8 @@ export default function HomePage() {
           <SpiritualPackages />
           <DomesticPackages />
           <WhyUs />
-          <Hospitality />
           <Testimonials />
+          <Hospitality />
           <ContactForm />
           <FAQ />
         </div>

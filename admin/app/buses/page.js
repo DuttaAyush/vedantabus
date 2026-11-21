@@ -382,6 +382,7 @@ export default function BusesPage() {
                   <td style={{ padding: "0.75rem 1rem" }}>
                     <Link
                       href={`/buses/${b.id || b.plate}/edit`}
+                      prefetch={false}
                       style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none" }}
                     >
                       <BusThumbnail style={b.busStyle} image={b.primaryImage} />
@@ -405,7 +406,7 @@ export default function BusesPage() {
 
                   {/* Bus Type */}
                   <td style={{ padding: "0.75rem 1rem", fontSize: "0.875rem", color: "#475569" }}>
-                    <Link href={`/buses/${b.id || b.plate}/edit`} style={{ textDecoration: "none", color: "inherit", fontWeight: 500 }}>
+                    <Link href={`/buses/${b.id || b.plate}/edit`} prefetch={false} style={{ textDecoration: "none", color: "inherit", fontWeight: 500 }}>
                       {b.type}
                     </Link>
                   </td>
@@ -431,6 +432,7 @@ export default function BusesPage() {
                     <div style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem" }}>
                       <Link
                         href={`/buses/${b.plate}/edit`}
+                        prefetch={false}
                         style={{
                           display: "inline-flex", alignItems: "center", gap: "0.3rem",
                           padding: "0.3rem 0.75rem",

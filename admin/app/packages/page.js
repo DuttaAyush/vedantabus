@@ -469,6 +469,7 @@ export default function PackagesPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.375rem", marginTop: "0.875rem" }}>
                   <Link
                     href={`/packages/${pkg.id}/edit`}
+                    prefetch={false}
                     style={{
                       display: "flex", alignItems: "center", justifyContent: "center", gap: "0.2rem",
                       padding: "0.35rem 0", borderRadius: 6,

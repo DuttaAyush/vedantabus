@@ -269,6 +269,7 @@ export default function EditTripPage({ params }) {
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
           <Link
             href={`/trips/${tripId}/seats`}
+            prefetch={false}
             style={{
               padding: "0.5rem 1rem", borderRadius: 8, border: "1px solid #CBD5E1",
               backgroundColor: "#F8FAFC", color: "#0F172A", fontSize: "0.8125rem",

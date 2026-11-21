@@ -458,6 +458,7 @@ export default function PackageBookingsPage() {
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.375rem" }}>
                           <Link
                             href={`/package-bookings/${b.id}`}
+                            prefetch={false}
                             style={{
                               display: "inline-flex", alignItems: "center", gap: "0.25rem",
                               padding: "0.3rem 0.625rem", borderRadius: 6,

@@ -154,7 +154,7 @@ export default function PackageBookingDetailPage({ params }) {
                   </div>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <Link href="/users/U10023" style={{ fontSize: "0.75rem", fontWeight: 600, color: "#2563EB", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.2rem" }}>
+                  <Link href="/users/U10023" prefetch={false} style={{ fontSize: "0.75rem", fontWeight: 600, color: "#2563EB", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.2rem" }}>
                     View User Profile <span className="material-symbols-outlined" style={{ fontSize: 14 }}>arrow_forward</span>
                   </Link>
                 </div>

@@ -398,7 +398,7 @@ export default function UsersPage() {
 
                       {/* User */}
                       <td style={{ padding: "0.75rem 1rem" }}>
-                        <Link href={`/users/${u.id}`} style={{ display: "flex", alignItems: "center", gap: "0.625rem", textDecoration: "none" }}>
+                        <Link href={`/users/${u.id}`} prefetch={false} style={{ display: "flex", alignItems: "center", gap: "0.625rem", textDecoration: "none" }}>
                           <Avatar name={u.name} color={u.color} />
                           <div>
                             <div style={{ fontWeight: 600, fontSize: "0.875rem", color: "#0F172A", transition: "color 150ms" }}
@@ -414,14 +414,14 @@ export default function UsersPage() {
 
                       {/* Email */}
                       <td style={{ padding: "0.75rem 1rem", fontSize: "0.8125rem", color: "#475569" }}>
-                        <Link href={`/users/${u.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                        <Link href={`/users/${u.id}`} prefetch={false} style={{ textDecoration: "none", color: "inherit" }}>
                           {u.email}
                         </Link>
                       </td>
 
                       {/* Phone */}
                       <td style={{ padding: "0.75rem 1rem", fontSize: "0.8125rem", color: "#475569", whiteSpace: "nowrap" }}>
-                        <Link href={`/users/${u.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                        <Link href={`/users/${u.id}`} prefetch={false} style={{ textDecoration: "none", color: "inherit" }}>
                           {u.phone}
                         </Link>
                       </td>
@@ -438,7 +438,7 @@ export default function UsersPage() {
                       {/* Actions */}
                       <td style={{ padding: "0.75rem 1rem" }}>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.375rem" }}>
-                          <Link href={`/users/${u.id}`} style={{ textDecoration: "none" }}>
+                          <Link href={`/users/${u.id}`} prefetch={false} style={{ textDecoration: "none" }}>
                             <IconBtn icon="visibility" title="View user details" />
                           </Link>
                           <IconBtn
