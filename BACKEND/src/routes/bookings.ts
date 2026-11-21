@@ -252,29 +252,17 @@ router.post(['/', '/create'], async (req: Request, res: Response) => {
 
     const bookingId = `YB-${Math.floor(100000 + Math.random() * 900000)}`;
 
-    let createdBooking: any = null;
-    try {
-      createdBooking = await prisma.busBooking.create({
-        data: {
-          id: bookingId,
-          userId: userId!,
-          tripId: String(tripId),
-          seatNumbers: seatIds,
-          totalAmount: serverAmount,
-          status: 'Confirmed',
-        },
-      });
-    } catch {
-      createdBooking = {
+    // Write booking to DB — do NOT swallow errors silently
+    const createdBooking = await prisma.busBooking.create({
+      data: {
         id: bookingId,
-        userId,
-        tripId,
+        userId: userId!,
+        tripId: String(tripId),
         seatNumbers: seatIds,
         totalAmount: serverAmount,
         status: 'Confirmed',
-        bookingDate: new Date().toISOString(),
-      };
-    }
+      },
+    });
 
     // 3. Release any active hold once booking is confirmed
     if (lockHolderId) {
