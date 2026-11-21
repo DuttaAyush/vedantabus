@@ -19,8 +19,18 @@ export default function DatePickerPopover({
   defaultPosition = 'top',
   align = 'center'
 }) {
-  const [viewDate, setViewDate] = useState(() => new Date());
-  const [activeDate, setActiveDate] = useState(() => new Date());
+  // Get today in IST (UTC+5:30) regardless of server/browser timezone
+  const getTodayIST = () => {
+    const now = new Date();
+    // IST offset is +5:30 = 330 minutes
+    const istOffset = 330;
+    const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+    const istDate = new Date(utcMs + istOffset * 60000);
+    return new Date(istDate.getFullYear(), istDate.getMonth(), istDate.getDate(), 0, 0, 0, 0);
+  };
+
+  const [viewDate, setViewDate] = useState(() => getTodayIST());
+  const [activeDate, setActiveDate] = useState(() => getTodayIST());
   const [computedPosition, setComputedPosition] = useState(
     position === 'auto' ? defaultPosition : position
   );
@@ -111,8 +121,7 @@ export default function DatePickerPopover({
     setViewDate(new Date(currentYear, currentMonth + 1, 1));
   };
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = getTodayIST();
 
   const formatDateOutput = (d) => {
     const isToday = d.toDateString() === today.toDateString();

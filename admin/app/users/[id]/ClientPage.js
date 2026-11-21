@@ -1,39 +1,9 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import AdminShell from "@/components/layout/AdminShell";
-
-// ── Mock data (would be fetched by id from API) ───────────────────────────────
-
-const USER = {
-  id: "U10023",
-  name: "Rajesh Kumar",
-  email: "rajesh.kumar@gmail.com",
-  phone: "+91-8208024895",
-  joined: "12 Jan 2025",
-  status: "Active",
-  dob: "14 Mar 1992",
-  gender: "Male",
-  location: "Nagpur, Maharashtra",
-  totalBookings: 14,
-  totalSpent: "₹28,450",
-  color: "#4F46E5",
-  busBookings: 10,
-  packageBookings: 4,
-  lastBooking: "9 months ago",
-};
-
-const BOOKINGS = [
-  { id: "VB250915001", type: "Bus",     route: "Nagpur → Pune",              travel: "16 Sep 2026", booked: "12 Sep 2026", amount: "₹1,200",  status: "Confirmed" },
-  { id: "VB250912334", type: "Package", route: "Kashmir Holiday (5D/4N)",    travel: "22 Sep 2026", booked: "10 Sep 2026", amount: "₹24,999", status: "Confirmed" },
-  { id: "VB250901112", type: "Bus",     route: "Mumbai → Ahmedabad",         travel: "05 Sep 2026", booked: "01 Sep 2026", amount: "₹1,050",  status: "Completed" },
-  { id: "VB250825578", type: "Package", route: "Bali Getaway (6D/5N)",       travel: "18 Aug 2026", booked: "20 Aug 2026", amount: "₹89,999", status: "Cancelled" },
-  { id: "VB250801445", type: "Bus",     route: "Delhi → Haridwar",           travel: "10 Aug 2026", booked: "28 Jul 2026", amount: "₹850",    status: "Completed" },
-  { id: "VB250720998", type: "Package", route: "Singapore Explorer (4D/3N)", travel: "05 Aug 2026", booked: "15 Jul 2026", amount: "₹74,500", status: "Confirmed" },
-];
-
-// ── Sub-components ────────────────────────────────────────────────────────────
+import { adminFetch } from "@/lib/api";
 
 function InfoRow({ icon, text }) {
   return (
@@ -49,6 +19,8 @@ function StatusBadge({ status }) {
     Confirmed: { bg: "#DCFCE7", color: "#166534" },
     Completed: { bg: "#CFFAFE", color: "#0E7490" },
     Cancelled: { bg: "#FEE2E2", color: "#991B1B" },
+    Refunded:  { bg: "#F3E8FF", color: "#6B21A8" },
+    Pending:   { bg: "#FEF3C7", color: "#92400E" },
   };
   const s = map[status] || { bg: "#F1F5F9", color: "#475569" };
   return (
@@ -74,12 +46,98 @@ const TH = {
   whiteSpace: "nowrap",
 };
 
-// ── Page ──────────────────────────────────────────────────────────────────────
-
 export default function UserDetailPage({ params }) {
+  const userId = params?.id || "";
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [bookingFilter, setBookingFilter] = useState("All Bookings");
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
-  const initials = USER.name.split(" ").map((n) => n[0]).join("").toUpperCase();
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(""), 3500);
+  };
+
+  useEffect(() => {
+    if (!userId || userId === "default") {
+      setLoading(false);
+      return;
+    }
+    adminFetch(`/api/admin/users/${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        const u = data.data || data;
+        if (u && u.id) {
+          setUser(u);
+        }
+      })
+      .catch(err => console.error("Error loading user details:", err))
+      .finally(() => setLoading(false));
+  }, [userId]);
+
+  const handleToggleBlock = async () => {
+    if (!userId || userId === "default") {
+      setIsBlocked(prev => !prev);
+      showToast(isBlocked ? "User unblocked" : "User blocked from booking");
+      return;
+    }
+    setIsUpdating(true);
+    const action = isBlocked ? "unblock" : "block";
+    try {
+      const res = await adminFetch(`/api/admin/users/${userId}/status`, {
+        method: "PATCH",
+        body: JSON.stringify({ action }),
+      });
+      if (res.ok) {
+        setIsBlocked(!isBlocked);
+        showToast(action === "block" ? "User blocked successfully" : "User unblocked successfully");
+      } else {
+        const err = await res.json();
+        showToast(err.message || "Failed to update user status");
+      }
+    } catch {
+      showToast("Network error while updating user status");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const displayName = user?.name || "Customer";
+  const displayEmail = user?.email || "customer@example.com";
+  const displayPhone = user?.phone || "+91-9800000000";
+  const initials = displayName.split(" ").map((n) => n[0]).join("").substring(0, 2).toUpperCase() || "CU";
+  const joinedDate = user?.createdAt ? new Date(user.createdAt).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }) : "Recently";
+  
+  const totalBusBookings = user?._count?.busBookings || (user?.busBookings ? user.busBookings.length : 0);
+  const totalPackageBookings = user?._count?.packageBookings || (user?.packageBookings ? user.packageBookings.length : 0);
+  const totalSpendFormatted = `₹${Number(user?.totalSpend || 0).toLocaleString('en-IN')}`;
+
+  // Normalize combined bookings
+  const busList = Array.isArray(user?.busBookings) ? user.busBookings.map(b => ({
+    id: b.id,
+    type: "Bus",
+    route: b.trip?.route ? `${b.trip.route.originCity} → ${b.trip.route.destinationCity}` : "Bus Trip",
+    travel: b.trip?.departureDatetime ? new Date(b.trip.departureDatetime).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A",
+    booked: b.bookingDate ? new Date(b.bookingDate).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A",
+    amount: `₹${Number(b.totalAmount || 0).toLocaleString('en-IN')}`,
+    status: b.status || "Confirmed",
+    link: `/bookings/${b.id}`,
+  })) : [];
+
+  const pkgList = Array.isArray(user?.packageBookings) ? user.packageBookings.map(p => ({
+    id: p.id,
+    type: "Package",
+    route: p.package?.title || "Holiday Tour",
+    travel: p.travelDate ? new Date(p.travelDate).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A",
+    booked: p.createdAt ? new Date(p.createdAt).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A",
+    amount: `₹${Number(p.totalAmount || 0).toLocaleString('en-IN')}`,
+    status: p.status || "Confirmed",
+    link: `/package-bookings/${p.id}`,
+  })) : [];
+
+  const combinedBookings = [...busList, ...pkgList];
 
   return (
     <AdminShell>
@@ -87,8 +145,18 @@ export default function UserDetailPage({ params }) {
       <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", marginBottom: "0.625rem", fontSize: "0.8125rem" }}>
         <Link href="/users" style={{ color: "#64748B", textDecoration: "none" }}>Users</Link>
         <span className="material-symbols-outlined" style={{ fontSize: 14, color: "#94A3B8" }}>chevron_right</span>
-        <span style={{ color: "#0F172A", fontWeight: 500 }}>{USER.name}</span>
+        <span style={{ color: "#0F172A", fontWeight: 500 }}>{displayName}</span>
       </div>
+
+      {toastMessage && (
+        <div style={{
+          position: "fixed", top: 20, right: 20, zIndex: 9999,
+          backgroundColor: "#0F172A", color: "#fff", padding: "0.75rem 1.25rem",
+          borderRadius: 8, fontSize: "0.875rem", fontWeight: 600, boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
+        }}>
+          {toastMessage}
+        </div>
+      )}
 
       {/* Page title row */}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "1.25rem" }}>
@@ -97,7 +165,7 @@ export default function UserDetailPage({ params }) {
             User Details
           </h1>
           <p style={{ fontSize: "0.875rem", color: "#64748B", marginTop: "0.375rem" }}>
-            View user information, booking history, and manage account access.
+            View user profile, live booking history, and manage customer access.
           </p>
         </div>
         <Link href="/users" style={{
@@ -128,49 +196,50 @@ export default function UserDetailPage({ params }) {
             <div style={{ position: "relative", flexShrink: 0 }}>
               <div className="user-avatar-circle" style={{
                 width: 120, height: 120, borderRadius: "50%",
-                backgroundColor: USER.color + "18",
-                border: `3px solid ${USER.color}35`,
+                backgroundColor: "#4F46E518",
+                border: `3px solid #4F46E535`,
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}>
-                <span className="user-avatar-initials" style={{ fontSize: "2.25rem", fontWeight: 700, color: USER.color }}>{initials}</span>
+                <span className="user-avatar-initials" style={{ fontSize: "2.25rem", fontWeight: 700, color: "#4F46E5" }}>{initials}</span>
               </div>
-              {/* Online dot */}
               <div style={{
                 position: "absolute", bottom: 6, right: 6,
                 width: 18, height: 18, borderRadius: "50%",
-                backgroundColor: "#22C55E",
+                backgroundColor: isBlocked ? "#EF4444" : "#22C55E",
                 border: "3px solid #fff",
               }} />
             </div>
 
             {/* Info */}
             <div style={{ paddingTop: "0.25rem", flex: 1, minWidth: 0 }}>
-              {/* Name + ID */}
               <div style={{ display: "flex", alignItems: "center", gap: "0.625rem", marginBottom: "0.875rem", flexWrap: "wrap" }}>
-                <h2 style={{ fontSize: "1.3125rem", fontWeight: 700, color: "#0F172A", margin: 0 }}>{USER.name}</h2>
+                <h2 style={{ fontSize: "1.3125rem", fontWeight: 700, color: "#0F172A", margin: 0 }}>{displayName}</h2>
                 <span style={{
                   padding: "0.1875rem 0.5rem", borderRadius: 5,
                   backgroundColor: "#F1F5F9", color: "#64748B",
                   fontSize: "0.75rem", fontWeight: 600,
-                }}>#{USER.id}</span>
+                }}>#{userId || "U10001"}</span>
               </div>
 
               {/* Contact rows */}
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1rem" }}>
-                <InfoRow icon="mail"          text={USER.email} />
-                <InfoRow icon="phone"         text={USER.phone} />
-                <InfoRow icon="calendar_today" text={`Joined on ${USER.joined}`} />
+                <InfoRow icon="mail"          text={displayEmail} />
+                <InfoRow icon="phone"         text={displayPhone} />
+                <InfoRow icon="calendar_today" text={`Joined on ${joinedDate}`} />
               </div>
 
               {/* Status */}
               <span style={{
                 display: "inline-flex", alignItems: "center", gap: "0.3rem",
                 padding: "0.3rem 0.875rem", borderRadius: 20,
-                backgroundColor: "#DCFCE7", color: "#166534",
+                backgroundColor: isBlocked ? "#FEE2E2" : "#DCFCE7",
+                color: isBlocked ? "#991B1B" : "#166534",
                 fontSize: "0.8125rem", fontWeight: 600,
               }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 14 }}>check_circle</span>
-                Active
+                <span className="material-symbols-outlined" style={{ fontSize: 14 }}>
+                  {isBlocked ? "block" : "check_circle"}
+                </span>
+                {isBlocked ? "Blocked" : "Active Customer"}
               </span>
             </div>
           </div>
@@ -178,45 +247,42 @@ export default function UserDetailPage({ params }) {
           {/* Divider */}
           <div className="user-profile-divider" style={{ width: 1, alignSelf: "stretch", backgroundColor: "#F1F5F9", flexShrink: 0 }} />
 
-          {/* Right: Additional info */}
+          {/* Right: Actions and quick info */}
           <div className="user-profile-right" style={{ width: 340, flexShrink: 0 }}>
             {/* Buttons row */}
             <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.625rem", marginBottom: "1rem" }}>
-              <button style={{
-                display: "flex", alignItems: "center", gap: "0.375rem",
-                padding: "0.4375rem 0.875rem",
-                border: "1.5px solid #B91C1C", borderRadius: 8,
-                backgroundColor: "#fff", color: "#B91C1C",
-                fontSize: "0.8125rem", fontWeight: 600, cursor: "pointer",
-              }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>block</span>
-                Block User
-              </button>
-              <button style={{
-                display: "flex", alignItems: "center", gap: "0.375rem",
-                padding: "0.4375rem 0.875rem",
-                border: "none", borderRadius: 8,
-                backgroundColor: "#B91C1C", color: "#fff",
-                fontSize: "0.8125rem", fontWeight: 600, cursor: "pointer",
-              }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>delete</span>
-                Delete User
+              <button
+                type="button"
+                onClick={handleToggleBlock}
+                disabled={isUpdating}
+                style={{
+                  display: "flex", alignItems: "center", gap: "0.375rem",
+                  padding: "0.4375rem 0.875rem",
+                  border: isBlocked ? "1.5px solid #16A34A" : "1.5px solid #B91C1C",
+                  borderRadius: 8,
+                  backgroundColor: "#fff",
+                  color: isBlocked ? "#16A34A" : "#B91C1C",
+                  fontSize: "0.8125rem", fontWeight: 600, cursor: isUpdating ? "not-allowed" : "pointer",
+                }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
+                  {isBlocked ? "check" : "block"}
+                </span>
+                {isUpdating ? "Updating..." : isBlocked ? "Unblock User" : "Block User"}
               </button>
             </div>
 
-            {/* Additional info label */}
             <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: "#64748B", marginBottom: "0.75rem" }}>
-              Additional Information
+              Account Summary
             </div>
 
             {/* Info pairs */}
             <div style={{ display: "flex", flexDirection: "column", gap: 0, borderRadius: 8, border: "1px solid #F1F5F9", overflow: "hidden" }}>
               {[
-                { label: "Date of Birth",    value: USER.dob },
-                { label: "Gender",           value: USER.gender },
-                { label: "Location",         value: USER.location },
-                { label: "Total Bookings",   value: String(USER.totalBookings) },
-                { label: "Total Spent",      value: USER.totalSpent },
+                { label: "Account Role",     value: user?.role || "USER" },
+                { label: "Bus Bookings",     value: String(totalBusBookings) },
+                { label: "Package Bookings", value: String(totalPackageBookings) },
+                { label: "Lifetime Spend",   value: totalSpendFormatted },
               ].map(({ label, value }, i, arr) => (
                 <div key={label} style={{
                   display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -236,10 +302,10 @@ export default function UserDetailPage({ params }) {
       {/* Mini stats row */}
       <div className="user-stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem", marginBottom: "1.25rem" }}>
         {[
-          { icon: "directions_bus", iconBg: "#FEF2F2", iconColor: "#B91C1C", value: USER.busBookings,      label: "Bus Bookings" },
-          { icon: "luggage",        iconBg: "#ECFDF5", iconColor: "#059669", value: USER.packageBookings,  label: "Package Bookings" },
-          { icon: "currency_rupee", iconBg: "#F5F3FF", iconColor: "#7C3AED", value: USER.totalSpent,       label: "Total Spent" },
-          { icon: "calendar_today", iconBg: "#FFF7ED", iconColor: "#EA580C", value: USER.lastBooking,      label: "Last Booking" },
+          { icon: "directions_bus", iconBg: "#FEF2F2", iconColor: "#B91C1C", value: totalBusBookings, label: "Bus Bookings" },
+          { icon: "luggage",        iconBg: "#ECFDF5", iconColor: "#059669", value: totalPackageBookings, label: "Package Bookings" },
+          { icon: "currency_rupee", iconBg: "#F5F3FF", iconColor: "#7C3AED", value: totalSpendFormatted, label: "Total Spent" },
+          { icon: "verified",       iconBg: "#EFF6FF", iconColor: "#2563EB", value: isBlocked ? "Suspended" : "Good Standing", label: "Account Status" },
         ].map((s) => (
           <div key={s.label} className="user-stat-card" style={{
             background: "#fff", borderRadius: 12,
@@ -264,61 +330,54 @@ export default function UserDetailPage({ params }) {
         ))}
       </div>
 
-      {/* Saved Passenger Profiles (Feature 4 Admin View) */}
+      {/* Primary Passenger Profile (Clean Option B) */}
       <div style={{ background: "#fff", borderRadius: 12, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", border: "1px solid #F1F5F9", overflow: "hidden", marginBottom: "1.25rem" }}>
         <div style={{ padding: "1rem 1.25rem", borderBottom: "1px solid #F1F5F9", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 20, color: "#B91C1C" }}>group</span>
+            <span className="material-symbols-outlined" style={{ fontSize: 20, color: "#B91C1C" }}>person</span>
             <div>
-              <div style={{ fontWeight: 600, fontSize: "0.9375rem", color: "#0F172A" }}>Saved Passenger Profiles</div>
-              <div style={{ fontSize: "0.75rem", color: "#94A3B8" }}>Registered co-travelers and family members for quick checkout</div>
+              <div style={{ fontWeight: 600, fontSize: "0.9375rem", color: "#0F172A" }}>Customer Profile</div>
+              <div style={{ fontSize: "0.75rem", color: "#94A3B8" }}>Primary traveller details for checkout pre-fill</div>
             </div>
           </div>
           <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#166534", backgroundColor: "#DCFCE7", padding: "0.2rem 0.6rem", borderRadius: 999 }}>
-            4 Active Profiles
+            Primary Profile
           </span>
         </div>
 
         <div style={{ padding: "1.25rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
-          {[
-            { name: "Rajesh Kumar", age: 34, gender: "Male", relation: "Self", idTag: "Aadhaar Verified" },
-            { name: "Sneha Patel", age: 31, gender: "Female", relation: "Spouse", idTag: "Govt ID on File" },
-            { name: "Aarav Patel", age: 8, gender: "Male", relation: "Child", idTag: "Minor Passenger" },
-            { name: "Suresh Patel", age: 62, gender: "Male", relation: "Father", idTag: "Senior Citizen" },
-          ].map((p, idx) => (
-            <div key={idx} style={{
-              padding: "1rem", borderRadius: 10, border: "1px solid #E2E8F0",
-              backgroundColor: "#F8FAFC", display: "flex", alignItems: "flex-start", gap: "0.75rem"
+          <div style={{
+            padding: "1rem", borderRadius: 10, border: "1px solid #E2E8F0",
+            backgroundColor: "#F8FAFC", display: "flex", alignItems: "flex-start", gap: "0.75rem"
+          }}>
+            <div style={{
+              width: 38, height: 38, borderRadius: 8, backgroundColor: "#fff",
+              border: "1px solid #CBD5E1", display: "flex", alignItems: "center",
+              justifyContent: "center", color: "#475569", flexShrink: 0
             }}>
-              <div style={{
-                width: 38, height: 38, borderRadius: 8, backgroundColor: "#fff",
-                border: "1px solid #CBD5E1", display: "flex", alignItems: "center",
-                justifyContent: "center", color: "#475569", flexShrink: 0
-              }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
-                  {p.gender === "Female" ? "woman" : "man"}
+              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
+                account_circle
+              </span>
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
+                <span style={{ fontSize: "0.875rem", fontWeight: 700, color: "#0F172A" }}>{displayName}</span>
+                <span style={{
+                  fontSize: "0.625rem", fontWeight: 700, textTransform: "uppercase",
+                  padding: "0.1rem 0.4rem", borderRadius: 4, backgroundColor: "#DCFCE7", color: "#166534"
+                }}>
+                  Self
                 </span>
               </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
-                  <span style={{ fontSize: "0.875rem", fontWeight: 700, color: "#0F172A" }}>{p.name}</span>
-                  <span style={{
-                    fontSize: "0.625rem", fontWeight: 700, textTransform: "uppercase",
-                    padding: "0.1rem 0.4rem", borderRadius: 4, backgroundColor: "#FEE2E2", color: "#B91C1C"
-                  }}>
-                    {p.relation}
-                  </span>
-                </div>
-                <div style={{ fontSize: "0.75rem", color: "#64748B", marginTop: 2 }}>
-                  {p.gender} • {p.age} Years Old
-                </div>
-                <div style={{ fontSize: "0.6875rem", color: "#166534", fontWeight: 600, marginTop: 4, display: "flex", alignItems: "center", gap: 3 }}>
-                  <span className="material-symbols-outlined" style={{ fontSize: 13, color: "#16A34A" }}>verified</span>
-                  {p.idTag}
-                </div>
+              <div style={{ fontSize: "0.75rem", color: "#64748B", marginTop: 2 }}>
+                {displayEmail} • {displayPhone}
+              </div>
+              <div style={{ fontSize: "0.6875rem", color: "#166534", fontWeight: 600, marginTop: 4, display: "flex", alignItems: "center", gap: 3 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 13, color: "#16A34A" }}>verified</span>
+                Verified User Account
               </div>
             </div>
-          ))}
+          </div>
         </div>
       </div>
 
@@ -330,7 +389,7 @@ export default function UserDetailPage({ params }) {
             <span className="material-symbols-outlined" style={{ fontSize: 20, color: "#B91C1C" }}>receipt_long</span>
             <div>
               <div style={{ fontWeight: 600, fontSize: "0.9375rem", color: "#0F172A" }}>Booking History</div>
-              <div style={{ fontSize: "0.75rem", color: "#94A3B8" }}>All bus and package bookings made by this user.</div>
+              <div style={{ fontSize: "0.75rem", color: "#94A3B8" }}>All live bus and package bookings made by this user.</div>
             </div>
           </div>
           <select
@@ -360,74 +419,63 @@ export default function UserDetailPage({ params }) {
               </tr>
             </thead>
             <tbody>
-              {BOOKINGS.filter((b) =>
-                bookingFilter === "All Bookings" ||
-                (bookingFilter === "Bus Bookings" && b.type === "Bus") ||
-                (bookingFilter === "Package Bookings" && b.type === "Package")
-              ).map((b, idx, arr) => (
-                <tr
-                  key={b.id}
-                  style={{ borderBottom: idx < arr.length - 1 ? "1px solid #F8FAFC" : "none" }}
-                  onMouseEnter={e => e.currentTarget.style.backgroundColor = "#FAFAFA"}
-                  onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
-                >
-                  <td style={{ padding: "0.875rem 1rem", fontSize: "0.8125rem", fontWeight: 600, color: "#475569" }}>{b.id}</td>
-
-                  <td style={{ padding: "0.875rem 1rem" }}>
-                    {b.type === "Bus" ? (
-                      <span style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", padding: "0.2rem 0.5rem", borderRadius: 4, backgroundColor: "#FEE2E2", color: "#991B1B", fontSize: "0.75rem", fontWeight: 600 }}>
-                        <span className="material-symbols-outlined" style={{ fontSize: 12 }}>directions_bus</span>Bus
-                      </span>
-                    ) : (
-                      <span style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", padding: "0.2rem 0.5rem", borderRadius: 4, backgroundColor: "#CCFBF1", color: "#134E4A", fontSize: "0.75rem", fontWeight: 600 }}>
-                        <span className="material-symbols-outlined" style={{ fontSize: 12 }}>luggage</span>Package
-                      </span>
-                    )}
-                  </td>
-
-                  <td style={{ padding: "0.875rem 1rem", fontSize: "0.875rem", color: "#475569" }}>{b.route}</td>
-                  <td style={{ padding: "0.875rem 1rem", fontSize: "0.875rem", color: "#64748B", whiteSpace: "nowrap" }}>{b.travel}</td>
-                  <td style={{ padding: "0.875rem 1rem", fontSize: "0.875rem", color: "#64748B", whiteSpace: "nowrap" }}>{b.booked}</td>
-                  <td style={{ padding: "0.875rem 1rem", fontSize: "0.875rem", fontWeight: 600, color: "#0F172A" }}>{b.amount}</td>
-                  <td style={{ padding: "0.875rem 1rem" }}><StatusBadge status={b.status} /></td>
-                  <td style={{ padding: "0.875rem 1rem" }}>
-                    <button style={{
-                      display: "inline-flex", alignItems: "center", gap: "0.3rem",
-                      background: "none", border: "1px solid #E2E8F0",
-                      borderRadius: 6, padding: "0.3rem 0.625rem",
-                      color: "#64748B", fontSize: "0.8125rem", cursor: "pointer",
-                      fontWeight: 500,
-                    }}>
-                      <span className="material-symbols-outlined" style={{ fontSize: 15 }}>visibility</span>
-                      View
-                    </button>
+              {combinedBookings.length === 0 ? (
+                <tr>
+                  <td colSpan={8} style={{ padding: "2.5rem 1rem", textAlign: "center", color: "#94A3B8", fontSize: "0.875rem" }}>
+                    No bookings found for this customer yet.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                combinedBookings.filter((b) =>
+                  bookingFilter === "All Bookings" ||
+                  (bookingFilter === "Bus Bookings" && b.type === "Bus") ||
+                  (bookingFilter === "Package Bookings" && b.type === "Package")
+                ).map((b, idx, arr) => (
+                  <tr
+                    key={b.id}
+                    style={{ borderBottom: idx < arr.length - 1 ? "1px solid #F8FAFC" : "none" }}
+                    onMouseEnter={e => e.currentTarget.style.backgroundColor = "#FAFAFA"}
+                    onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
+                  >
+                    <td style={{ padding: "0.875rem 1rem", fontSize: "0.8125rem", fontWeight: 600, color: "#475569" }}>{b.id}</td>
+
+                    <td style={{ padding: "0.875rem 1rem" }}>
+                      {b.type === "Bus" ? (
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", padding: "0.2rem 0.5rem", borderRadius: 4, backgroundColor: "#FEE2E2", color: "#991B1B", fontSize: "0.75rem", fontWeight: 600 }}>
+                          <span className="material-symbols-outlined" style={{ fontSize: 12 }}>directions_bus</span>Bus
+                        </span>
+                      ) : (
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", padding: "0.2rem 0.5rem", borderRadius: 4, backgroundColor: "#CCFBF1", color: "#134E4A", fontSize: "0.75rem", fontWeight: 600 }}>
+                          <span className="material-symbols-outlined" style={{ fontSize: 12 }}>luggage</span>Package
+                        </span>
+                      )}
+                    </td>
+
+                    <td style={{ padding: "0.875rem 1rem", fontSize: "0.875rem", color: "#475569" }}>{b.route}</td>
+                    <td style={{ padding: "0.875rem 1rem", fontSize: "0.875rem", color: "#64748B", whiteSpace: "nowrap" }}>{b.travel}</td>
+                    <td style={{ padding: "0.875rem 1rem", fontSize: "0.875rem", color: "#64748B", whiteSpace: "nowrap" }}>{b.booked}</td>
+                    <td style={{ padding: "0.875rem 1rem", fontSize: "0.875rem", fontWeight: 600, color: "#0F172A" }}>{b.amount}</td>
+                    <td style={{ padding: "0.875rem 1rem" }}><StatusBadge status={b.status} /></td>
+                    <td style={{ padding: "0.875rem 1rem" }}>
+                      <Link
+                        href={b.link}
+                        style={{
+                          display: "inline-flex", alignItems: "center", gap: "0.3rem",
+                          background: "none", border: "1px solid #E2E8F0",
+                          borderRadius: 6, padding: "0.3rem 0.625rem",
+                          color: "#64748B", fontSize: "0.8125rem", cursor: "pointer",
+                          fontWeight: 500, textDecoration: "none"
+                        }}
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: 15 }}>visibility</span>
+                        View
+                      </Link>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
-        </div>
-
-        {/* Pagination */}
-        <div style={{
-          padding: "0.875rem 1.25rem",
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          borderTop: "1px solid #F1F5F9", flexWrap: "wrap", gap: "0.75rem",
-        }}>
-          <span style={{ fontSize: "0.8125rem", color: "#64748B" }}>Showing 1 to 6 of 14 bookings</span>
-          <div style={{ display: "flex", gap: "0.375rem", alignItems: "center" }}>
-            {["chevron_left", 1, 2, 3, "chevron_right"].map((item, i) => (
-              typeof item === "string" ? (
-                <button key={i} style={{ width: 30, height: 30, borderRadius: 6, border: "1px solid #E2E8F0", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#64748B" }}>
-                  <span className="material-symbols-outlined" style={{ fontSize: 16 }}>{item}</span>
-                </button>
-              ) : (
-                <button key={i} style={{ width: 30, height: 30, borderRadius: 6, border: item === 1 ? "none" : "1px solid #E2E8F0", backgroundColor: item === 1 ? "#B91C1C" : "#fff", color: item === 1 ? "#fff" : "#475569", fontSize: "0.8125rem", fontWeight: item === 1 ? 700 : 400, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  {item}
-                </button>
-              )
-            ))}
-          </div>
         </div>
       </div>
     </AdminShell>
