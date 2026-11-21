@@ -123,7 +123,7 @@ function SearchContent() {
     const newTo = fromCity;
     setFromCity(newFrom);
     setToCity(newTo);
-    fetchBuses(newFrom, newTo);
+    fetchBuses(newFrom, newTo, selectedDate?.mainText);
     syncSearchLive(newFrom, newTo, selectedDate?.mainText, passengerCount);
   };
 
@@ -145,21 +145,21 @@ function SearchContent() {
   const handleFromCitySelect = (city) => {
     setFromCity(city);
     setIsFromOpen(false);
-    fetchBuses(city, toCity);
+    fetchBuses(city, toCity, selectedDate?.mainText);
     syncSearchLive(city, toCity, selectedDate?.mainText, passengerCount);
   };
 
   const handleToCitySelect = (city) => {
     setToCity(city);
     setIsToOpen(false);
-    fetchBuses(fromCity, city);
+    fetchBuses(fromCity, city, selectedDate?.mainText);
     syncSearchLive(fromCity, city, selectedDate?.mainText, passengerCount);
   };
 
   const handleUpdateSearch = () => {
     closeAllDropdowns();
     setIsMobileSearchExpanded(false);
-    fetchBuses(fromCity, toCity);
+    fetchBuses(fromCity, toCity, selectedDate?.mainText);
     syncSearchLive(fromCity, toCity, selectedDate?.mainText, passengerCount);
   };
 

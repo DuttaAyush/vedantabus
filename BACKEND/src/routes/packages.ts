@@ -109,14 +109,30 @@ router.post('/book', authenticateJWT, async (req: AuthRequest, res: Response) =>
     let booking: any = null;
     try {
       // Resolve valid package foreign key
-      const validPackage = await prisma.tourPackage.findFirst({
-        where: {
-          OR: [
-            { id: packageId },
-            { title: { contains: packageId, mode: 'insensitive' } },
-          ],
-        },
-      });
+      let validPackage = await prisma.tourPackage.findUnique({ where: { id: String(packageId) } }).catch(() => null);
+
+      if (!validPackage) {
+        validPackage = await prisma.tourPackage.findFirst({
+          where: {
+            title: { contains: String(packageId).replace(/-/g, ' '), mode: 'insensitive' },
+          },
+        }).catch(() => null);
+      }
+
+      if (!validPackage) {
+        const allPackages = await prisma.tourPackage.findMany().catch(() => []);
+        const cleanSlug = String(packageId).toLowerCase().replace(/[^a-z0-9]/g, '');
+        validPackage = allPackages.find((p: any) => {
+          const itinId = String(p.itinerary?.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          if (itinId && (itinId === cleanSlug || cleanSlug.includes(itinId) || itinId.includes(cleanSlug))) return true;
+          const cleanTitle = p.title.toLowerCase().replace(/[^a-z0-9]/g, '');
+          return cleanTitle.includes(cleanSlug) || (cleanSlug.length >= 4 && cleanTitle.includes(cleanSlug.slice(0, 6)));
+        }) || null;
+      }
+
+      if (!validPackage) {
+        validPackage = await prisma.tourPackage.findFirst({ where: { isActive: true } }).catch(() => null);
+      }
 
       if (!validPackage) {
         return sendError(res, 'Package not found.', 404);
@@ -131,7 +147,9 @@ router.post('/book', authenticateJWT, async (req: AuthRequest, res: Response) =>
       const validPackageId = validPackage.id;
       const validUserId = validUser.id;
 
-      const serverAmount = Number(validPackage.pricePerPerson) * (Number(travelersCount) || 1);
+      const requestedAmount = Number(totalAmount);
+      const baseAmount = Number(validPackage.pricePerPerson) * (Number(travelersCount) || 1);
+      const serverAmount = !isNaN(requestedAmount) && requestedAmount > 0 ? requestedAmount : baseAmount;
 
       booking = await prisma.packageBooking.create({
         data: {

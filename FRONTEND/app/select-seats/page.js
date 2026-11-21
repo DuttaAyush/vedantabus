@@ -19,23 +19,23 @@ const lowerDeck36 = [
   { id: 'L2', name: 'L2', row: 1, col: 'right-window', type: 'double', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'available', adjacentId: 'L1' },
 
   // Row 2: Left Single (L3), Right Double (L4, L5)
-  { id: 'L3', name: 'L3', row: 2, col: 'left-single', type: 'single', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'sold_male' },
-  { id: 'L4', name: 'L4', row: 2, col: 'right-aisle', type: 'double', isWindow: false, deck: 'lower', price: 700, defaultStatus: 'sold_male', adjacentId: 'L5' },
-  { id: 'L5', name: 'L5', row: 2, col: 'right-window', type: 'double', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'sold_female', adjacentId: 'L4' },
+  { id: 'L3', name: 'L3', row: 2, col: 'left-single', type: 'single', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'available' },
+  { id: 'L4', name: 'L4', row: 2, col: 'right-aisle', type: 'double', isWindow: false, deck: 'lower', price: 700, defaultStatus: 'available', adjacentId: 'L5' },
+  { id: 'L5', name: 'L5', row: 2, col: 'right-window', type: 'double', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'available', adjacentId: 'L4' },
 
   // Row 3: Left Single (L6), Right Double (L7, L8)
-  { id: 'L6', name: 'L6', row: 3, col: 'left-single', type: 'single', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'sold_male' },
-  { id: 'L7', name: 'L7', row: 3, col: 'right-aisle', type: 'double', isWindow: false, deck: 'lower', price: 700, defaultStatus: 'sold_male', adjacentId: 'L8' },
-  { id: 'L8', name: 'L8', row: 3, col: 'right-window', type: 'double', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'sold_male', adjacentId: 'L7' },
+  { id: 'L6', name: 'L6', row: 3, col: 'left-single', type: 'single', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'available' },
+  { id: 'L7', name: 'L7', row: 3, col: 'right-aisle', type: 'double', isWindow: false, deck: 'lower', price: 700, defaultStatus: 'available', adjacentId: 'L8' },
+  { id: 'L8', name: 'L8', row: 3, col: 'right-window', type: 'double', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'available', adjacentId: 'L7' },
 
   // Row 4: Left Single (L9), Right Double (L10, L11)
-  { id: 'L9', name: 'L9', row: 4, col: 'left-single', type: 'single', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'sold_male' },
-  { id: 'L10', name: 'L10', row: 4, col: 'right-aisle', type: 'double', isWindow: false, deck: 'lower', price: 700, defaultStatus: 'sold_male', adjacentId: 'L11' },
-  { id: 'L11', name: 'L11', row: 4, col: 'right-window', type: 'double', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'sold_male', adjacentId: 'L10' },
+  { id: 'L9', name: 'L9', row: 4, col: 'left-single', type: 'single', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'available' },
+  { id: 'L10', name: 'L10', row: 4, col: 'right-aisle', type: 'double', isWindow: false, deck: 'lower', price: 700, defaultStatus: 'available', adjacentId: 'L11' },
+  { id: 'L11', name: 'L11', row: 4, col: 'right-window', type: 'double', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'available', adjacentId: 'L10' },
 
   // Row 5: Left Single (L12), Right Double (L13, L14)
-  { id: 'L12', name: 'L12', row: 5, col: 'left-single', type: 'single', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'sold_male' },
-  { id: 'L13', name: 'L13', row: 5, col: 'right-aisle', type: 'double', isWindow: false, deck: 'lower', price: 700, defaultStatus: 'sold_male', adjacentId: 'L14' },
+  { id: 'L12', name: 'L12', row: 5, col: 'left-single', type: 'single', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'available' },
+  { id: 'L13', name: 'L13', row: 5, col: 'right-aisle', type: 'double', isWindow: false, deck: 'lower', price: 700, defaultStatus: 'available', adjacentId: 'L14' },
   { id: 'L14', name: 'L14', row: 5, col: 'right-window', type: 'double', isWindow: true, deck: 'lower', price: 700, defaultStatus: 'available', adjacentId: 'L13' },
 
   // Row 6: Left Single (L15), Right Double (L16, L17, L18)
@@ -52,22 +52,22 @@ const upperDeck36 = [
   { id: 'U3', name: 'U3', row: 1, col: 'right-window', type: 'double', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'available', adjacentId: 'U2' },
 
   // Row 2: Left Single (U4), Right Double (U5, U6)
-  { id: 'U4', name: 'U4', row: 2, col: 'left-single', type: 'single', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'sold_female' },
+  { id: 'U4', name: 'U4', row: 2, col: 'left-single', type: 'single', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'available' },
   { id: 'U5', name: 'U5', row: 2, col: 'right-aisle', type: 'double', isWindow: false, deck: 'upper', price: 700, defaultStatus: 'available', adjacentId: 'U6' },
   { id: 'U6', name: 'U6', row: 2, col: 'right-window', type: 'double', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'available', adjacentId: 'U5' },
 
   // Row 3: Left Single (U7), Right Double (U8, U9)
-  { id: 'U7', name: 'U7', row: 3, col: 'left-single', type: 'single', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'sold_male' },
+  { id: 'U7', name: 'U7', row: 3, col: 'left-single', type: 'single', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'available' },
   { id: 'U8', name: 'U8', row: 3, col: 'right-aisle', type: 'double', isWindow: false, deck: 'upper', price: 700, defaultStatus: 'available', adjacentId: 'U9' },
   { id: 'U9', name: 'U9', row: 3, col: 'right-window', type: 'double', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'available', adjacentId: 'U8' },
 
   // Row 4: Left Single (U10), Right Double (U11, U12)
-  { id: 'U10', name: 'U10', row: 4, col: 'left-single', type: 'single', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'sold_male' },
+  { id: 'U10', name: 'U10', row: 4, col: 'left-single', type: 'single', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'available' },
   { id: 'U11', name: 'U11', row: 4, col: 'right-aisle', type: 'double', isWindow: false, deck: 'upper', price: 700, defaultStatus: 'available', adjacentId: 'U12' },
   { id: 'U12', name: 'U12', row: 4, col: 'right-window', type: 'double', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'available', adjacentId: 'U11' },
 
   // Row 5: Left Single (U13), Right Double (U14, U15)
-  { id: 'U13', name: 'U13', row: 5, col: 'left-single', type: 'single', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'sold_male' },
+  { id: 'U13', name: 'U13', row: 5, col: 'left-single', type: 'single', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'available' },
   { id: 'U14', name: 'U14', row: 5, col: 'right-aisle', type: 'double', isWindow: false, deck: 'upper', price: 700, defaultStatus: 'available', adjacentId: 'U15' },
   { id: 'U15', name: 'U15', row: 5, col: 'right-window', type: 'double', isWindow: true, deck: 'upper', price: 700, defaultStatus: 'available', adjacentId: 'U14' },
 
@@ -110,6 +110,8 @@ function CinemaSeatBookingContent() {
   const [mobileActiveDeck, setMobileActiveDeck] = useState('lower'); // 'lower' | 'upper' for mobile deck tab switcher
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [bookedSeatIds, setBookedSeatIds] = useState([]);
+  const [seatPricingConfig, setSeatPricingConfig] = useState({});
+  const [seatStatuses, setSeatStatuses] = useState({});
   const [holdAlertMessage, setHoldAlertMessage] = useState('');
   
   // Gender safety modal & warnings
@@ -129,12 +131,18 @@ function CinemaSeatBookingContent() {
   // Fetch real-time booked seats from API for this bus and trip
   useEffect(() => {
     if (!busIdParam) return;
-    apiFetch(`/api/bookings/seats?busId=${busInfo.id}&date=${encodeURIComponent(busInfo.date)}`)
+    apiFetch(`/api/bookings/seats?tripId=${busInfo.id}&busId=${busInfo.id}&date=${encodeURIComponent(busInfo.date)}`)
       .then(res => res.json())
       .then(data => {
         const seats = data.bookedSeats || data.data?.bookedSeats;
         if (Array.isArray(seats)) {
           setBookedSeatIds(seats);
+        }
+        if (data.data?.seatPricingConfig) {
+          setSeatPricingConfig(data.data.seatPricingConfig);
+        }
+        if (data.data?.seatStatuses) {
+          setSeatStatuses(data.data.seatStatuses);
         }
       })
       .catch(() => {});
@@ -156,7 +164,27 @@ function CinemaSeatBookingContent() {
     if (bookedSeatIds.includes(seat.id) || bookedSeatIds.includes(`BK_${seat.id}`)) {
       return 'booked';
     }
-    return seat.defaultStatus;
+    const adminStatus = seatStatuses[seat.id];
+    if (adminStatus === 'blocked') {
+      return 'booked';
+    }
+    if (adminStatus === 'ladies') {
+      return 'sold_female';
+    }
+    return seat.defaultStatus || 'available';
+  };
+
+  const getSeatPrice = (seat) => {
+    if (seatPricingConfig[seat.id]) {
+      return Number(seatPricingConfig[seat.id]);
+    }
+    if (seat.deck === 'upper' && seatPricingConfig._tier_upper) {
+      return Number(seatPricingConfig._tier_upper);
+    }
+    if (seat.deck === 'lower' && seatPricingConfig._tier_lower) {
+      return Number(seatPricingConfig._tier_lower);
+    }
+    return busInfo.price || 700;
   };
 
   // Find partner in double sharing pair
@@ -224,7 +252,7 @@ function CinemaSeatBookingContent() {
     const newSeatObj = {
       id: seat.id,
       name: seat.name,
-      price: seat.price || busInfo.price,
+      price: getSeatPrice(seat),
       isWindow: seat.isWindow,
       deck: seat.deck,
       type: seat.type,
@@ -350,7 +378,7 @@ function CinemaSeatBookingContent() {
             {/* Pillow Bar Indicator at bottom */}
             <div className="w-[28px] h-[6px] rounded-full bg-blue-200"></div>
           </div>
-          <span className="text-[11px] font-black text-blue-700 mt-1">₹{seat.price}</span>
+          <span className="text-[11px] font-black text-blue-700 mt-1">₹{getSeatPrice(seat)}</span>
         </button>
       );
     }
@@ -394,7 +422,7 @@ function CinemaSeatBookingContent() {
         type="button"
         onClick={() => handleSeatClick(seat)}
         className="group flex flex-col items-center cursor-pointer transition-transform hover:-translate-y-0.5 active:scale-95 select-none"
-        title={`Seat ${seat.name} - ₹${seat.price} ${adjacentIsSoldFemale ? '(Adjacent to Female)' : '(Available)'}`}
+        title={`Seat ${seat.name} - ₹${getSeatPrice(seat)} ${adjacentIsSoldFemale ? '(Adjacent to Female)' : '(Available)'}`}
       >
         <div className={`w-[48px] sm:w-[54px] h-[96px] sm:h-[106px] rounded-2xl bg-white border-2 ${
           adjacentIsSoldFemale ? 'border-pink-400 hover:border-pink-500' : 'border-[#16A34A] hover:border-[#15803D]'
@@ -411,7 +439,7 @@ function CinemaSeatBookingContent() {
           <div className={`w-[30px] h-[6px] rounded-full ${adjacentIsSoldFemale ? 'bg-pink-200' : 'bg-[#BBF7D0]'}`}></div>
         </div>
         <span className="text-[11px] font-black text-slate-900 mt-1 group-hover:text-emerald-700 transition-colors">
-          ₹{seat.price}
+          ₹{getSeatPrice(seat)}
         </span>
       </button>
     );

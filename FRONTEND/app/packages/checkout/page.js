@@ -46,6 +46,8 @@ function PackageCheckoutContent() {
 
   const [paymentMethod, setPaymentMethod] = useState('upi');
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [bookingError, setBookingError] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -186,7 +188,9 @@ function PackageCheckoutContent() {
 
   const handlePayNow = async (e) => {
     e.preventDefault();
-    let newBookingId = `PKG-${Math.floor(100000 + Math.random() * 900000)}`;
+    setBookingError('');
+    setIsProcessing(true);
+    let newBookingId = `PKG-${Date.now().toString().slice(-6)}${Math.floor(100 + Math.random() * 900)}`;
 
     try {
       const res = await apiFetch('/api/packages/book', {
@@ -199,11 +203,19 @@ function PackageCheckoutContent() {
         })
       });
       const data = await res.json();
+      if (!res.ok || !data.success) {
+        setBookingError(data.message || 'Failed to book package. Please verify your details and try again.');
+        setIsProcessing(false);
+        return;
+      }
       if (data.booking?.id || data.data?.booking?.id) {
         newBookingId = data.booking?.id || data.data?.booking?.id;
       }
     } catch (err) {
       console.error('Failed to post package booking to API:', err);
+      setBookingError('Network error while booking package. Please check connection and try again.');
+      setIsProcessing(false);
+      return;
     }
 
     setCreatedBookingId(newBookingId);
@@ -249,6 +261,7 @@ function PackageCheckoutContent() {
       }
     }
 
+    setIsProcessing(false);
     setIsSuccessModalOpen(true);
   };
 
@@ -811,13 +824,32 @@ function PackageCheckoutContent() {
               </span>
             </div>
 
+            {bookingError && (
+              <div className="p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs font-bold flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-red-500">error</span>
+                <span>{bookingError}</span>
+              </div>
+            )}
+
             <button
               type="button"
               onClick={handlePayNow}
-              className="w-full py-4 rounded-2xl bg-brand-scarlet hover:bg-brand-hover text-white font-bold text-sm uppercase tracking-wider shadow-lg shadow-red-600/30 transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+              disabled={isProcessing}
+              className={`w-full py-4 rounded-2xl bg-brand-scarlet hover:bg-brand-hover text-white font-bold text-sm uppercase tracking-wider shadow-lg shadow-red-600/30 transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer ${
+                isProcessing ? 'opacity-70 cursor-not-allowed' : ''
+              }`}
             >
-              <span className="material-symbols-outlined text-[18px]">lock</span>
-              <span>PAY ₹{grandTotal.toLocaleString('en-IN')} &amp; CONFIRM TOUR</span>
+              {isProcessing ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Confirming Booking...</span>
+                </>
+              ) : (
+                <>
+                  <span className="material-symbols-outlined text-[18px]">lock</span>
+                  <span>PAY ₹{grandTotal.toLocaleString('en-IN')} &amp; CONFIRM TOUR</span>
+                </>
+              )}
             </button>
 
             <div className="text-[11px] text-slate-500 text-center flex items-center justify-center gap-1.5 pt-1">

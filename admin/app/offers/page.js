@@ -82,61 +82,84 @@ export default function OffersPage() {
   const [newMin, setNewMin] = useState("");
   const [newCategory, setNewCategory] = useState("Bus Tickets");
 
-  useEffect(() => {
+  const loadOffers = () => {
     adminFetch('/api/admin/offers')
       .then(res => res.json())
       .then(data => {
-        const list = Array.isArray(data) ? data : data.data?.offers || data.offers;
+        const list = Array.isArray(data) ? data : data.data?.offers || data.offers || (Array.isArray(data.data) ? data.data : []);
         if (Array.isArray(list) && list.length > 0) {
-          const mapped = list.map((o, i) => ({
-            id: o.id.length > 8 ? o.id.slice(0, 8).toUpperCase() : o.id,
+          const mapped = list.map((o) => ({
+            id: o.id,
+            displayId: o.id.length > 8 ? o.id.slice(0, 8).toUpperCase() : o.id,
             code: o.code,
-            title: o.title || `Special Offer ${o.code}`,
-            type: o.discountType === 'PERCENTAGE' ? "Percentage" : "Flat Discount",
-            discount: o.discountType === 'PERCENTAGE' ? `${o.discountValue}%` : `₹ ${o.discountValue}`,
-            minBooking: `₹ ${o.minBookingAmount || 0}`,
+            title: `Special Offer: ${o.discountPercentage}% Off (Up to ₹${o.maxDiscountAmount})`,
+            type: "Percentage",
+            discount: `${o.discountPercentage}%`,
+            minBooking: `Max ₹${o.maxDiscountAmount}`,
             validTill: o.validUntil ? new Date(o.validUntil).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }) : "31 Dec 2026",
-            usageCount: o.timesUsed || 0,
-            maxUsage: o.maxUses || 500,
+            usageCount: 0,
+            maxUsage: 500,
             category: "All Bookings",
-            status: o.isActive !== false ? "Active" : "Expired"
+            status: o.isActive !== false ? "Active" : "Expired",
           }));
           setOffers(mapped);
         }
       })
       .catch(() => {});
-  }, []);
-
-  const handleToggleOfferStatus = (id) => {
-    setOffers(prev => prev.map(o => {
-      if (o.id === id) {
-        const nextStatus = o.status === "Active" ? "Inactive" : "Active";
-        return { ...o, status: nextStatus };
-      }
-      return o;
-    }));
   };
 
-  const handleCreateOffer = (e) => {
+  useEffect(() => {
+    loadOffers();
+  }, []);
+
+  const handleToggleOfferStatus = async (id) => {
+    const target = offers.find(o => o.id === id);
+    if (!target) return;
+    const nextActive = target.status !== "Active";
+    try {
+      await adminFetch(`/api/admin/offers/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ isActive: nextActive }),
+      });
+      setOffers(prev => prev.map(o => o.id === id ? { ...o, status: nextActive ? "Active" : "Expired" } : o));
+    } catch {
+      setOffers(prev => prev.map(o => o.id === id ? { ...o, status: nextActive ? "Active" : "Expired" } : o));
+    }
+  };
+
+  const handleCreateOffer = async (e) => {
     e.preventDefault();
-    if (!newCode || !newTitle) return;
-    const newOffer = {
-      id: `OFF-${offers.length + 101}`,
-      code: newCode.toUpperCase(),
-      title: newTitle,
-      type: "Flat Discount",
-      discount: newDiscount || "₹ 150",
-      minBooking: newMin || "₹ 1,000",
-      validTill: "30 Nov 2026",
-      usageCount: 0,
-      maxUsage: 500,
-      category: newCategory,
-      status: "Active",
-    };
-    setOffers([newOffer, ...offers]);
-    setShowModal(false);
-    setNewCode("");
-    setNewTitle("");
+    if (!newCode) return;
+    const cleanCode = newCode.trim().toUpperCase();
+    const discountNum = parseInt(newDiscount.replace(/[^0-9]/g, '')) || 10;
+    const maxDiscountNum = parseInt(newMin.replace(/[^0-9]/g, '')) || 500;
+    const futureDate = new Date();
+    futureDate.setMonth(futureDate.getMonth() + 3);
+
+    try {
+      const res = await adminFetch('/api/admin/offers', {
+        method: 'POST',
+        body: JSON.stringify({
+          code: cleanCode,
+          discountPercentage: discountNum,
+          maxDiscountAmount: maxDiscountNum,
+          validUntil: futureDate.toISOString(),
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        loadOffers();
+        setShowModal(false);
+        setNewCode("");
+        setNewTitle("");
+        setNewDiscount("");
+        setNewMin("");
+      } else {
+        alert(data.message || 'Failed to create offer.');
+      }
+    } catch {
+      alert('Network error creating offer.');
+    }
   };
 
   return (

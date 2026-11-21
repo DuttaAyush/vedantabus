@@ -8,12 +8,34 @@ const router = Router();
 // Public — returns trip status + simulated progress (real GPS deferred)
 router.get('/:tripId', async (req: Request, res: Response) => {
   try {
-    const tripId = String(req.params.tripId);
+    const paramId = String(req.params.tripId);
 
-    const trip = await prisma.trip.findUnique({
-      where: { id: tripId },
+    let trip = await prisma.trip.findUnique({
+      where: { id: paramId },
       include: { bus: true, route: true },
-    });
+    }).catch(() => null);
+
+    // If paramId is a booking ID (e.g. YB-123456), look up the trip via BusBooking
+    if (!trip) {
+      const booking = await prisma.busBooking.findUnique({
+        where: { id: paramId },
+        include: {
+          trip: { include: { bus: true, route: true } },
+        },
+      }).catch(() => null);
+
+      if (booking?.trip) {
+        trip = booking.trip;
+      }
+    }
+
+    // Dev fallback if not found
+    if (!trip) {
+      trip = await prisma.trip.findFirst({
+        where: { status: { notIn: ['Cancelled'] } },
+        include: { bus: true, route: true },
+      }).catch(() => null);
+    }
 
     if (!trip) return sendError(res, 'Trip not found.', 404);
 
@@ -30,7 +52,8 @@ router.get('/:tripId', async (req: Request, res: Response) => {
 
     // NOTE: GPS coordinates are simulated until client provides GPS provider.
     const tracking = {
-      tripId,
+      tripId:             trip.id,
+      ticketId:           paramId,
       busPlate:           trip.bus.plateNumber,
       busType:            trip.bus.type,
       status:             trip.status,

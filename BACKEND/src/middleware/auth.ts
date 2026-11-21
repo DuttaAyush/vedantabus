@@ -3,10 +3,10 @@ import jwt from 'jsonwebtoken';
 import { sendError } from '../utils/response';
 
 // ── Validate secrets or provide fallback defaults ─────────────────
-const ACCESS_SECRET =
+export const ACCESS_SECRET =
   process.env.JWT_ACCESS_SECRET ||
   'yatrabus_jwt_access_secret_fallback_key_2026_super_secure_random_production_default';
-const REFRESH_SECRET =
+export const REFRESH_SECRET =
   process.env.JWT_REFRESH_SECRET ||
   'yatrabus_jwt_refresh_secret_fallback_key_2026_super_secure_random_production_default';
 
@@ -63,7 +63,7 @@ export const authenticateJWT = (
     }
     next();
   } catch {
-    if (process.env.NODE_ENV !== 'production' && (token === 'demo_admin_token_2026' || token.startsWith('demo_'))) {
+    if (process.env.NODE_ENV === 'development' && (token === 'demo_admin_token_2026' || token.startsWith('demo_admin_'))) {
       req.user = { id: 'dev-admin-uuid-001', role: 'SUPER_ADMIN' };
       next();
       return;

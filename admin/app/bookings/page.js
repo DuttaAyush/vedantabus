@@ -49,7 +49,7 @@ const STATUS_MAP = {
 // ── Page Component ────────────────────────────────────────────────────────────
 
 export default function BusBookingsPage() {
-  const [bookings, setBookings] = useState(BOOKINGS);
+  const [bookings, setBookings] = useState([]);
   const [activeTab, setActiveTab] = useState("All");
   const [search, setSearch] = useState("");
   const [routeFilter, setRouteFilter] = useState("All Routes");
@@ -63,7 +63,10 @@ export default function BusBookingsPage() {
       const res = await adminFetch('/api/admin/bookings?limit=50');
       const data = await res.json();
       const list = Array.isArray(data) ? data : data.data?.bookings || data.bookings;
-      if (Array.isArray(list) && list.length > 0) {
+      if (Array.isArray(list)) {
+        if (list.length === 0) {
+          setBookings([]);
+        } else {
         const colors = ["#2563EB", "#D97706", "#059669", "#DC2626", "#0284C7", "#7C3AED", "#16A34A", "#EA580C"];
         const mapped = list.map((b, i) => {
           const userName = b.user?.name || "Passenger";
@@ -99,6 +102,7 @@ export default function BusBookingsPage() {
           };
         });
         setBookings(mapped);
+        }
       }
     } catch (err) {
       console.error('[Bookings] Error loading bookings:', err);

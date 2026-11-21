@@ -2,12 +2,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../prisma';
-import { authenticateJWT, AuthRequest } from '../middleware/auth';
+import { authenticateJWT, AuthRequest, ACCESS_SECRET } from '../middleware/auth';
 import { sendSuccess, sendError } from '../utils/response';
 import { tryHoldSeats, releaseSeats, getHeldSeats, verifySeatLocks, SEAT_HOLD_DURATION_SECONDS } from '../utils/seatLock';
 
 const router = Router();
-const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'VedantaBus_dev_access_secret_key_super_secure_random_123456789';
 
 function parseBookingDate(dateInput: any): Date | null {
   if (!dateInput) return null;
@@ -59,13 +58,26 @@ router.get('/seats', async (req: Request, res: Response) => {
           if (dateTrip) tripId = dateTrip.id;
         }
       } else if (busId) {
-        const dateTrip = await prisma.trip.findFirst({
-          where: {
-            busId: String(busId),
-            departureDatetime: { gte: startOfDay, lte: endOfDay },
-          },
-        }).catch(() => null);
-        if (dateTrip) tripId = dateTrip.id;
+        const tripAsId = await prisma.trip.findUnique({ where: { id: String(busId) } }).catch(() => null);
+        if (tripAsId) {
+          const dateTrip = await prisma.trip.findFirst({
+            where: {
+              routeId: tripAsId.routeId,
+              busId: tripAsId.busId,
+              departureDatetime: { gte: startOfDay, lte: endOfDay },
+            },
+          }).catch(() => null);
+          if (dateTrip) tripId = dateTrip.id;
+          else tripId = tripAsId.id;
+        } else {
+          const dateTrip = await prisma.trip.findFirst({
+            where: {
+              busId: String(busId),
+              departureDatetime: { gte: startOfDay, lte: endOfDay },
+            },
+          }).catch(() => null);
+          if (dateTrip) tripId = dateTrip.id;
+        }
       }
     }
 
@@ -92,8 +104,14 @@ router.get('/seats', async (req: Request, res: Response) => {
     }
 
     let bookedSeats: string[] = [];
+    let currentTrip: any = null;
 
     try {
+      currentTrip = await prisma.trip.findUnique({
+        where: { id: String(tripId) },
+        select: { seatPricingConfig: true, seatStatuses: true, baseFare: true },
+      }).catch(() => null);
+
       const bookings = await prisma.busBooking.findMany({
         where: {
           tripId: String(tripId),
@@ -103,7 +121,7 @@ router.get('/seats', async (req: Request, res: Response) => {
       });
       bookedSeats = bookings.flatMap((b) => b.seatNumbers);
     } catch {
-      bookedSeats = ['L2', 'L3', 'U1'];
+      bookedSeats = [];
     }
 
     // Merge with live temporary holds (e.g. users currently at checkout)
@@ -118,6 +136,8 @@ router.get('/seats', async (req: Request, res: Response) => {
         bookedSeats: allUnavailableSeats,
         confirmedSeats: bookedSeats,
         heldSeats,
+        seatPricingConfig: currentTrip?.seatPricingConfig || {},
+        seatStatuses: currentTrip?.seatStatuses || {},
       },
     });
   } catch (err) {
@@ -433,7 +453,7 @@ router.delete('/:id', authenticateJWT, async (req: AuthRequest, res: Response) =
     }
 
     if (!booking) {
-      return sendSuccess(res, { id, status: 'Cancelled' }, 'Booking cancelled successfully.');
+      return sendError(res, 'Booking not found.', 404);
     }
 
     if (booking && req.user!.id !== booking.userId && req.user!.role === 'USER') {

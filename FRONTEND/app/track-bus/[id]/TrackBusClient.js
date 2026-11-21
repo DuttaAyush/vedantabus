@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Header from '@/components/site/Header';
 import Footer from '@/components/site/Footer';
 import { apiFetch } from '@/lib/api';
+import { getStoredUser } from '@/lib/auth';
 
 const sampleTrackerData = {
   'YB-994821': {
@@ -50,10 +51,12 @@ export default function TrackBusClient({ params }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
-        const stored = localStorage.getItem('user_trips');
+        const u = getStoredUser();
+        const userTripsKey = u?.id ? `user_trips_${u.id}` : (u?.phone ? `user_trips_${u.phone}` : 'user_trips');
+        const stored = localStorage.getItem(userTripsKey) || localStorage.getItem('user_trips');
         if (stored) {
           const trips = JSON.parse(stored);
-          const found = trips.find(t => t.id === ticketId);
+          const found = Array.isArray(trips) ? trips.find(t => t.id === ticketId || t.bookingId === ticketId) : null;
           if (found) setUserTrip(found);
         }
       } catch (err) {

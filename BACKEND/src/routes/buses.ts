@@ -403,7 +403,16 @@ router.get(['/search', '/routes'], async (req: Request, res: Response) => {
       }).catch(() => []);
       
       if (allTrips.length > 0) {
-        const formatted = allTrips.map(mapTripToOutput);
+        const tripIds = allTrips.map(t => t.id);
+        const bookingCounts = await prisma.busBooking.findMany({
+          where: { tripId: { in: tripIds }, status: { in: ['Confirmed', 'Pending'] } },
+          select: { tripId: true, seatNumbers: true },
+        }).catch(() => []);
+        const bookedSeatCountMap = new Map<string, number>();
+        for (const b of bookingCounts) {
+          bookedSeatCountMap.set(b.tripId, (bookedSeatCountMap.get(b.tripId) || 0) + (b.seatNumbers?.length || 1));
+        }
+        const formatted = allTrips.map(t => mapTripToOutput(t, bookedSeatCountMap.get(t.id) || 0));
         return res.status(200).json(formatted);
       }
       return res.status(200).json([]);
@@ -522,7 +531,21 @@ router.get(['/search', '/routes'], async (req: Request, res: Response) => {
       });
     }
 
-    let results = tripsToReturn.map(mapTripToOutput);
+    const tripIds = tripsToReturn.map((t: any) => t.id).filter((id: string) => !id.startsWith('trip_proc_'));
+    let bookedSeatCountMap = new Map<string, number>();
+    if (tripIds.length > 0) {
+      try {
+        const bookingCounts = await prisma.busBooking.findMany({
+          where: { tripId: { in: tripIds }, status: { in: ['Confirmed', 'Pending'] } },
+          select: { tripId: true, seatNumbers: true },
+        });
+        for (const b of bookingCounts) {
+          bookedSeatCountMap.set(b.tripId, (bookedSeatCountMap.get(b.tripId) || 0) + (b.seatNumbers?.length || 1));
+        }
+      } catch {}
+    }
+
+    let results = tripsToReturn.map((t: any) => mapTripToOutput(t, bookedSeatCountMap.get(t.id) || 0));
 
     // Filter by category
     if (category && category !== 'all') {
@@ -542,7 +565,7 @@ router.get(['/search', '/routes'], async (req: Request, res: Response) => {
   }
 });
 
-function mapTripToOutput(t: any) {
+function mapTripToOutput(t: any, actualBookedCount: number = 0) {
   const durationMs = new Date(t.arrivalDatetime).getTime() - new Date(t.departureDatetime).getTime();
   const hours = Math.floor(durationMs / 3_600_000);
   const minutes = Math.floor((durationMs % 3_600_000) / 60_000);
@@ -560,11 +583,9 @@ function mapTripToOutput(t: any) {
   if (hour >= 17 && hour < 21) timeSlot = 'evening';
   if (hour >= 21 || hour < 5) timeSlot = 'night';
 
-  // Seeded deterministic seats left calculation
   const idHash = t.id.split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
-  const totalSeats = t.bus?.totalSeats || 40;
-  const bookedSeed = (idHash % 14) + 6;
-  const seatsLeft = Math.max(4, totalSeats - bookedSeed);
+  const totalSeats = t.bus?.totalSeats || 36;
+  const seatsLeft = Math.max(0, totalSeats - actualBookedCount);
 
   const busStyle = t.bus?.busStyle || (t.bus?.type?.toLowerCase().includes('sleeper') ? 'sleeper' : 'seater');
 

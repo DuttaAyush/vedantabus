@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import AdminShell from "@/components/layout/AdminShell";
+import { adminFetch } from "@/lib/api";
 
 // ── Mock Data for Leads & Tickets ─────────────────────────────────────────────
 
@@ -155,6 +156,32 @@ export default function SupportAndLeadsPage() {
   const [tickets, setTickets] = useState(INITIAL_TICKETS);
   const [search, setSearch] = useState("");
   const [selectedItem, setSelectedItem] = useState(null); // for detail slide-over modal
+
+  useEffect(() => {
+    adminFetch('/api/admin/support')
+      .then(res => res.json())
+      .then(data => {
+        const list = Array.isArray(data) ? data : data.data?.tickets || data.tickets;
+        if (Array.isArray(list) && list.length > 0) {
+          const mapped = list.map((t) => ({
+            id: `TCK-${t.id.slice(0, 6).toUpperCase()}`,
+            realId: t.id,
+            user: t.user?.name || "Customer",
+            bookingRef: `#VB-${t.id.slice(0, 6).toUpperCase()}`,
+            subject: t.subject || "Customer Inquiry",
+            category: "General Inquiry",
+            priority: "Medium",
+            status: t.status === "In_Progress" ? "In Progress" : (t.status || "Open"),
+            created: new Date(t.createdAt).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }),
+            lastUpdate: "Recently",
+            assignedTo: "Support Desk",
+            message: t.message,
+          }));
+          setTickets(mapped);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const filteredLeads = leads.filter(l =>
     l.name.toLowerCase().includes(search.toLowerCase()) ||
