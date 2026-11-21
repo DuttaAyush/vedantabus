@@ -276,6 +276,7 @@ function CinemaSeatBookingContent() {
     }
 
     const bookingPayload = {
+      tripId: busInfo.id,
       busId: busInfo.id,
       lockHolderId,
       operator: busInfo.operator,

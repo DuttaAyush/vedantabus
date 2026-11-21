@@ -9,6 +9,28 @@ import { tryHoldSeats, releaseSeats, getHeldSeats, verifySeatLocks, SEAT_HOLD_DU
 const router = Router();
 const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'VedantaBus_dev_access_secret_key_super_secure_random_123456789';
 
+function parseBookingDate(dateInput: any): Date | null {
+  if (!dateInput) return null;
+  const d1 = new Date(dateInput);
+  if (!isNaN(d1.getTime()) && d1.getFullYear() > 2020) return d1;
+  const match = String(dateInput).match(/(\d{1,2})\s+([A-Za-z]{3,9})/);
+  if (match) {
+    const day = parseInt(match[1], 10);
+    const monthStr = match[2];
+    const months: Record<string, number> = {
+      jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+      jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11
+    };
+    const monthKey = monthStr.toLowerCase().slice(0, 3);
+    if (months[monthKey] !== undefined) {
+      const year = new Date().getFullYear();
+      const d = new Date(year, months[monthKey], day);
+      if (!isNaN(d.getTime())) return d;
+    }
+  }
+  return null;
+}
+
 // ── GET /api/bookings/seats ───────────────────────────────────────
 // Returns booked + temporarily held seat IDs for a trip
 router.get('/seats', async (req: Request, res: Response) => {
@@ -18,12 +40,17 @@ router.get('/seats', async (req: Request, res: Response) => {
 
     if (!tripId && busId) {
       try {
-        const trip = await prisma.trip.findFirst({
-          where: { busId: String(busId) },
-          orderBy: { departureDatetime: 'asc' },
-        });
-        if (trip) tripId = trip.id;
-        else tripId = busId;
+        const tripById = await prisma.trip.findUnique({ where: { id: String(busId) } });
+        if (tripById) {
+          tripId = tripById.id;
+        } else {
+          const trip = await prisma.trip.findFirst({
+            where: { busId: String(busId) },
+            orderBy: { departureDatetime: 'asc' },
+          });
+          if (trip) tripId = trip.id;
+          else tripId = busId;
+        }
       } catch {
         tripId = busId;
       }
@@ -171,7 +198,7 @@ router.post('/release', async (req: Request, res: Response) => {
 // Confirms a booking and clears active seat holds
 router.post(['/', '/create'], async (req: Request, res: Response) => {
   try {
-    let { tripId, busId, selectedSeats, totalAmount, lockHolderId, userId: userIdHint } = req.body;
+    let { tripId, busId, selectedSeats, totalAmount, lockHolderId, userId: userIdHint, date } = req.body;
 
     let userId: string | null = null;
     const authHeader = req.headers.authorization;
@@ -205,6 +232,63 @@ router.post(['/', '/create'], async (req: Request, res: Response) => {
     if (!validTrip) {
       validTrip = await prisma.trip.findFirst().catch(() => null);
     }
+
+    // Align trip to the user's requested travel date
+    const targetTravelDate = parseBookingDate(date);
+    if (validTrip && targetTravelDate) {
+      try {
+        const depHours = validTrip.departureDatetime.getHours();
+        const depMinutes = validTrip.departureDatetime.getMinutes();
+        const targetDep = new Date(targetTravelDate);
+        targetDep.setHours(depHours, depMinutes, 0, 0);
+
+        const durationMs = validTrip.arrivalDatetime.getTime() - validTrip.departureDatetime.getTime();
+        const targetArr = new Date(targetDep.getTime() + (durationMs > 0 ? durationMs : 8 * 3600 * 1000));
+
+        const startOfDay = new Date(targetDep);
+        startOfDay.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(targetDep);
+        endOfDay.setHours(23, 59, 59, 999);
+
+        let dateTrip = await prisma.trip.findFirst({
+          where: {
+            routeId: validTrip.routeId,
+            busId: validTrip.busId,
+            departureDatetime: { gte: startOfDay, lte: endOfDay },
+          },
+        });
+
+        if (!dateTrip) {
+          // If validTrip is a past seeded trip with 0 bookings, advance it directly
+          const existingCount = await prisma.busBooking.count({ where: { tripId: validTrip.id } });
+          if (existingCount === 0 && validTrip.departureDatetime < new Date()) {
+            dateTrip = await prisma.trip.update({
+              where: { id: validTrip.id },
+              data: { departureDatetime: targetDep, arrivalDatetime: targetArr },
+            });
+          } else {
+            dateTrip = await prisma.trip.create({
+              data: {
+                busId: validTrip.busId,
+                routeId: validTrip.routeId,
+                departureDatetime: targetDep,
+                arrivalDatetime: targetArr,
+                baseFare: validTrip.baseFare,
+                status: 'Scheduled',
+              },
+            });
+          }
+        }
+
+        if (dateTrip) {
+          validTrip = dateTrip;
+          tripId = dateTrip.id;
+        }
+      } catch (dateErr) {
+        console.warn('[bookings/create] Failed to align trip to requested date:', dateErr);
+      }
+    }
+
     if (validTrip) {
       tripId = validTrip.id;
     } else {

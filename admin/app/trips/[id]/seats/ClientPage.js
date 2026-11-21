@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import AdminShell from "@/components/layout/AdminShell";
+import { adminFetch } from "@/lib/api";
 
 // ── 36-Seat Sleeper Bus Layout Definition for Admin Seat Editor ──────────────
 // Lower Deck: 18 Seats (L1 to L18)
@@ -12,13 +13,13 @@ import AdminShell from "@/components/layout/AdminShell";
 const INITIAL_LOWER_36 = [
   { id: "L1", number: "L1", row: 1, col: "right-aisle", type: "double", isWindow: false, deck: "lower", price: 700, status: "available" },
   { id: "L2", number: "L2", row: 1, col: "right-window", type: "double", isWindow: true, deck: "lower", price: 700, status: "available" },
-  { id: "L3", number: "L3", row: 2, col: "left-single", type: "single", isWindow: true, deck: "lower", price: 750, status: "booked", passenger: "Sunil Verma (Male, 38)" },
-  { id: "L4", number: "L4", row: 2, col: "right-aisle", type: "double", isWindow: false, deck: "lower", price: 700, status: "booked", passenger: "Rajesh Kumar (Male, 42)" },
-  { id: "L5", number: "L5", row: 2, col: "right-window", type: "double", isWindow: true, deck: "lower", price: 700, status: "ladies", passenger: "Pooja Sharma (Female, 29)" },
-  { id: "L6", number: "L6", row: 3, col: "left-single", type: "single", isWindow: true, deck: "lower", price: 750, status: "booked", passenger: "Amit Joshi (Male, 35)" },
-  { id: "L7", number: "L7", row: 3, col: "right-aisle", type: "double", isWindow: false, deck: "lower", price: 700, status: "booked", passenger: "Vikas Patil (Male, 31)" },
-  { id: "L8", number: "L8", row: 3, col: "right-window", type: "double", isWindow: true, deck: "lower", price: 700, status: "booked", passenger: "Nitin Rao (Male, 28)" },
-  { id: "L9", number: "L9", row: 4, col: "left-single", type: "single", isWindow: true, deck: "lower", price: 750, status: "blocked", reason: "Maintenance" },
+  { id: "L3", number: "L3", row: 2, col: "left-single", type: "single", isWindow: true, deck: "lower", price: 750, status: "available" },
+  { id: "L4", number: "L4", row: 2, col: "right-aisle", type: "double", isWindow: false, deck: "lower", price: 700, status: "available" },
+  { id: "L5", number: "L5", row: 2, col: "right-window", type: "double", isWindow: true, deck: "lower", price: 700, status: "available" },
+  { id: "L6", number: "L6", row: 3, col: "left-single", type: "single", isWindow: true, deck: "lower", price: 750, status: "available" },
+  { id: "L7", number: "L7", row: 3, col: "right-aisle", type: "double", isWindow: false, deck: "lower", price: 700, status: "available" },
+  { id: "L8", number: "L8", row: 3, col: "right-window", type: "double", isWindow: true, deck: "lower", price: 700, status: "available" },
+  { id: "L9", number: "L9", row: 4, col: "left-single", type: "single", isWindow: true, deck: "lower", price: 750, status: "available" },
   { id: "L10", number: "L10", row: 4, col: "right-aisle", type: "double", isWindow: false, deck: "lower", price: 700, status: "available" },
   { id: "L11", number: "L11", row: 4, col: "right-window", type: "double", isWindow: true, deck: "lower", price: 700, status: "available" },
   { id: "L12", number: "L12", row: 5, col: "left-single", type: "single", isWindow: true, deck: "lower", price: 750, status: "available" },
@@ -34,10 +35,10 @@ const INITIAL_UPPER_36 = [
   { id: "U1", number: "U1", row: 1, col: "left-single", type: "single", isWindow: true, deck: "upper", price: 700, status: "available" },
   { id: "U2", number: "U2", row: 1, col: "right-aisle", type: "double", isWindow: false, deck: "upper", price: 650, status: "available" },
   { id: "U3", number: "U3", row: 1, col: "right-window", type: "double", isWindow: true, deck: "upper", price: 650, status: "available" },
-  { id: "U4", number: "U4", row: 2, col: "left-single", type: "single", isWindow: true, deck: "upper", price: 700, status: "ladies", passenger: "Kavita Nair (Female, 33)" },
+  { id: "U4", number: "U4", row: 2, col: "left-single", type: "single", isWindow: true, deck: "upper", price: 700, status: "available" },
   { id: "U5", number: "U5", row: 2, col: "right-aisle", type: "double", isWindow: false, deck: "upper", price: 650, status: "available" },
   { id: "U6", number: "U6", row: 2, col: "right-window", type: "double", isWindow: true, deck: "upper", price: 650, status: "available" },
-  { id: "U7", number: "U7", row: 3, col: "left-single", type: "single", isWindow: true, deck: "upper", price: 700, status: "booked", passenger: "Gaurav Sen (Male, 26)" },
+  { id: "U7", number: "U7", row: 3, col: "left-single", type: "single", isWindow: true, deck: "upper", price: 700, status: "available" },
   { id: "U8", number: "U8", row: 3, col: "right-aisle", type: "double", isWindow: false, deck: "upper", price: 650, status: "available" },
   { id: "U9", number: "U9", row: 3, col: "right-window", type: "double", isWindow: true, deck: "upper", price: 650, status: "available" },
   { id: "U10", number: "U10", row: 4, col: "left-single", type: "single", isWindow: true, deck: "upper", price: 700, status: "available" },
@@ -51,12 +52,49 @@ const INITIAL_UPPER_36 = [
   { id: "U18", number: "U18", row: 6, col: "right-window", type: "double", isWindow: true, deck: "upper", price: 650, status: "available" },
 ];
 
-export default function TripSeatMapPage() {
+export default function TripSeatMapPage({ params }) {
+  const tripId = params?.id || "";
   const [activeDeck, setActiveDeck] = useState("lower"); // 'lower' | 'upper'
   const [lowerSeats, setLowerSeats] = useState(INITIAL_LOWER_36);
   const [upperSeats, setUpperSeats] = useState(INITIAL_UPPER_36);
   const [selectedSeat, setSelectedSeat] = useState(null);
   const [toastMessage, setToastMessage] = useState("");
+  const [tripInfo, setTripInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!tripId || tripId === "default") {
+      setLoading(false);
+      return;
+    }
+    adminFetch(`/api/admin/trips/${tripId}/seats`)
+      .then(res => res.json())
+      .then(data => {
+        const payload = data.data || data;
+        setTripInfo(payload);
+        const booked = Array.isArray(payload.bookedSeats) ? payload.bookedSeats : [];
+        if (booked.length > 0) {
+          setLowerSeats(prev => prev.map(s => {
+            const isBooked = booked.includes(s.id) || booked.includes(s.number);
+            return {
+              ...s,
+              status: isBooked ? "booked" : (s.status === "booked" ? "available" : s.status),
+              passenger: isBooked ? "Booked / Sold Seat" : undefined,
+            };
+          }));
+          setUpperSeats(prev => prev.map(s => {
+            const isBooked = booked.includes(s.id) || booked.includes(s.number);
+            return {
+              ...s,
+              status: isBooked ? "booked" : (s.status === "booked" ? "available" : s.status),
+              passenger: isBooked ? "Booked / Sold Seat" : undefined,
+            };
+          }));
+        }
+      })
+      .catch(err => console.error("[Admin Seats] Error loading seats:", err))
+      .finally(() => setLoading(false));
+  }, [tripId]);
 
   // Bulk Tier Pricing Inputs
   const [bulkLowerPrice, setBulkLowerPrice] = useState(750);
@@ -129,12 +167,12 @@ export default function TripSeatMapPage() {
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.8125rem", color: "#64748B", marginBottom: "0.25rem" }}>
               <Link href="/trips" style={{ color: "#B91C1C", textDecoration: "none", fontWeight: 600 }}>Trips</Link>
               <span>/</span>
-              <span style={{ fontWeight: 600 }}>Trip #YB-TRIP-9921</span>
+              <span style={{ fontWeight: 600 }}>Trip #{tripInfo?.busPlate ? `${tripId} (${tripInfo.busPlate})` : (tripId || 'Seat Map')}</span>
               <span>/</span>
               <span>Seat Pricing &amp; Map Editor</span>
             </div>
             <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#0F172A", margin: 0 }}>
-              Trip 36-Seat Pricing &amp; Quota Manager
+              Trip 36-Seat Pricing &amp; Quota Manager {tripInfo && <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "#059669", marginLeft: "0.5rem" }}>({tripInfo.seatsLeft ?? 36} seats available, {tripInfo.bookedSeats?.length || 0} sold)</span>}
             </h1>
           </div>
 

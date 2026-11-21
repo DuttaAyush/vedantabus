@@ -90,6 +90,9 @@ export default function BusBookingsPage() {
             day: b.trip?.departureDatetime 
               ? new Date(b.trip.departureDatetime).toLocaleDateString("en-US", { weekday: 'short' }) 
               : (b.bookingDate ? new Date(b.bookingDate).toLocaleDateString("en-US", { weekday: 'short' }) : "Mon"),
+            bookedOn: b.bookingDate 
+              ? new Date(b.bookingDate).toLocaleDateString("en-GB", { day: '2-digit', month: 'short' }) + ", " + new Date(b.bookingDate).toLocaleTimeString("en-IN", { hour: '2-digit', minute: '2-digit', hour12: true })
+              : null,
             seats: seatArr,
             amount: `₹ ${Number(b.totalAmount || 0).toLocaleString('en-IN')}`,
             status: b.status === "CONFIRMED" ? "Confirmed" : b.status === "PENDING" ? "Pending" : b.status === "CANCELLED" ? "Cancelled" : (b.status || "Confirmed")
@@ -418,8 +421,13 @@ export default function BusBookingsPage() {
 
                     {/* Travel Date */}
                     <td style={{ padding: "0.875rem 0.875rem", whiteSpace: "nowrap" }}>
-                      <div style={{ fontSize: "0.8125rem", color: "#475569" }}>{b.date}</div>
-                      <div style={{ fontSize: "0.7rem", color: "#94A3B8" }}>{b.day}</div>
+                      <div style={{ fontSize: "0.8125rem", color: "#0F172A", fontWeight: 600 }}>{b.date}</div>
+                      <div style={{ fontSize: "0.7rem", color: "#64748B" }}>{b.day}</div>
+                      {b.bookedOn && (
+                        <div style={{ fontSize: "0.6875rem", color: "#059669", marginTop: 2, fontWeight: 500 }}>
+                          Booked: {b.bookedOn}
+                        </div>
+                      )}
                     </td>
 
                     {/* Seats */}

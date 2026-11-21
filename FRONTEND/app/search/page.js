@@ -728,7 +728,7 @@ function SearchContent() {
                         {bus.seatsLeft} Seats Left
                       </span>
                       <Link
-                        href={`/select-seats?busId=${bus.id}&operator=${encodeURIComponent(bus.operator)}&busPlate=${encodeURIComponent(bus.busPlate)}&busType=${encodeURIComponent(bus.busType)}&price=${bus.price}&category=${bus.category}&from=${encodeURIComponent(bus.depLocation || fromCity)}&to=${encodeURIComponent(bus.arrLocation || toCity)}&date=${encodeURIComponent(selectedDate.mainText)}&depTime=${encodeURIComponent(bus.depTime)}&arrTime=${encodeURIComponent(bus.arrTime)}&depLocation=${encodeURIComponent(bus.depLocation)}&arrLocation=${encodeURIComponent(bus.arrLocation)}&passengers=${passengerCount}`}
+                        href={`/select-seats?busId=${bus.id}&tripId=${bus.id}&operator=${encodeURIComponent(bus.operator)}&busPlate=${encodeURIComponent(bus.busPlate)}&busType=${encodeURIComponent(bus.busType)}&price=${bus.price}&category=${bus.category}&from=${encodeURIComponent(bus.depLocation || fromCity)}&to=${encodeURIComponent(bus.arrLocation || toCity)}&date=${encodeURIComponent(selectedDate.mainText)}&depTime=${encodeURIComponent(bus.depTime)}&arrTime=${encodeURIComponent(bus.arrTime)}&depLocation=${encodeURIComponent(bus.depLocation)}&arrLocation=${encodeURIComponent(bus.arrLocation)}&passengers=${passengerCount}`}
                         className="flex-1 sm:flex-none justify-center px-5 py-2.5 rounded-xl bg-brand-scarlet hover:bg-brand-hover text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5 active:scale-95 min-h-[44px]"
                       >
                         <span>SELECT SEATS</span>
