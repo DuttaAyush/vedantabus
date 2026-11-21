@@ -6,8 +6,7 @@ import AdminShell from "@/components/layout/AdminShell";
 import AdminBoardingPassModal from "@/components/ui/AdminBoardingPassModal";
 import { adminFetch } from "@/lib/api";
 
-export default function BusBookingDetailPage({ params }) {
-  const bookingId = params?.id || "";
+export default function BusBookingDetailPage({ params, id }) {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("Confirmed");
@@ -16,21 +15,50 @@ export default function BusBookingDetailPage({ params }) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
+  const [bookingId, setBookingId] = useState(() => {
+    if (id && id !== "default") return id;
+    if (params?.id && params.id !== "default") return params.id;
+    return "";
+  });
+
   const showToast = (msg) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(""), 3500);
   };
 
   useEffect(() => {
-    if (!bookingId || bookingId === "default") {
+    let resolved = id || params?.id || "";
+    if (!resolved || resolved === "default") {
+      if (typeof window !== "undefined") {
+        const urlParams = new URLSearchParams(window.location.search);
+        const qId = urlParams.get("id");
+        if (qId && qId !== "default") {
+          resolved = qId;
+        } else {
+          const segments = window.location.pathname.split("/").filter(Boolean);
+          const last = segments[segments.length - 1];
+          if (last && !["bookings", "view", "default"].includes(last)) {
+            resolved = decodeURIComponent(last);
+          }
+        }
+      }
+    }
+    if (resolved && resolved !== "default") {
+      setBookingId(resolved);
+    }
+  }, [id, params]);
+
+  useEffect(() => {
+    if (!bookingId) {
       setLoading(false);
       return;
     }
-    adminFetch(`/api/admin/bookings/${bookingId}`)
+    setLoading(true);
+    adminFetch(`/api/admin/bookings/${encodeURIComponent(bookingId)}`)
       .then(res => res.json())
       .then(data => {
         const b = data.data || data;
-        if (b && b.id) {
+        if (b && (b.id || b.totalAmount !== undefined)) {
           setBooking(b);
           setStatus(b.status || "Confirmed");
         }

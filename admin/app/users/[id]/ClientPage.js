@@ -46,8 +46,7 @@ const TH = {
   whiteSpace: "nowrap",
 };
 
-export default function UserDetailPage({ params }) {
-  const userId = params?.id || "";
+export default function UserDetailPage({ params, id }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookingFilter, setBookingFilter] = useState("All Bookings");
@@ -55,22 +54,52 @@ export default function UserDetailPage({ params }) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
+  const [userId, setUserId] = useState(() => {
+    if (id && id !== "default") return id;
+    if (params?.id && params.id !== "default") return params.id;
+    return "";
+  });
+
   const showToast = (msg) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(""), 3500);
   };
 
   useEffect(() => {
-    if (!userId || userId === "default") {
+    let resolved = id || params?.id || "";
+    if (!resolved || resolved === "default") {
+      if (typeof window !== "undefined") {
+        const urlParams = new URLSearchParams(window.location.search);
+        const qId = urlParams.get("id");
+        if (qId && qId !== "default") {
+          resolved = qId;
+        } else {
+          const segments = window.location.pathname.split("/").filter(Boolean);
+          const last = segments[segments.length - 1];
+          if (last && !["users", "view", "default"].includes(last)) {
+            resolved = decodeURIComponent(last);
+          }
+        }
+      }
+    }
+    if (resolved && resolved !== "default") {
+      setUserId(resolved);
+    }
+  }, [id, params]);
+
+  useEffect(() => {
+    if (!userId) {
       setLoading(false);
       return;
     }
-    adminFetch(`/api/admin/users/${userId}`)
+    setLoading(true);
+    adminFetch(`/api/admin/users/${encodeURIComponent(userId)}`)
       .then(res => res.json())
       .then(data => {
         const u = data.data || data;
-        if (u && u.id) {
+        if (u && (u.id || u.email)) {
           setUser(u);
+          setIsBlocked(u.isActive === false);
         }
       })
       .catch(err => console.error("Error loading user details:", err))
