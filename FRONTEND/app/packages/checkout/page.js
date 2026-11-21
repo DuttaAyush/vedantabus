@@ -78,32 +78,34 @@ function PackageCheckoutContent() {
         // Load saved passengers
         const passengersKey = u?.id ? `saved_passengers_${u.id}` : (u?.phone ? `saved_passengers_${u.phone}` : 'saved_passengers');
         const storedP = localStorage.getItem(passengersKey);
+        const selfPassenger = u?.name ? [
+          { id: 'sp1', name: u.name, age: u.age || 30, gender: u.gender || 'Male', relation: 'Self' }
+        ] : [];
+
         if (storedP) {
           try {
             const parsedP = JSON.parse(storedP);
-            if (Array.isArray(parsedP) && parsedP.length > 0) {
-              setSavedPassengersList(parsedP);
+            // Filter out legacy mock family members
+            const cleanedP = Array.isArray(parsedP)
+              ? parsedP.filter(p => !['Sneha Patel', 'Aarav Patel', 'Suresh Patel'].includes(p.name))
+              : [];
+            if (cleanedP.length > 0) {
+              setSavedPassengersList(cleanedP);
+              localStorage.setItem(passengersKey, JSON.stringify(cleanedP));
             } else {
-              setSavedPassengersList([
-                { id: 'sp1', name: u?.name || 'Rajesh Patel', age: '34', gender: 'Male', relation: 'Self' },
-                { id: 'sp2', name: 'Sneha Patel', age: '31', gender: 'Female', relation: 'Spouse' },
-                { id: 'sp3', name: 'Aarav Patel', age: '8', gender: 'Male', relation: 'Child' },
-                { id: 'sp4', name: 'Suresh Patel', age: '62', gender: 'Male', relation: 'Father' },
-              ]);
+              setSavedPassengersList(selfPassenger);
+              if (selfPassenger.length > 0) {
+                localStorage.setItem(passengersKey, JSON.stringify(selfPassenger));
+              }
             }
           } catch {
-            setSavedPassengersList([
-              { id: 'sp1', name: u?.name || 'Rajesh Patel', age: '34', gender: 'Male', relation: 'Self' },
-              { id: 'sp2', name: 'Sneha Patel', age: '31', gender: 'Female', relation: 'Spouse' },
-            ]);
+            setSavedPassengersList(selfPassenger);
           }
         } else {
-          setSavedPassengersList([
-            { id: 'sp1', name: u?.name || 'Rajesh Patel', age: '34', gender: 'Male', relation: 'Self' },
-            { id: 'sp2', name: 'Sneha Patel', age: '31', gender: 'Female', relation: 'Spouse' },
-            { id: 'sp3', name: 'Aarav Patel', age: '8', gender: 'Male', relation: 'Child' },
-            { id: 'sp4', name: 'Suresh Patel', age: '62', gender: 'Male', relation: 'Father' },
-          ]);
+          setSavedPassengersList(selfPassenger);
+          if (selfPassenger.length > 0) {
+            localStorage.setItem(passengersKey, JSON.stringify(selfPassenger));
+          }
         }
       } catch (err) {
         console.error('Failed to load pending package from localStorage:', err);

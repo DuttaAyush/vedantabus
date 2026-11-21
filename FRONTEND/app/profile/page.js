@@ -132,29 +132,30 @@ export default function CustomerProfilePage() {
     if (typeof window !== 'undefined') {
       try {
         const storedP = localStorage.getItem(passengersKey) || localStorage.getItem('saved_passengers');
+        const selfPassenger = localUser?.name ? [
+          { id: 'sp1', name: localUser.name, age: localUser.age || 30, gender: localUser.gender || 'Male', relation: 'Self' }
+        ] : [];
+
         if (storedP) {
           const parsedP = JSON.parse(storedP);
-          if (Array.isArray(parsedP) && parsedP.length > 0) {
-            setSavedPassengers(parsedP);
+          // Filter out legacy mock family members
+          const cleanedP = Array.isArray(parsedP)
+            ? parsedP.filter(p => !['Sneha Patel', 'Aarav Patel', 'Suresh Patel'].includes(p.name))
+            : [];
+          if (cleanedP.length > 0) {
+            setSavedPassengers(cleanedP);
+            localStorage.setItem(passengersKey, JSON.stringify(cleanedP));
           } else {
-            const defaults = [
-              { id: 'sp1', name: localUser?.name || 'Rajesh Patel', age: 34, gender: 'Male', relation: 'Self' },
-              { id: 'sp2', name: 'Sneha Patel', age: 31, gender: 'Female', relation: 'Spouse' },
-              { id: 'sp3', name: 'Aarav Patel', age: 8, gender: 'Male', relation: 'Child' },
-              { id: 'sp4', name: 'Suresh Patel', age: 62, gender: 'Male', relation: 'Father' },
-            ];
-            setSavedPassengers(defaults);
-            localStorage.setItem(passengersKey, JSON.stringify(defaults));
+            setSavedPassengers(selfPassenger);
+            if (selfPassenger.length > 0) {
+              localStorage.setItem(passengersKey, JSON.stringify(selfPassenger));
+            }
           }
         } else {
-          const defaults = [
-            { id: 'sp1', name: localUser?.name || 'Rajesh Patel', age: 34, gender: 'Male', relation: 'Self' },
-            { id: 'sp2', name: 'Sneha Patel', age: 31, gender: 'Female', relation: 'Spouse' },
-            { id: 'sp3', name: 'Aarav Patel', age: 8, gender: 'Male', relation: 'Child' },
-            { id: 'sp4', name: 'Suresh Patel', age: 62, gender: 'Male', relation: 'Father' },
-          ];
-          setSavedPassengers(defaults);
-          localStorage.setItem(passengersKey, JSON.stringify(defaults));
+          setSavedPassengers(selfPassenger);
+          if (selfPassenger.length > 0) {
+            localStorage.setItem(passengersKey, JSON.stringify(selfPassenger));
+          }
         }
       } catch {}
     }
