@@ -1,7 +1,7 @@
 ﻿import 'dotenv/config';
 import { app } from './app';
 
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT) || 5035;
 
 // ── Start Server ──────────────────────────────────────────────────
 export const server = app.listen(PORT, () => {
