@@ -91,6 +91,26 @@ export default function TripSeatMapPage({ params }) {
             };
           }));
         }
+        if (payload.seatPricingConfig && typeof payload.seatPricingConfig === 'object') {
+          setLowerSeats(prev => prev.map(s => ({
+            ...s,
+            price: payload.seatPricingConfig[s.id] || s.price,
+          })));
+          setUpperSeats(prev => prev.map(s => ({
+            ...s,
+            price: payload.seatPricingConfig[s.id] || s.price,
+          })));
+        }
+        if (payload.seatStatuses && typeof payload.seatStatuses === 'object') {
+          setLowerSeats(prev => prev.map(s => ({
+            ...s,
+            status: payload.seatStatuses[s.id] || s.status,
+          })));
+          setUpperSeats(prev => prev.map(s => ({
+            ...s,
+            status: payload.seatStatuses[s.id] || s.status,
+          })));
+        }
       })
       .catch(err => console.error("[Admin Seats] Error loading seats:", err))
       .finally(() => setLoading(false));
@@ -99,6 +119,7 @@ export default function TripSeatMapPage({ params }) {
   // Bulk Tier Pricing Inputs
   const [bulkLowerPrice, setBulkLowerPrice] = useState(750);
   const [bulkUpperPrice, setBulkUpperPrice] = useState(650);
+  const [isSaving, setIsSaving] = useState(false);
 
   const currentSeats = activeDeck === "lower" ? lowerSeats : upperSeats;
   const setCurrentSeats = activeDeck === "lower" ? setLowerSeats : setUpperSeats;
@@ -151,8 +172,35 @@ export default function TripSeatMapPage({ params }) {
     showToast(`All Upper Deck seats updated to ₹${bulkUpperPrice}`);
   };
 
-  const handleSaveAll = () => {
-    showToast("Trip Seat Pricing & Status configurations saved to Database!");
+  const handleSaveAll = async () => {
+    if (!tripId || tripId === "default") {
+      showToast("Trip Seat Pricing & Status configurations saved (Preview mode)");
+      return;
+    }
+    setIsSaving(true);
+    try {
+      const seatPricingConfig = {};
+      const seatStatuses = {};
+      [...lowerSeats, ...upperSeats].forEach(s => {
+        if (s.price) seatPricingConfig[s.id] = Number(s.price);
+        if (s.status && s.status !== 'booked') seatStatuses[s.id] = s.status;
+      });
+
+      const res = await adminFetch(`/api/admin/trips/${tripId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ seatPricingConfig, seatStatuses }),
+      });
+      if (res.ok) {
+        showToast("Trip Seat Pricing & Quotas successfully saved to Database!");
+      } else {
+        const err = await res.json();
+        showToast(err.message || "Failed to save trip seat configuration.");
+      }
+    } catch {
+      showToast("Network error while saving seat configuration.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const rows = [1, 2, 3, 4, 5, 6];
@@ -193,16 +241,17 @@ export default function TripSeatMapPage({ params }) {
             <button
               type="button"
               onClick={handleSaveAll}
+              disabled={isSaving}
               style={{
                 display: "inline-flex", alignItems: "center", gap: "0.35rem",
                 padding: "0.6rem 1.25rem", border: "none",
-                borderRadius: 10, backgroundColor: "#B91C1C", color: "#fff",
-                fontSize: "0.8125rem", fontWeight: 700, cursor: "pointer",
+                borderRadius: 10, backgroundColor: isSaving ? "#94A3B8" : "#B91C1C", color: "#fff",
+                fontSize: "0.8125rem", fontWeight: 700, cursor: isSaving ? "not-allowed" : "pointer",
                 boxShadow: "0 2px 4px rgba(185,28,28,0.2)"
               }}
             >
               <span className="material-symbols-outlined" style={{ fontSize: 16 }}>save</span>
-              Save All Changes
+              {isSaving ? "Saving..." : "Save All Changes"}
             </button>
           </div>
         </div>

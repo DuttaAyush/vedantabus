@@ -56,7 +56,7 @@ router.get('/:id', async (req: Request, res: Response) => {
       where: { id },
       select: {
         id: true, name: true, email: true, phone: true,
-        role: true, createdAt: true,
+        role: true, isActive: true, createdAt: true,
         busBookings: {
           orderBy: { bookingDate: 'desc' },
           take: 10,
@@ -113,8 +113,13 @@ router.patch('/:id/status', async (req: Request, res: Response) => {
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) return sendError(res, 'User not found.', 404);
 
-    // TODO Phase 2: add isBlocked field to User model and use it here
-    return sendSuccess(res, { id, action }, `User ${action}ed. (isBlocked field pending Phase 2 migration.)`);
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data: { isActive: action === 'unblock' },
+      select: { id: true, name: true, email: true, phone: true, isActive: true },
+    });
+
+    return sendSuccess(res, { id, action, user: updatedUser }, `User ${action}ed successfully.`);
   } catch (err) {
     console.error('[admin/users/:id/status]', err);
     return sendError(res, 'Failed to update user status.', 500);

@@ -37,6 +37,37 @@ router.get('/seats', async (req: Request, res: Response) => {
   try {
     let tripId = req.query.tripId as string;
     const busId = req.query.busId as string;
+    const dateInput = req.query.date as string;
+    const targetDate = parseBookingDate(dateInput);
+
+    if (targetDate) {
+      const startOfDay = new Date(targetDate);
+      startOfDay.setHours(0, 0, 0, 0);
+      const endOfDay = new Date(targetDate);
+      endOfDay.setHours(23, 59, 59, 999);
+
+      if (tripId) {
+        const trip = await prisma.trip.findUnique({ where: { id: String(tripId) } }).catch(() => null);
+        if (trip) {
+          const dateTrip = await prisma.trip.findFirst({
+            where: {
+              routeId: trip.routeId,
+              busId: trip.busId,
+              departureDatetime: { gte: startOfDay, lte: endOfDay },
+            },
+          }).catch(() => null);
+          if (dateTrip) tripId = dateTrip.id;
+        }
+      } else if (busId) {
+        const dateTrip = await prisma.trip.findFirst({
+          where: {
+            busId: String(busId),
+            departureDatetime: { gte: startOfDay, lte: endOfDay },
+          },
+        }).catch(() => null);
+        if (dateTrip) tripId = dateTrip.id;
+      }
+    }
 
     if (!tripId && busId) {
       try {
@@ -334,7 +365,7 @@ router.post(['/', '/create'], async (req: Request, res: Response) => {
       // Fallback
     }
 
-    const bookingId = `YB-${Math.floor(100000 + Math.random() * 900000)}`;
+    const bookingId = `YB-${Date.now().toString().slice(-6)}${Math.floor(100 + Math.random() * 900)}`;
 
     // Write booking to DB — do NOT swallow errors silently
     const createdBooking = await prisma.busBooking.create({

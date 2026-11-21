@@ -14,6 +14,7 @@ export default function CustomerProfilePage() {
   const [selectedTrackBus, setSelectedTrackBus] = useState(null);
   const [isGpsModalOpen, setIsGpsModalOpen] = useState(false);
   const [upcomingTrips, setUpcomingTrips] = useState([]);
+  const [pastTrips, setPastTrips] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
   const [shareToast, setShareToast] = useState('');
   const [isBoardingPassModalOpen, setIsBoardingPassModalOpen] = useState(false);
@@ -67,9 +68,8 @@ export default function CustomerProfilePage() {
       if (!cancelModalTrip.isPackage) {
         await apiFetch(`/api/bookings/${cancelModalTrip.id}`, { method: 'DELETE' });
       } else {
-        await apiFetch(`/api/admin/package-bookings/${cancelModalTrip.id || cancelModalTrip.bookingId}/status`, {
-          method: 'PATCH',
-          body: JSON.stringify({ status: 'Cancelled' })
+        await apiFetch(`/api/packages/cancel/${cancelModalTrip.id || cancelModalTrip.bookingId}`, {
+          method: 'POST',
         });
       }
       setUpcomingTrips((prev) =>
@@ -108,6 +108,19 @@ export default function CustomerProfilePage() {
       setUserProfile(localUser);
     }
 
+    const isPastTrip = (t) => {
+      if (t.status === 'Completed') return true;
+      if (t.rawDepDate) {
+        const d = new Date(t.rawDepDate);
+        if (!isNaN(d.getTime()) && d.getTime() < Date.now()) return true;
+      }
+      if (t.date && typeof t.date === 'string') {
+        const d = new Date(t.date);
+        if (!isNaN(d.getTime()) && d.getTime() < Date.now()) return true;
+      }
+      return false;
+    };
+
     const userTripsKey = localUser?.id ? `user_trips_${localUser.id}` : (localUser?.phone ? `user_trips_${localUser.phone}` : 'user_trips');
     if (typeof window !== 'undefined') {
       try {
@@ -115,16 +128,19 @@ export default function CustomerProfilePage() {
         if (stored) {
           const parsed = JSON.parse(stored);
           if (Array.isArray(parsed)) {
-            setUpcomingTrips(parsed);
+            setUpcomingTrips(parsed.filter(t => !isPastTrip(t)));
+            setPastTrips(parsed.filter(t => isPastTrip(t)));
           }
         } else {
           setUpcomingTrips([]);
+          setPastTrips([]);
         }
       } catch (err) {
         console.error('Failed to load trips from localStorage:', err);
       }
     } else {
       setUpcomingTrips([]);
+      setPastTrips([]);
     }
 
     // Load user saved passengers
@@ -188,6 +204,7 @@ export default function CustomerProfilePage() {
           fromStation: `${b.trip?.route?.originCity || 'Nagpur'} Terminal`,
           depTime: b.trip?.departureDatetime ? new Date(b.trip.departureDatetime).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false }) : '20:30',
           depDate: b.trip?.departureDatetime ? new Date(b.trip.departureDatetime).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }) : 'Scheduled',
+          rawDepDate: b.trip?.departureDatetime || null,
           to: b.trip?.route?.destinationCity || 'Pune',
           toStation: `${b.trip?.route?.destinationCity || 'Pune'} Terminal`,
           arrTime: b.trip?.arrivalDatetime ? new Date(b.trip.arrivalDatetime).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false }) : '07:00',
@@ -214,6 +231,7 @@ export default function CustomerProfilePage() {
           duration: `${pb.package?.durationDays || 5} Days`,
           image: pb.package?.itinerary?.image || '/images/yatra_all_india_spiritual_darshan_bus_tickets_holiday_packages_9.jpg',
           date: new Date(pb.travelDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+          rawDepDate: pb.travelDate || null,
           travelerCount: pb.travelersCount,
           totalAmount: Number(pb.totalAmount),
           status: pb.status,
@@ -223,21 +241,28 @@ export default function CustomerProfilePage() {
 
         // Merge: DB records take priority over localStorage records (by id)
         // but keep any localStorage records that aren't in the DB yet (just booked, not yet synced)
-        setUpcomingTrips(prev => {
-          const dbIds = new Set(dbMapped.map(t => t.id));
-          const localOnlyTrips = prev.filter(t => !dbIds.has(t.id));
-          const merged = [...dbMapped, ...localOnlyTrips];
-          // Persist merged list back to localStorage
-          if (userTripsKey && typeof window !== 'undefined') {
+        const dbIds = new Set(dbMapped.map(t => t.id));
+        let localExisting = [];
+        if (typeof window !== 'undefined' && userTripsKey) {
+          try {
+            const rawStored = localStorage.getItem(userTripsKey);
+            if (rawStored) localExisting = JSON.parse(rawStored) || [];
+          } catch {}
+        }
+        const localOnlyTrips = Array.isArray(localExisting) ? localExisting.filter(t => !dbIds.has(t.id)) : [];
+        const merged = [...dbMapped, ...localOnlyTrips];
+
+        if (userTripsKey && typeof window !== 'undefined') {
+          try {
             localStorage.setItem(userTripsKey, JSON.stringify(merged));
-          }
-          return merged;
-        });
+          } catch {}
+        }
+
+        setUpcomingTrips(merged.filter(t => !isPastTrip(t)));
+        setPastTrips(merged.filter(t => isPastTrip(t)));
       })
       .catch(() => {}); // Network error — silently keep localStorage data
   }, []);
-
-  const [pastTrips, setPastTrips] = useState([]);
 
   const [savedPassengers, setSavedPassengers] = useState([]);
 
@@ -576,7 +601,7 @@ export default function CustomerProfilePage() {
           <div className="bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-full p-1.5 border border-slate-200/80 shadow-lg flex items-center justify-start sm:justify-between overflow-x-auto no-scrollbar touch-pan-x overscroll-x-contain gap-1 sm:gap-2">
             {[
               { label: `Upcoming Trips (${upcomingTrips.length})`, key: 'upcoming', icon: 'confirmation_number' },
-              { label: 'Past Journeys & Reviews', key: 'past', icon: 'history' },
+              { label: `Past Journeys (${pastTrips.length})`, key: 'past', icon: 'history' },
               { label: 'Wallet & Points', key: 'wallet', icon: 'account_balance_wallet' },
               { label: `Saved Passengers (${savedPassengers.length})`, key: 'passengers', icon: 'group' },
             ].map((tab) => (
@@ -1088,18 +1113,29 @@ export default function CustomerProfilePage() {
                 {pastTrips.map(trip => (
                   <div key={trip.id} className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm flex items-center justify-between flex-wrap gap-4">
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ticket #{trip.id} • {trip.date}</span>
-                      <h3 className="text-base font-serif font-bold text-slate-900 mt-0.5">{trip.from} ➔ {trip.to}</h3>
-                      <p className="text-xs text-slate-500">{trip.operator} • Seats {trip.seats}</p>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                        Ticket #{trip.bookingId || trip.id} • {trip.date || trip.depDate || 'Past Journey'}
+                      </span>
+                      <h3 className="text-base font-serif font-bold text-slate-900 mt-0.5">
+                        {trip.from ? `${trip.from} ➔ ${trip.to}` : (trip.title || 'Completed Journey')}
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        {trip.operator || trip.category || 'Vedanta Express Fleet'} • {trip.isPackage ? `${trip.travelerCount || 1} Travelers` : `Seats ${Array.isArray(trip.seats) ? trip.seats.join(', ') : (trip.seats || 'L1')}`}
+                      </p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-sm font-bold text-slate-900">{trip.fare}</span>
+                      <span className="text-sm font-bold text-slate-900">
+                        ₹{(trip.totalAmount || trip.totalFare || trip.paidAmount || 0).toLocaleString('en-IN')}
+                      </span>
                       <button
                         onClick={() => {
-                          setShareToast(`Directing to re-book ${trip.from} to ${trip.to}...`);
-                          setTimeout(() => setShareToast(''), 3000);
+                          if (trip.isPackage) {
+                            window.location.href = `/customize-package/${trip.pkgId || 'chardham'}`;
+                          } else {
+                            window.location.href = `/search?from=${encodeURIComponent(trip.from || 'Nagpur')}&to=${encodeURIComponent(trip.to || 'Pune')}`;
+                          }
                         }}
-                        className="px-4 py-2 rounded-xl bg-brand-scarlet text-white font-bold text-xs shadow-sm hover:bg-brand-hover transition-all"
+                        className="px-4 py-2 rounded-xl bg-brand-scarlet text-white font-bold text-xs shadow-sm hover:bg-brand-hover transition-all cursor-pointer"
                       >
                         Book Again
                       </button>

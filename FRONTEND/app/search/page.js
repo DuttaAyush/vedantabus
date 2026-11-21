@@ -62,11 +62,12 @@ function SearchContent() {
     return 'Thursday';
   };
 
-  const fetchBuses = async (queryFrom = fromCity, queryTo = toCity) => {
+  const fetchBuses = async (queryFrom = fromCity, queryTo = toCity, queryDate = selectedDate?.mainText) => {
     setLoading(true);
     setBuses([]);
     try {
-      const res = await apiFetch(`/api/buses/search?from=${encodeURIComponent(queryFrom)}&to=${encodeURIComponent(queryTo)}`);
+      const dateParam = queryDate ? `&date=${encodeURIComponent(queryDate)}` : '';
+      const res = await apiFetch(`/api/buses/search?from=${encodeURIComponent(queryFrom)}&to=${encodeURIComponent(queryTo)}${dateParam}`);
       if (res.ok) {
         const data = await res.json();
         const items = Array.isArray(data) ? data : data.data || [];
@@ -83,9 +84,9 @@ function SearchContent() {
   };
 
   React.useEffect(() => {
-    fetchBuses(initialFrom, initialTo);
+    fetchBuses(initialFrom, initialTo, initialDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialFrom, initialTo]);
+  }, [initialFrom, initialTo, initialDate]);
 
   const [isFromOpen, setIsFromOpen] = useState(false);
   const [isToOpen, setIsToOpen] = useState(false);
@@ -131,6 +132,7 @@ function SearchContent() {
       mainText: dateResult.mainText,
       subText: dateResult.subText,
     });
+    fetchBuses(fromCity, toCity, dateResult.mainText);
     syncSearchLive(fromCity, toCity, dateResult.mainText, passengerCount);
   };
 

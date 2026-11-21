@@ -26,6 +26,11 @@ function PackageCheckoutContent() {
   const [shareToast, setShareToast] = useState('');
 
   const [travelerCount, setTravelerCount] = useState(2);
+  const [travelDate, setTravelDate] = useState(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 7);
+    return d.toISOString().split('T')[0];
+  });
   const [hotelUpgrade, setHotelUpgrade] = useState('4star'); // '3star' | '4star' | '5star'
   const [includeTravelInsurance, setIncludeTravelInsurance] = useState(true);
   const [includeAirportTransfer, setIncludeAirportTransfer] = useState(true);
@@ -57,6 +62,7 @@ function PackageCheckoutContent() {
           if (parsed && (parsed.pkgId === packageId || !packageId || packageId === 'dubai-marina')) {
             setCustomPackageData(parsed);
             if (parsed.hotelTier) setHotelUpgrade(parsed.hotelTier);
+            if (parsed.travelDate || parsed.date) setTravelDate(parsed.travelDate || parsed.date);
             if (parsed.travelerCount) {
               const count = Math.max(1, Math.min(10, Number(parsed.travelerCount) || 2));
               setTravelerCount(count);
@@ -188,7 +194,7 @@ function PackageCheckoutContent() {
         body: JSON.stringify({
           packageId: pkg.id || packageId,
           travelersCount: travelerCount,
-          travelDate: new Date(Date.now() + 86400000 * 7).toISOString(),
+          travelDate: new Date(travelDate).toISOString(),
           totalAmount: grandTotal,
         })
       });
@@ -212,8 +218,8 @@ function PackageCheckoutContent() {
       category: pkg.category,
       duration: pkg.duration,
       image: pkg.image,
-      date: new Date(Date.now() + 86400000 * 7).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
-      departureDate: new Date(Date.now() + 86400000 * 7).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+      date: new Date(travelDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+      departureDate: new Date(travelDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
       travelers: travelers,
       travelerCount: travelerCount,
       hotelTier: hotelUpgrade,
@@ -370,7 +376,22 @@ function PackageCheckoutContent() {
               Traveler Count &amp; Accommodation Options
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Departure Date */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">Departure Date</label>
+                  <p className="text-sm font-bold text-slate-900">{new Date(travelDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                </div>
+                <input
+                  type="date"
+                  value={travelDate}
+                  min={new Date().toISOString().split('T')[0]}
+                  onChange={(e) => setTravelDate(e.target.value)}
+                  className="px-2.5 py-1.5 rounded-xl bg-white border border-slate-300 text-xs font-bold text-slate-900 outline-none cursor-pointer shadow-sm"
+                />
+              </div>
+
               {/* Number of Travelers */}
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
                 <div>

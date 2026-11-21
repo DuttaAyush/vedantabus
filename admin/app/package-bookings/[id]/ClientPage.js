@@ -103,7 +103,7 @@ export default function PackageBookingDetailPage({ params }) {
   const packageTitle = booking?.package?.title || "Dubai & Abu Dhabi Luxury Escape";
   const packageCategory = booking?.package?.category || "International";
   const packageDuration = booking?.package?.durationDays ? `${booking.package.durationDays} Days / ${booking.package.durationDays - 1} Nights` : "7 Days 6 Nights";
-  const totalTravelers = booking?.numberOfTravelers || 2;
+  const totalTravelers = booking?.travelersCount || booking?.numberOfTravelers || 1;
   const fareFormatted = `₹ ${Number(booking?.totalAmount || 95000).toLocaleString('en-IN')}`;
   
   const travelDateFormatted = booking?.travelDate 
@@ -112,9 +112,11 @@ export default function PackageBookingDetailPage({ params }) {
   const travelDayFormatted = booking?.travelDate 
     ? new Date(booking.travelDate).toLocaleDateString("en-US", { weekday: 'short' })
     : "Tue";
-  const createdAtFormatted = booking?.bookingDate 
-    ? new Date(booking.bookingDate).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }) + ", " + new Date(booking.bookingDate).toLocaleTimeString("en-IN", { hour: '2-digit', minute: '2-digit', hour12: true })
-    : "25 Oct 2026, 04:22 PM";
+  const createdAtFormatted = booking?.createdAt 
+    ? new Date(booking.createdAt).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }) + ", " + new Date(booking.createdAt).toLocaleTimeString("en-IN", { hour: '2-digit', minute: '2-digit', hour12: true })
+    : (booking?.bookingDate 
+        ? new Date(booking.bookingDate).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }) + ", " + new Date(booking.bookingDate).toLocaleTimeString("en-IN", { hour: '2-digit', minute: '2-digit', hour12: true })
+        : "Confirmed Booking");
 
   const travelersList = Array.from({ length: totalTravelers }).map((_, idx) => ({
     num: idx + 1,

@@ -103,13 +103,13 @@ router.post('/book', authenticateJWT, async (req: AuthRequest, res: Response) =>
       return sendError(res, 'packageId and travelersCount are required.', 400);
     }
 
-    const bookingId = `PB-${Math.floor(100000 + Math.random() * 900000)}`;
+    const bookingId = `PB-${Date.now().toString().slice(-6)}${Math.floor(100 + Math.random() * 900)}`;
     const parsedDate = travelDate ? new Date(travelDate) : new Date();
 
     let booking: any = null;
     try {
       // Resolve valid package foreign key
-      let validPackage = await prisma.tourPackage.findFirst({
+      const validPackage = await prisma.tourPackage.findFirst({
         where: {
           OR: [
             { id: packageId },
@@ -119,19 +119,19 @@ router.post('/book', authenticateJWT, async (req: AuthRequest, res: Response) =>
       });
 
       if (!validPackage) {
-        validPackage = await prisma.tourPackage.findFirst();
+        return sendError(res, 'Package not found.', 404);
       }
-
-      const validPackageId = validPackage ? validPackage.id : packageId;
 
       // Resolve valid user foreign key
-      let validUser = await prisma.user.findUnique({ where: { id: userId } });
+      const validUser = await prisma.user.findUnique({ where: { id: userId } });
       if (!validUser) {
-        validUser = await prisma.user.findFirst();
+        return sendError(res, 'User account not found.', 404);
       }
-      const validUserId = validUser ? validUser.id : userId;
 
-      const serverAmount = validPackage ? Number(validPackage.pricePerPerson) * (Number(travelersCount) || 1) : Number(totalAmount) || 74999;
+      const validPackageId = validPackage.id;
+      const validUserId = validUser.id;
+
+      const serverAmount = Number(validPackage.pricePerPerson) * (Number(travelersCount) || 1);
 
       booking = await prisma.packageBooking.create({
         data: {
@@ -149,7 +149,6 @@ router.post('/book', authenticateJWT, async (req: AuthRequest, res: Response) =>
       return sendError(res, 'Failed to create booking. Please try again.', 500);
     }
 
-
     return res.status(201).json({
       success: true,
       booking,
@@ -158,6 +157,45 @@ router.post('/book', authenticateJWT, async (req: AuthRequest, res: Response) =>
   } catch (err) {
     console.error('[packages/book POST]', err);
     return sendError(res, 'Failed to book package.', 500);
+  }
+});
+
+// ── Customer Package Booking Cancellation ─────────────────────────
+router.post('/cancel/:id', authenticateJWT, async (req: AuthRequest, res: Response) => {
+  try {
+    const id = String(req.params.id);
+    const booking = await prisma.packageBooking.findUnique({ where: { id } });
+    if (!booking) return sendError(res, 'Package booking not found.', 404);
+    if (booking.userId !== req.user!.id && req.user!.role === 'USER') {
+      return sendError(res, 'Access denied.', 403);
+    }
+    const updated = await prisma.packageBooking.update({
+      where: { id },
+      data: { status: 'Cancelled' },
+    });
+    return sendSuccess(res, { booking: updated }, 'Package booking cancelled successfully.');
+  } catch (err) {
+    console.error('[packages/cancel/:id POST]', err);
+    return sendError(res, 'Failed to cancel package booking.', 500);
+  }
+});
+
+router.delete('/bookings/:id', authenticateJWT, async (req: AuthRequest, res: Response) => {
+  try {
+    const id = String(req.params.id);
+    const booking = await prisma.packageBooking.findUnique({ where: { id } });
+    if (!booking) return sendError(res, 'Package booking not found.', 404);
+    if (booking.userId !== req.user!.id && req.user!.role === 'USER') {
+      return sendError(res, 'Access denied.', 403);
+    }
+    const updated = await prisma.packageBooking.update({
+      where: { id },
+      data: { status: 'Cancelled' },
+    });
+    return sendSuccess(res, { booking: updated }, 'Package booking cancelled successfully.');
+  } catch (err) {
+    console.error('[packages/bookings/:id DELETE]', err);
+    return sendError(res, 'Failed to cancel package booking.', 500);
   }
 });
 

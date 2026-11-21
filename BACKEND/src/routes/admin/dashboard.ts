@@ -19,7 +19,8 @@ router.get(['/', '/stats'], async (_req: Request, res: Response) => {
       revenueResult,
       recentBusBookings,
       recentPackageBookings,
-      dailyRevenue,
+      dailyBusRevenue,
+      dailyPackageRevenue,
     ] = await Promise.all([
       // Total registered users
       prisma.user.count({ where: { role: 'USER' } }),
@@ -74,11 +75,32 @@ router.get(['/', '/stats'], async (_req: Request, res: Response) => {
         select: { bookingDate: true, totalAmount: true },
         orderBy: { bookingDate: 'asc' },
       }),
+
+      // Last 30 days package bookings (for revenue chart)
+      prisma.packageBooking.findMany({
+        where: {
+          travelDate: { gte: day30 },
+          status: 'Confirmed',
+        },
+        select: { travelDate: true, totalAmount: true },
+        orderBy: { travelDate: 'asc' },
+      }),
     ]);
 
     const busRevenue     = Number(revenueResult[0]._sum.totalAmount || 0);
     const packageRevenue = Number(revenueResult[1]._sum.totalAmount || 0);
     const totalRevenue   = busRevenue + packageRevenue;
+    // Aggregate daily revenue for chart
+    const revenueByDay: Record<string, number> = {};
+    for (const b of dailyBusRevenue) {
+      const day = b.bookingDate.toISOString().split('T')[0];
+      revenueByDay[day] = (revenueByDay[day] || 0) + Number(b.totalAmount);
+    }
+    for (const p of dailyPackageRevenue || []) {
+      const day = p.travelDate.toISOString().split('T')[0];
+      revenueByDay[day] = (revenueByDay[day] || 0) + Number(p.totalAmount);
+    }
+    const revenueChart = Object.entries(revenueByDay).map(([date, amount]) => ({ date, amount }));
 
     // Format bus bookings
     const formattedBus = (recentBusBookings || []).map((b) => ({
@@ -116,14 +138,6 @@ router.get(['/', '/stats'], async (_req: Request, res: Response) => {
     const combinedRecentBookings = [...formattedBus, ...formattedPkg]
       .sort((a, b) => new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime())
       .slice(0, 10);
-
-    // Aggregate daily revenue for chart
-    const revenueByDay: Record<string, number> = {};
-    for (const b of dailyRevenue) {
-      const day = b.bookingDate.toISOString().split('T')[0];
-      revenueByDay[day] = (revenueByDay[day] || 0) + Number(b.totalAmount);
-    }
-    const revenueChart = Object.entries(revenueByDay).map(([date, amount]) => ({ date, amount }));
 
     return sendSuccess(res, {
       stats: {

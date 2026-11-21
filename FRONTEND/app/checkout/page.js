@@ -189,9 +189,11 @@ export default function CheckoutPage() {
   };
 
   const [isProcessing, setIsProcessing] = useState(false);
+  const [bookingError, setBookingError] = useState('');
 
   const handlePayNow = async (e) => {
     e.preventDefault();
+    setBookingError('');
     setIsProcessing(true);
     
     let finalTicketId = `YB-${Math.floor(100000 + Math.random() * 900000)}`;
@@ -215,11 +217,18 @@ export default function CheckoutPage() {
       });
       const data = await response.json();
       
-      if (data.success) {
-        finalTicketId = data.booking?.id || data.data?.booking?.id || finalTicketId;
+      if (!response.ok || !data.success) {
+        setBookingError(data.message || 'Booking could not be confirmed. One or more selected seats may be locked or unavailable.');
+        setIsProcessing(false);
+        return;
       }
+
+      finalTicketId = data.booking?.id || data.data?.booking?.id || finalTicketId;
     } catch (err) {
       console.error("Failed to call backend:", err);
+      setBookingError('Network error while confirming booking. Please check connection and try again.');
+      setIsProcessing(false);
+      return;
     }
 
     setCreatedTicketId(finalTicketId);
@@ -1072,6 +1081,13 @@ export default function CheckoutPage() {
                 <span className="text-brand-scarlet">₹{grandTotal}</span>
               </div>
             </div>
+
+            {bookingError && (
+              <div className="p-3 mb-2 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-bold flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px]">error</span>
+                <span>{bookingError}</span>
+              </div>
+            )}
 
             {/* CONFIRMATION PAY BUTTON */}
             <button

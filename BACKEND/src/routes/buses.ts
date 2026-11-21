@@ -357,16 +357,47 @@ router.get('/gallery', async (_req: Request, res: Response) => {
   }
 });
 
+function parseSearchDate(dateInput: any): Date {
+  if (!dateInput) return new Date();
+  const d1 = new Date(dateInput);
+  if (!isNaN(d1.getTime()) && d1.getFullYear() > 2020) return d1;
+  const match = String(dateInput).match(/(\d{1,2})\s+([A-Za-z]{3,9})/);
+  if (match) {
+    const day = parseInt(match[1], 10);
+    const monthStr = match[2];
+    const months: Record<string, number> = {
+      jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+      jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11
+    };
+    const monthKey = monthStr.toLowerCase().slice(0, 3);
+    if (months[monthKey] !== undefined) {
+      const year = new Date().getFullYear();
+      const d = new Date(year, months[monthKey], day);
+      if (!isNaN(d.getTime())) return d;
+    }
+  }
+  return new Date();
+}
+
 // ── GET /api/buses/search & /api/buses/routes ─────────────────────
 // Public — search trips with filters
 router.get(['/search', '/routes'], async (req: Request, res: Response) => {
   try {
-    const { from, to, category, timeSlots } = req.query;
+    const { from, to, date, category, timeSlots } = req.query;
+
+    const targetDate = parseSearchDate(date);
+    const startOfDay = new Date(targetDate);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(targetDate);
+    endOfDay.setHours(23, 59, 59, 999);
 
     if (!from || !to) {
       // If neither is provided, return default scheduled trips
       const allTrips = await prisma.trip.findMany({
-        where: { status: { notIn: ['Cancelled', 'Completed'] } },
+        where: {
+          status: { notIn: ['Cancelled', 'Completed'] },
+          departureDatetime: { gte: startOfDay, lte: endOfDay },
+        },
         include: { bus: true, route: true },
         take: 10,
       }).catch(() => []);
@@ -381,7 +412,7 @@ router.get(['/search', '/routes'], async (req: Request, res: Response) => {
     const qFrom = String(from).trim();
     const qTo = String(to).trim();
 
-    // 1. Check if matching routes with trips exist in Prisma
+    // 1. Check if matching routes with trips on targetDate exist in Prisma
     let matchingRoutes = await prisma.route.findMany({
       where: {
         AND: [
@@ -391,7 +422,10 @@ router.get(['/search', '/routes'], async (req: Request, res: Response) => {
       },
       include: {
         trips: {
-          where: { status: { notIn: ['Cancelled', 'Completed'] } },
+          where: {
+            status: { notIn: ['Cancelled', 'Completed'] },
+            departureDatetime: { gte: startOfDay, lte: endOfDay },
+          },
           include: { bus: true, route: true },
         },
       },
@@ -399,7 +433,7 @@ router.get(['/search', '/routes'], async (req: Request, res: Response) => {
 
     let routeWithTrips = matchingRoutes.find(r => r.trips && r.trips.length > 0);
 
-    // 2. If no matching route with trips found, auto-provision authentic route & trips
+    // 2. If no matching trips found on the requested date, auto-provision authentic trips for targetDate
     if (!routeWithTrips || routeWithTrips.trips.length === 0) {
       try {
         const routeSpec = getProceduralRoute(qFrom, qTo);
@@ -425,35 +459,30 @@ router.get(['/search', '/routes'], async (req: Request, res: Response) => {
           busMap.set(b.plateNumber, b);
         }
 
-        const now = new Date();
         const createdTrips = [];
 
-        // Create trips for today & tomorrow
-        for (let dayOffset = 0; dayOffset <= 1; dayOffset++) {
-          const tripDate = new Date(now.getTime() + dayOffset * 24 * 60 * 60 * 1000);
+        // Create trips for targetDate
+        for (let i = 0; i < routeSpec.trips.length; i++) {
+          const tSpec = routeSpec.trips[i];
+          const assignedBus = busMap.get(tSpec.busPlate) || dbBuses[i % dbBuses.length] || DEFAULT_FLEET[0];
 
-          for (let i = 0; i < routeSpec.trips.length; i++) {
-            const tSpec = routeSpec.trips[i];
-            const assignedBus = busMap.get(tSpec.busPlate) || dbBuses[i % dbBuses.length] || DEFAULT_FLEET[0];
+          const depDatetime = new Date(targetDate);
+          depDatetime.setHours(tSpec.depHour, tSpec.depMin, 0, 0);
 
-            const depDatetime = new Date(tripDate);
-            depDatetime.setHours(tSpec.depHour, tSpec.depMin, 0, 0);
+          const arrDatetime = new Date(depDatetime.getTime() + Math.round(routeSpec.durationHours * 60 * 60 * 1000));
 
-            const arrDatetime = new Date(depDatetime.getTime() + Math.round(routeSpec.durationHours * 60 * 60 * 1000));
-
-            const trip = await prisma.trip.create({
-              data: {
-                busId: assignedBus.id,
-                routeId: route.id,
-                departureDatetime: depDatetime,
-                arrivalDatetime: arrDatetime,
-                baseFare: tSpec.fare,
-                status: 'Scheduled',
-              },
-              include: { bus: true, route: true },
-            });
-            createdTrips.push(trip);
-          }
+          const trip = await prisma.trip.create({
+            data: {
+              busId: assignedBus.id,
+              routeId: route.id,
+              departureDatetime: depDatetime,
+              arrivalDatetime: arrDatetime,
+              baseFare: tSpec.fare,
+              status: 'Scheduled',
+            },
+            include: { bus: true, route: true },
+          });
+          createdTrips.push(trip);
         }
 
         routeWithTrips = { ...route, trips: createdTrips };
