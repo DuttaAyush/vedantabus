@@ -391,62 +391,79 @@ function PackageCheckoutContent() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Departure Date */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-3">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">Departure Date</label>
-                  <p className="text-sm font-bold text-slate-900">{new Date(travelDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                  <label className="block text-[11px] font-extrabold uppercase tracking-wider text-slate-500">
+                    Departure Date
+                  </label>
+                  <p className="text-sm font-bold text-slate-900 mt-0.5">
+                    {new Date(travelDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                  </p>
                 </div>
-                <input
-                  type="date"
-                  value={travelDate}
-                  min={new Date().toISOString().split('T')[0]}
-                  onChange={(e) => setTravelDate(e.target.value)}
-                  className="px-2.5 py-1.5 rounded-xl bg-white border border-slate-300 text-xs font-bold text-slate-900 outline-none cursor-pointer shadow-sm"
-                />
+                <div>
+                  <input
+                    type="date"
+                    value={travelDate}
+                    min={new Date().toISOString().split('T')[0]}
+                    onChange={(e) => setTravelDate(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs font-bold text-slate-900 outline-none cursor-pointer shadow-xs focus:border-brand-scarlet transition-colors"
+                  />
+                </div>
               </div>
 
               {/* Number of Travelers */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-3">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">Travelers</label>
-                  <p className="text-sm font-bold text-slate-900">{travelerCount} Person(s)</p>
+                  <label className="block text-[11px] font-extrabold uppercase tracking-wider text-slate-500">
+                    Travelers
+                  </label>
+                  <p className="text-sm font-bold text-slate-900 mt-0.5">
+                    {travelerCount} {travelerCount === 1 ? 'Person' : 'Person(s)'}
+                  </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => updateTravelerCount(travelerCount - 1)}
-                    className="w-8 h-8 rounded-xl bg-white border border-slate-300 font-bold text-slate-700 hover:bg-slate-100 transition-all flex items-center justify-center cursor-pointer shadow-sm"
-                  >
-                    -
-                  </button>
-                  <span className="font-extrabold text-sm w-6 text-center">{travelerCount}</span>
-                  <button
-                    type="button"
-                    onClick={() => updateTravelerCount(travelerCount + 1)}
-                    className="w-8 h-8 rounded-xl bg-white border border-slate-300 font-bold text-slate-700 hover:bg-slate-100 transition-all flex items-center justify-center cursor-pointer shadow-sm"
-                  >
-                    +
-                  </button>
+                <div className="flex items-center justify-between bg-white px-3 py-1.5 rounded-xl border border-slate-300 shadow-xs">
+                  <span className="text-xs font-semibold text-slate-600">Select Count:</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => updateTravelerCount(travelerCount - 1)}
+                      className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 font-bold text-slate-700 transition-all flex items-center justify-center cursor-pointer active:scale-95 text-sm"
+                    >
+                      -
+                    </button>
+                    <span className="font-extrabold text-sm w-7 text-center text-slate-900">{travelerCount}</span>
+                    <button
+                      type="button"
+                      onClick={() => updateTravelerCount(travelerCount + 1)}
+                      className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 font-bold text-slate-700 transition-all flex items-center justify-center cursor-pointer active:scale-95 text-sm"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               </div>
 
               {/* Hotel Tier */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-3">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">Hotel Category</label>
-                  <p className="text-sm font-bold text-slate-900">
+                  <label className="block text-[11px] font-extrabold uppercase tracking-wider text-slate-500">
+                    Hotel Category
+                  </label>
+                  <p className="text-sm font-bold text-slate-900 mt-0.5 truncate">
                     {hotelUpgrade === '5star' ? '5★ Luxury Resort' : hotelUpgrade === '4star' ? '4★ Deluxe Resort' : '3★ Standard Hotel'}
                   </p>
                 </div>
-                <select
-                  value={hotelUpgrade}
-                  onChange={(e) => setHotelUpgrade(e.target.value)}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-slate-300 text-xs font-bold text-slate-900 outline-none cursor-pointer shadow-sm"
-                >
-                  <option value="3star">3★ Stays (Base Included)</option>
-                  <option value="4star">4★ Stays (+₹4,500/person)</option>
-                  <option value="5star">5★ Stays (+₹9,500/person)</option>
-                </select>
+                <div>
+                  <select
+                    value={hotelUpgrade}
+                    onChange={(e) => setHotelUpgrade(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs font-bold text-slate-900 outline-none cursor-pointer shadow-xs focus:border-brand-scarlet transition-colors truncate"
+                  >
+                    <option value="3star">3★ Stays (Base Included)</option>
+                    <option value="4star">4★ Stays (+₹4,500/person)</option>
+                    <option value="5star">5★ Stays (+₹9,500/person)</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
