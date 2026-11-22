@@ -1,7 +1,8 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import AdminShell from "@/components/layout/AdminShell";
 import { adminFetch } from "@/lib/api";
 
@@ -47,6 +48,9 @@ const TH = {
 };
 
 export default function UserDetailPage({ params, id }) {
+  const routeParams = useParams();
+  const rawId = routeParams?.id || params?.id || id || "";
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookingFilter, setBookingFilter] = useState("All Bookings");
@@ -55,8 +59,7 @@ export default function UserDetailPage({ params, id }) {
   const [toastMessage, setToastMessage] = useState("");
 
   const [userId, setUserId] = useState(() => {
-    if (id && id !== "default") return id;
-    if (params?.id && params.id !== "default") return params.id;
+    if (rawId && rawId !== "default") return rawId;
     return "";
   });
 
@@ -66,7 +69,7 @@ export default function UserDetailPage({ params, id }) {
   };
 
   useEffect(() => {
-    let resolved = id || params?.id || "";
+    let resolved = routeParams?.id || id || params?.id || "";
     if (!resolved || resolved === "default") {
       if (typeof window !== "undefined") {
         const urlParams = new URLSearchParams(window.location.search);
@@ -85,7 +88,7 @@ export default function UserDetailPage({ params, id }) {
     if (resolved && resolved !== "default") {
       setUserId(resolved);
     }
-  }, [id, params]);
+  }, [routeParams, id, params]);
 
   useEffect(() => {
     if (!userId) {

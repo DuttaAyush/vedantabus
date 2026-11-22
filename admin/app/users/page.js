@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -67,6 +67,7 @@ function StatusBadge({ status }) {
 function IconBtn({ icon, title, onClick, hoverColor = "#F1F5F9" }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       title={title}
       style={{
@@ -129,8 +130,8 @@ export default function UsersPage() {
             email: u.email,
             phone: u.phone || "+91-8208024895",
             registered: u.createdAt ? new Date(u.createdAt).toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }) : "Recently",
-            bookings: u._count?.bookings || (Array.isArray(u.bookings) ? u.bookings.length : 0),
-            status: u.status === "ACTIVE" ? "Active" : u.status === "BLOCKED" ? "Blocked" : (u.status || "Active"),
+            bookings: (u._count?.busBookings || 0) + (u._count?.packageBookings || 0),
+            status: u.isActive === false ? "Blocked" : "Active",
             color: colors[i % colors.length]
           }));
           setUsers(mapped);
@@ -233,7 +234,8 @@ export default function UsersPage() {
               Manage registered users, view details, and control access.
             </p>
           </div>
-          <button style={{
+          <button
+      type="button" style={{
             display: "flex", alignItems: "center", gap: "0.375rem",
             padding: "0.5rem 1rem",
             backgroundColor: "#B91C1C", color: "#fff",
@@ -302,6 +304,7 @@ export default function UsersPage() {
           <div style={{ display: "flex", gap: "0.5rem" }}>
             {FILTERS.map((f) => (
               <button
+      type="button"
                 key={f.key}
                 onClick={() => handleFilterChange(f.key)}
                 style={{
@@ -438,8 +441,20 @@ export default function UsersPage() {
                       {/* Actions */}
                       <td style={{ padding: "0.75rem 1rem" }}>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.375rem" }}>
-                          <Link href={`/users/${u.id}`} prefetch={false} style={{ textDecoration: "none" }}>
-                            <IconBtn icon="visibility" title="View user details" />
+                          <Link
+                            href={`/users/${u.id}`}
+                            prefetch={false}
+                            title="View user details"
+                            style={{
+                              background: "none", border: "1px solid #E2E8F0",
+                              borderRadius: 6, cursor: "pointer", padding: "0.3rem",
+                              color: "#94A3B8", display: "flex", alignItems: "center",
+                              transition: "all 150ms", textDecoration: "none"
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#F1F5F9"; e.currentTarget.style.color = "#475569"; }}
+                            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#94A3B8"; }}
+                          >
+                            <span className="material-symbols-outlined" style={{ fontSize: 15 }}>visibility</span>
                           </Link>
                           <IconBtn
                             icon={u.status === "Active" ? "block" : "check_circle"}
@@ -479,6 +494,7 @@ export default function UsersPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
             {/* Prev */}
             <button
+      type="button"
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={safeCurrentPage === 1}
               title="Previous Page"
@@ -505,6 +521,7 @@ export default function UsersPage() {
               const isSelected = safeCurrentPage === n;
               return (
                 <button
+      type="button"
                   key={n}
                   onClick={() => setCurrentPage(n)}
                   style={{
@@ -524,6 +541,7 @@ export default function UsersPage() {
 
             {/* Next */}
             <button
+      type="button"
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={safeCurrentPage === totalPages}
               title="Next Page"

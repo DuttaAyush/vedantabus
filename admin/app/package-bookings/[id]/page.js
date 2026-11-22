@@ -1,5 +1,7 @@
 import ClientPage from './ClientPage';
 
+export const dynamicParams = true;
+
 export function generateStaticParams() {
   return [{ id: 'default' }];
 }
