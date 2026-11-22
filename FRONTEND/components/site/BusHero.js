@@ -11,6 +11,7 @@ export default function BusHero() {
   const searchContainerRef = useRef(null);
   const heroBackgroundRef = useRef(null);
   const heroContentRef = useRef(null);
+  const openPopoverRef = useRef(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isFromOpen, setIsFromOpen] = useState(false);
   const [isToOpen, setIsToOpen] = useState(false);
@@ -46,8 +47,21 @@ export default function BusHero() {
   }, []);
 
   useEffect(() => {
+    openPopoverRef.current = isFromOpen || isToOpen || isDatePickerOpen || isPassengerOpen;
+  }, [isFromOpen, isToOpen, isDatePickerOpen, isPassengerOpen]);
+
+  useEffect(() => {
     let ticking = false;
     const handleScroll = () => {
+      // Close an open popover once, without scheduling React work on every scroll frame.
+      if (openPopoverRef.current) {
+        openPopoverRef.current = false;
+        setIsFromOpen(false);
+        setIsToOpen(false);
+        setIsPassengerOpen(false);
+        setIsDatePickerOpen(false);
+      }
+
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const scrollY = window.scrollY;
@@ -88,13 +102,15 @@ export default function BusHero() {
 
   return (
     <section
-      className="relative isolate min-h-screen flex items-center justify-center overflow-hidden pt-4 sm:pt-8 md:pt-10 pb-8 sm:pb-12 md:pb-16 bg-slate-950 sticky top-0 z-0"
+      className={`relative isolate min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-4.5rem)] lg:min-h-[calc(100svh-5rem)] flex items-center justify-center pt-8 sm:pt-8 md:pt-10 pb-8 sm:pb-12 md:pb-16 bg-slate-950 sticky top-0 transition-all ${
+        (isFromOpen || isToOpen || isDatePickerOpen || isPassengerOpen) ? 'z-40' : 'z-0'
+      }`}
       id="heroSearch"
     >
       {/* TAJ MAHAL HERO BACKGROUND IMAGE WITH PARALLAX ZOOM & EXIT FADE */}
       <div
         ref={heroBackgroundRef}
-        className="absolute inset-0 z-0 transition-opacity duration-150"
+        className="absolute inset-0 z-0 transition-opacity duration-150 overflow-hidden pointer-events-none"
         style={{ opacity: 'var(--hero-background-opacity, 1)' }}
       >
         <img

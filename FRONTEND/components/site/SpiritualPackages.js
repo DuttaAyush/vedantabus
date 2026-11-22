@@ -338,7 +338,7 @@ export default function SpiritualPackages() {
   };
 
   return (
-    <section className="w-full py-16 bg-amber-50/40 border-b border-amber-200/60 scroll-mt-28 sm:scroll-mt-32" id="spiritualPackagesSection">
+    <section className="w-full py-16 bg-amber-50/40 border-b border-amber-200/60 scroll-mt-28 sm:scroll-mt-32 [content-visibility:auto] [contain-intrinsic-size:auto_700px]" id="spiritualPackagesSection">
       <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>

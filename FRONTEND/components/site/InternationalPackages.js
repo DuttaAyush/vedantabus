@@ -568,7 +568,7 @@ export default function InternationalPackages() {
   };
 
   return (
-    <section className="w-full py-16 bg-white border-b border-slate-200 scroll-mt-28 sm:scroll-mt-32" id="internationalPackagesSection">
+    <section className="w-full py-16 bg-white border-b border-slate-200 scroll-mt-28 sm:scroll-mt-32 [content-visibility:auto] [contain-intrinsic-size:auto_700px]" id="internationalPackagesSection">
       <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
@@ -623,11 +623,11 @@ export default function InternationalPackages() {
                     {packages[0].overview || packages[0].shortPlan}
                   </p>
                   <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                    <div className="bg-white/10 backdrop-blur-md px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl border border-white/20">
+                    <div className="bg-white/15 px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl border border-white/20">
                       <span className="text-[9px] sm:text-[10px] text-amber-300 block font-semibold">Duration</span>
                       <span className="text-xs md:text-sm font-extrabold">{packages[0].duration}</span>
                     </div>
-                    <div className="bg-white/10 backdrop-blur-md px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl border border-white/20">
+                    <div className="bg-white/15 px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl border border-white/20">
                       <span className="text-[9px] sm:text-[10px] text-amber-300 block font-semibold">All-Inclusive</span>
                       <span className="text-xs md:text-sm font-extrabold">{packages[0].price} / person</span>
                     </div>
@@ -654,7 +654,7 @@ export default function InternationalPackages() {
                   loading="lazy"
                   decoding="async"
                 />
-                <span className="absolute top-2 left-2 sm:top-3 sm:left-3 px-2 py-0.5 sm:px-3 sm:py-1 rounded-md sm:rounded-lg bg-slate-900/80 backdrop-blur-md text-white font-bold text-[9px] sm:text-xs">
+                <span className="absolute top-2 left-2 sm:top-3 sm:left-3 px-2 py-0.5 sm:px-3 sm:py-1 rounded-md sm:rounded-lg bg-slate-900/90 text-white font-bold text-[9px] sm:text-xs">
                   {pkg.duration}
                 </span>
               </div>

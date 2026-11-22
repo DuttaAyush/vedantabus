@@ -152,7 +152,7 @@ export default function SpotlightDestinations({ rotating = true }) {
 
   return (
     <section
-      className="w-full py-12 md:py-16 bg-[#F8FAFB] overflow-hidden select-none"
+      className="w-full py-12 md:py-16 bg-[#F8FAFB] overflow-hidden select-none [content-visibility:auto] [contain-intrinsic-size:auto_600px]"
       id="destinations"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -290,7 +290,7 @@ export default function SpotlightDestinations({ rotating = true }) {
 
                 {/* Top Badge Bar */}
                 <div className="relative z-20 flex items-center justify-between pointer-events-none">
-                  <span className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-slate-900 font-extrabold text-xs shadow-sm">
+                  <span className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-white text-slate-900 font-extrabold text-xs shadow-sm">
                     <span className="text-amber-500 text-xs">★</span> {item.rating} <span className="text-slate-500 font-medium">({item.reviews})</span>
                   </span>
                   <span className={`inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full ${item.tagBg} font-extrabold text-xs shadow-md tracking-wide`}>
@@ -331,7 +331,7 @@ export default function SpotlightDestinations({ rotating = true }) {
                       className={`font-bold text-xs uppercase tracking-wider transition-all shadow-sm active:scale-95 cursor-pointer ${
                         isCenter
                           ? 'px-6 py-2.5 rounded-xl bg-[#0D9488] hover:bg-teal-700 text-white shadow-teal-600/50'
-                          : 'px-5 py-2.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur-md text-white border border-white/30'
+                          : 'px-5 py-2.5 rounded-lg bg-white/25 hover:bg-white/35 text-white border border-white/30'
                       }`}
                     >
                       {isCenter ? 'Book Now' : 'Explore'}
