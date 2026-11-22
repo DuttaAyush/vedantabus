@@ -489,6 +489,7 @@ async function main() {
   await prisma.bus.deleteMany({});
   await prisma.tourPackage.deleteMany({});
   await prisma.offer.deleteMany({});
+  await prisma.admin.deleteMany({});
   await prisma.user.deleteMany({});
 
   console.log('[seed] Creating Users (Super Admin, Sub Admin & Customer)...');
@@ -512,6 +513,19 @@ async function main() {
       role: 'SUPER_ADMIN',
     }
   });
+
+  // Seed dedicated Admin table
+  const adminList = [
+    { name: 'Super Admin', email: 'superadmin@vedantabus.co.in', phone: '+919999988888', role: 'SUPER_ADMIN' as any },
+    { name: 'Super Admin', email: 'admin@vedbus.com', phone: '+918208024895', role: 'SUPER_ADMIN' as any },
+    { name: 'Super Admin', email: 'admin@travelplatform.in', phone: '+919876500000', role: 'SUPER_ADMIN' as any },
+    { name: 'Operations Manager', email: 'ops@vedantabus.co.in', phone: '+919876500001', role: 'ADMIN' as any },
+  ];
+  for (const adm of adminList) {
+    await prisma.admin.create({
+      data: { name: adm.name, email: adm.email, phone: adm.phone, passwordHash, role: adm.role, isActive: true },
+    }).catch(() => null);
+  }
 
   const opsAdminUser = await prisma.user.create({
     data: {
