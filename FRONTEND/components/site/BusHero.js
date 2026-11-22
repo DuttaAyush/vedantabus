@@ -4,22 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import DatePickerPopover from '@/components/ui/DatePickerPopover';
-
-const popularCities = [
-  { city: 'Nagpur', state: 'Maharashtra', tag: 'Direct Fleet' },
-  { city: 'Pune', state: 'Maharashtra', tag: 'Direct Express' },
-  { city: 'Mumbai', state: 'Maharashtra', tag: 'Borivali & Dadar' },
-  { city: 'Delhi', state: 'NCR', tag: 'Kashmere Gate' },
-  { city: 'Haridwar', state: 'Uttarakhand', tag: 'Ganga Ghat' },
-  { city: 'Indore', state: 'Madhya Pradesh', tag: 'Vijay Nagar' },
-  { city: 'Goa', state: 'Goa', tag: 'Panjim & Mapusa' },
-  { city: 'Shirdi', state: 'Maharashtra', tag: 'Mandir Gate 2' },
-  { city: 'Bengaluru', state: 'Karnataka', tag: 'Majestic' },
-  { city: 'Hyderabad', state: 'Telangana', tag: 'MGBS / Ameerpet' },
-  { city: 'Ahmedabad', state: 'Gujarat', tag: 'Paldi Hub' },
-  { city: 'Varanasi', state: 'Uttar Pradesh', tag: 'Cantt Depot' },
-  { city: 'Jaipur', state: 'Rajasthan', tag: 'Sindhi Camp' },
-];
+import { OPERATIONAL_CITIES, getFilteredCities } from '@/lib/data/citiesData';
 
 export default function BusHero() {
   const router = useRouter();
@@ -36,11 +21,16 @@ export default function BusHero() {
     subText: 'Thursday',
   });
   const [fromCity, setFromCity] = useState('Nagpur');
-  const [toCity, setToCity] = useState('Pune, MH');
+  const [toCity, setToCity] = useState('Pune');
+
+  const filteredFromCities = getFilteredCities(fromCity);
+  const filteredToCities = getFilteredCities(toCity, fromCity);
 
   const handleSwap = () => {
-    setFromCity(toCity);
-    setToCity(fromCity);
+    const nextFrom = toCity;
+    const nextTo = fromCity;
+    setFromCity(nextFrom);
+    setToCity(nextTo);
   };
 
   useEffect(() => {
@@ -132,7 +122,7 @@ export default function BusHero() {
       >
         {/* LEFT-ALIGNED HERO TEXT CONTENT */}
         <div className="max-w-3xl space-y-3 sm:space-y-4 text-left text-white">
-          {/* Official IATA Accreditation Trust Badge (Upper empty space below header logo) */}
+          {/* Official IATA Accreditation Trust Badge */}
           <div className="mb-3 sm:mb-5 -mt-1 sm:-mt-2">
             <div
               className="inline-flex items-center gap-2.5 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/25 shadow-xl select-none w-fit"
@@ -224,6 +214,12 @@ export default function BusHero() {
                   <input
                     type="text"
                     value={fromCity}
+                    onClick={() => {
+                      setIsFromOpen(true);
+                      setIsToOpen(false);
+                      setIsPassengerOpen(false);
+                      setIsDatePickerOpen(false);
+                    }}
                     onFocus={() => {
                       setIsFromOpen(true);
                       setIsToOpen(false);
@@ -236,46 +232,97 @@ export default function BusHero() {
                     }}
                     className="w-full bg-transparent font-medium text-white text-[11px] sm:text-sm md:text-base lg:text-lg outline-none border-0 p-0 focus:ring-0 placeholder-white/40 truncate leading-tight sm:leading-snug"
                     placeholder="Departure city"
+                    autoComplete="off"
                   />
                 </div>
+
+                {fromCity && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFromCity('');
+                      setIsFromOpen(true);
+                    }}
+                    className="w-4 h-4 rounded-full bg-white/10 hover:bg-white/20 text-white/70 hover:text-white flex items-center justify-center shrink-0 text-[10px] transition-colors"
+                    title="Clear departure city"
+                  >
+                    ✕
+                  </button>
+                )}
 
                 {/* FROM AUTOCOMPLETE DROPDOWN */}
                 {isFromOpen && (
                   <div
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute bottom-full left-0 mb-3 w-64 sm:w-72 bg-slate-900/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-2 z-50 text-left animate-fadeIn"
+                    className="absolute bottom-full left-0 mb-3 w-72 sm:w-80 max-w-[calc(100vw-2rem)] bg-slate-900/98 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-2.5 z-50 text-left animate-fadeIn"
                   >
-                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300/80 px-3 py-1.5 border-b border-white/10 flex items-center justify-between">
-                      <span>Select Departure City</span>
-                      <span className="text-[9px] text-white/50">{popularCities.filter(c => c.city.toLowerCase().includes(fromCity.toLowerCase().trim())).length} cities</span>
+                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300/90 px-3 py-1.5 border-b border-white/10 flex items-center justify-between">
+                      <span>{fromCity.trim() ? `Cities matching "${fromCity.trim()}"` : 'Select Departure City'}</span>
+                      <span className="text-[9px] text-white/50">{filteredFromCities.length} Cities</span>
                     </div>
-                    <div className="max-h-48 overflow-y-auto py-1 space-y-0.5 custom-scrollbar">
-                      {popularCities
-                        .filter(c => c.city.toLowerCase().includes(fromCity.toLowerCase().trim()) || c.state.toLowerCase().includes(fromCity.toLowerCase().trim()))
-                        .map((item) => (
-                          <button
-                            key={item.city}
-                            type="button"
-                            onClick={() => {
-                              setFromCity(item.city);
-                              setIsFromOpen(false);
-                            }}
-                            className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-between cursor-pointer ${
-                              fromCity.toLowerCase() === item.city.toLowerCase()
-                                ? 'bg-brand-scarlet text-white font-bold shadow-sm'
-                                : 'text-white/90 hover:bg-white/10 hover:text-white'
-                            }`}
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className="material-symbols-outlined text-[16px] text-amber-300">location_on</span>
-                              <div>
-                                <span className="block text-xs leading-none">{item.city}</span>
-                                <span className="text-[10px] text-white/50">{item.state}</span>
+                    <div className="max-h-56 overflow-y-auto py-1 space-y-1 custom-scrollbar">
+                      {filteredFromCities.length > 0 ? (
+                        filteredFromCities.map((item) => {
+                          const isSelected = fromCity.toLowerCase().trim() === item.city.toLowerCase();
+                          return (
+                            <button
+                              key={item.city}
+                              type="button"
+                              onClick={() => {
+                                setFromCity(item.city);
+                                setIsFromOpen(false);
+                                if (!toCity || toCity.toLowerCase() === item.city.toLowerCase()) {
+                                  if (item.connectsTo && item.connectsTo.length > 0) {
+                                    setToCity(item.connectsTo[0]);
+                                  }
+                                }
+                              }}
+                              className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-between cursor-pointer ${
+                                isSelected
+                                  ? 'bg-brand-scarlet text-white font-bold shadow-sm'
+                                  : 'text-white/90 hover:bg-white/10 hover:text-white'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                <span className="material-symbols-outlined text-[17px] text-amber-300 shrink-0">location_on</span>
+                                <div className="min-w-0">
+                                  <span className="block text-xs font-bold leading-snug">{item.city}</span>
+                                  <span className="text-[10px] text-white/60 block truncate">{item.tag}</span>
+                                  {item.connectsTo && item.connectsTo.length > 0 && (
+                                    <span className="text-[9px] text-emerald-400 block truncate">
+                                      Buses to: {item.connectsTo.join(', ')}
+                                    </span>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-amber-200">{item.tag}</span>
-                          </button>
-                        ))}
+                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-amber-200 shrink-0 ml-1">
+                                {item.state}
+                              </span>
+                            </button>
+                          );
+                        })
+                      ) : (
+                        <div className="p-3 text-center text-xs text-white/70">
+                          <p className="font-semibold text-amber-300">No direct bus hub matching &quot;{fromCity}&quot;</p>
+                          <p className="text-[10px] text-white/50 mt-1">Available VedantaBus departure hubs:</p>
+                          <div className="flex flex-wrap gap-1.5 justify-center mt-2.5">
+                            {OPERATIONAL_CITIES.slice(0, 6).map((c) => (
+                              <button
+                                key={c.city}
+                                type="button"
+                                onClick={() => {
+                                  setFromCity(c.city);
+                                  setIsFromOpen(false);
+                                }}
+                                className="px-2.5 py-1 rounded-full bg-white/10 hover:bg-brand-scarlet text-[11px] text-white font-bold transition-all"
+                              >
+                                {c.city}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -306,6 +353,12 @@ export default function BusHero() {
                   <input
                     type="text"
                     value={toCity}
+                    onClick={() => {
+                      setIsToOpen(true);
+                      setIsFromOpen(false);
+                      setIsPassengerOpen(false);
+                      setIsDatePickerOpen(false);
+                    }}
                     onFocus={() => {
                       setIsToOpen(true);
                       setIsFromOpen(false);
@@ -318,46 +371,110 @@ export default function BusHero() {
                     }}
                     className="w-full bg-transparent font-medium text-white text-[11px] sm:text-sm md:text-base lg:text-lg outline-none border-0 p-0 focus:ring-0 placeholder-white/40 truncate leading-tight sm:leading-snug"
                     placeholder="Destination city"
+                    autoComplete="off"
                   />
                 </div>
+
+                {toCity && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setToCity('');
+                      setIsToOpen(true);
+                    }}
+                    className="w-4 h-4 rounded-full bg-white/10 hover:bg-white/20 text-white/70 hover:text-white flex items-center justify-center shrink-0 text-[10px] transition-colors"
+                    title="Clear destination city"
+                  >
+                    ✕
+                  </button>
+                )}
 
                 {/* TO AUTOCOMPLETE DROPDOWN */}
                 {isToOpen && (
                   <div
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute bottom-full right-0 sm:right-auto sm:left-0 mb-3 w-64 sm:w-72 max-w-[calc(100vw-2rem)] bg-slate-900/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-2 z-50 text-left animate-fadeIn"
+                    className="absolute bottom-full right-0 sm:right-auto sm:left-0 mb-3 w-72 sm:w-80 max-w-[calc(100vw-2rem)] bg-slate-900/98 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-2.5 z-50 text-left animate-fadeIn"
                   >
-                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300/80 px-3 py-1.5 border-b border-white/10 flex items-center justify-between">
-                      <span>Select Destination City</span>
-                      <span className="text-[9px] text-white/50">{popularCities.filter(c => c.city.toLowerCase().includes(toCity.toLowerCase().trim())).length} cities</span>
+                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300/90 px-3 py-1.5 border-b border-white/10 flex items-center justify-between">
+                      <span>
+                        {toCity.trim()
+                          ? `Matching Destinations (${filteredToCities.length})`
+                          : fromCity
+                          ? `Buses from ${fromCity}`
+                          : 'Select Destination City'}
+                      </span>
+                      <span className="text-[9px] text-white/50">{filteredToCities.length} Cities</span>
                     </div>
-                    <div className="max-h-48 overflow-y-auto py-1 space-y-0.5 custom-scrollbar">
-                      {popularCities
-                        .filter(c => c.city.toLowerCase().includes(toCity.toLowerCase().trim()) || c.state.toLowerCase().includes(toCity.toLowerCase().trim()))
-                        .map((item) => (
-                          <button
-                            key={item.city}
-                            type="button"
-                            onClick={() => {
-                              setToCity(item.city);
-                              setIsToOpen(false);
-                            }}
-                            className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-between cursor-pointer ${
-                              toCity.toLowerCase() === item.city.toLowerCase()
-                                ? 'bg-brand-scarlet text-white font-bold shadow-sm'
-                                : 'text-white/90 hover:bg-white/10 hover:text-white'
-                            }`}
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className="material-symbols-outlined text-[16px] text-amber-300">pin_drop</span>
-                              <div>
-                                <span className="block text-xs leading-none">{item.city}</span>
-                                <span className="text-[10px] text-white/50">{item.state}</span>
+                    <div className="max-h-56 overflow-y-auto py-1 space-y-1 custom-scrollbar">
+                      {filteredToCities.length > 0 ? (
+                        filteredToCities.map((item) => {
+                          const isSelected = toCity.toLowerCase().trim() === item.city.toLowerCase();
+                          const isDirectRoute =
+                            fromCity &&
+                            OPERATIONAL_CITIES.find(
+                              (c) => c.city.toLowerCase() === fromCity.toLowerCase().trim()
+                            )?.connectsTo?.some(
+                              (d) => d.toLowerCase() === item.city.toLowerCase()
+                            );
+
+                          return (
+                            <button
+                              key={item.city}
+                              type="button"
+                              onClick={() => {
+                                setToCity(item.city);
+                                setIsToOpen(false);
+                              }}
+                              className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-between cursor-pointer ${
+                                isSelected
+                                  ? 'bg-brand-scarlet text-white font-bold shadow-sm'
+                                  : 'text-white/90 hover:bg-white/10 hover:text-white'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                <span className={`material-symbols-outlined text-[17px] shrink-0 ${isDirectRoute ? 'text-emerald-400' : 'text-amber-300'}`}>
+                                  {isDirectRoute ? 'verified' : 'pin_drop'}
+                                </span>
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="text-xs font-bold leading-snug">{item.city}</span>
+                                    {isDirectRoute && (
+                                      <span className="text-[9px] px-1 py-0.2 bg-emerald-500/20 text-emerald-300 rounded font-semibold border border-emerald-500/30">
+                                        Direct Route
+                                      </span>
+                                    )}
+                                  </div>
+                                  <span className="text-[10px] text-white/60 block truncate">{item.tag}</span>
+                                </div>
                               </div>
-                            </div>
-                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-amber-200">{item.tag}</span>
-                          </button>
-                        ))}
+                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-amber-200 shrink-0 ml-1">
+                                {item.state}
+                              </span>
+                            </button>
+                          );
+                        })
+                      ) : (
+                        <div className="p-3 text-center text-xs text-white/70">
+                          <p className="font-semibold text-amber-300">No direct bus destination matching &quot;{toCity}&quot;</p>
+                          <p className="text-[10px] text-white/50 mt-1">Available VedantaBus destinations:</p>
+                          <div className="flex flex-wrap gap-1.5 justify-center mt-2.5">
+                            {OPERATIONAL_CITIES.slice(0, 6).map((c) => (
+                              <button
+                                key={c.city}
+                                type="button"
+                                onClick={() => {
+                                  setToCity(c.city);
+                                  setIsToOpen(false);
+                                }}
+                                className="px-2.5 py-1 rounded-full bg-white/10 hover:bg-brand-scarlet text-[11px] text-white font-bold transition-all"
+                              >
+                                {c.city}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

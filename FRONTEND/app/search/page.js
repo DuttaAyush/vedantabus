@@ -8,17 +8,7 @@ import Footer from '@/components/site/Footer';
 import DatePickerPopover from '@/components/ui/DatePickerPopover';
 import { apiFetch } from '@/lib/api';
 
-const popularCities = [
-  'Nagpur',
-  'Pune',
-  'Mumbai',
-  'Delhi',
-  'Haridwar',
-  'Indore',
-  'Goa',
-  'Shirdi',
-  'Bengaluru',
-];
+import { OPERATIONAL_CITIES, getFilteredCities } from '@/lib/data/citiesData';
 
 function SearchContent() {
   const router = useRouter();
@@ -90,11 +80,16 @@ function SearchContent() {
 
   const [isFromOpen, setIsFromOpen] = useState(false);
   const [isToOpen, setIsToOpen] = useState(false);
+  const [fromSearchQuery, setFromSearchQuery] = useState('');
+  const [toSearchQuery, setToSearchQuery] = useState('');
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isPassengerOpen, setIsPassengerOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [isMobileSearchExpanded, setIsMobileSearchExpanded] = useState(false);
+
+  const searchFromCities = getFilteredCities(fromSearchQuery);
+  const searchToCities = getFilteredCities(toSearchQuery, fromCity);
 
   const activeFiltersCount =
     selectedTimeSlots.length +
@@ -144,6 +139,7 @@ function SearchContent() {
 
   const handleFromCitySelect = (city) => {
     setFromCity(city);
+    setFromSearchQuery('');
     setIsFromOpen(false);
     fetchBuses(city, toCity, selectedDate?.mainText);
     syncSearchLive(city, toCity, selectedDate?.mainText, passengerCount);
@@ -151,6 +147,7 @@ function SearchContent() {
 
   const handleToCitySelect = (city) => {
     setToCity(city);
+    setToSearchQuery('');
     setIsToOpen(false);
     fetchBuses(fromCity, city, selectedDate?.mainText);
     syncSearchLive(fromCity, city, selectedDate?.mainText, passengerCount);
@@ -261,6 +258,7 @@ function SearchContent() {
                   onClick={() => {
                     closeAllDropdowns();
                     setIsFromOpen(!isFromOpen);
+                    setFromSearchQuery('');
                   }}
                   className="flex items-center gap-2 bg-slate-50 hover:bg-red-50/50 px-3.5 py-2 rounded-2xl border border-slate-200 hover:border-brand-scarlet text-xs font-bold transition-all cursor-pointer shadow-sm active:scale-95"
                 >
@@ -270,26 +268,82 @@ function SearchContent() {
                 </button>
 
                 {isFromOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 z-50 animate-fadeIn">
-                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 px-3 py-1.5 border-b border-slate-100">
-                      Select Departure City
+                  <div className="absolute top-full left-0 mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 p-2 z-50 animate-fadeIn">
+                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 px-3 py-1 flex items-center justify-between">
+                      <span>Select Departure City</span>
+                      <span className="text-brand-scarlet font-bold">{searchFromCities.length} available</span>
                     </div>
-                    <div className="max-h-48 overflow-y-auto py-1 space-y-0.5">
-                      {popularCities.map((city) => (
+
+                    {/* Quick Search Input */}
+                    <div className="p-2 border-b border-slate-100 flex items-center gap-2 bg-slate-50 rounded-xl my-1">
+                      <span className="material-symbols-outlined text-[16px] text-slate-400">search</span>
+                      <input
+                        type="text"
+                        value={fromSearchQuery}
+                        onChange={(e) => setFromSearchQuery(e.target.value)}
+                        placeholder="Search departure city or state..."
+                        className="w-full text-xs font-semibold bg-transparent border-0 outline-none p-0 focus:ring-0 text-slate-800 placeholder-slate-400"
+                        autoFocus
+                      />
+                      {fromSearchQuery && (
                         <button
-                          key={city}
                           type="button"
-                          onClick={() => handleFromCitySelect(city)}
-                          className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-colors flex items-center justify-between ${
-                            fromCity === city
-                              ? 'bg-red-50 text-brand-scarlet'
-                              : 'text-slate-700 hover:bg-slate-100'
-                          }`}
+                          onClick={() => setFromSearchQuery('')}
+                          className="w-4 h-4 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center text-[10px] shrink-0 transition-colors"
                         >
-                          <span>{city}</span>
-                          {fromCity === city && <span>✓</span>}
+                          ✕
                         </button>
-                      ))}
+                      )}
+                    </div>
+
+                    <div className="max-h-56 overflow-y-auto py-1 space-y-1">
+                      {searchFromCities.length > 0 ? (
+                        searchFromCities.map((item) => (
+                          <button
+                            key={item.city}
+                            type="button"
+                            onClick={() => handleFromCitySelect(item.city)}
+                            className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
+                              fromCity.toLowerCase() === item.city.toLowerCase()
+                                ? 'bg-red-50 text-brand-scarlet font-black border border-red-100'
+                                : 'text-slate-700 hover:bg-slate-100'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 min-w-0">
+                              <span className="material-symbols-outlined text-brand-scarlet text-[16px]">location_on</span>
+                              <div className="min-w-0">
+                                <span className="block text-xs leading-tight truncate">{item.city}</span>
+                                <span className="text-[10px] text-slate-400 font-normal">{item.state}</span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
+                                {item.tag}
+                              </span>
+                              {fromCity.toLowerCase() === item.city.toLowerCase() && (
+                                <span className="text-brand-scarlet font-bold">✓</span>
+                              )}
+                            </div>
+                          </button>
+                        ))
+                      ) : (
+                        <div className="p-3 text-center text-xs text-slate-500">
+                          <p className="font-semibold text-slate-700">No cities found matching &quot;{fromSearchQuery}&quot;</p>
+                          <p className="text-[10px] text-slate-400 mt-0.5">Popular departure cities:</p>
+                          <div className="flex flex-wrap gap-1.5 justify-center mt-2">
+                            {OPERATIONAL_CITIES.slice(0, 5).map((c) => (
+                              <button
+                                key={c.city}
+                                type="button"
+                                onClick={() => handleFromCitySelect(c.city)}
+                                className="px-2 py-1 rounded-lg bg-slate-100 hover:bg-red-50 hover:text-brand-scarlet text-[11px] font-bold text-slate-700 transition-colors"
+                              >
+                                {c.city}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -310,6 +364,7 @@ function SearchContent() {
                   onClick={() => {
                     closeAllDropdowns();
                     setIsToOpen(!isToOpen);
+                    setToSearchQuery('');
                   }}
                   className="flex items-center gap-2 bg-slate-50 hover:bg-red-50/50 px-3.5 py-2 rounded-2xl border border-slate-200 hover:border-brand-scarlet text-xs font-bold transition-all cursor-pointer shadow-sm active:scale-95"
                 >
@@ -319,26 +374,100 @@ function SearchContent() {
                 </button>
 
                 {isToOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 z-50 animate-fadeIn">
-                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 px-3 py-1.5 border-b border-slate-100">
-                      Select Destination City
+                  <div className="absolute top-full left-0 mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 p-2 z-50 animate-fadeIn">
+                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 px-3 py-1 flex items-center justify-between">
+                      <span>Select Destination City</span>
+                      <span className="text-brand-scarlet font-bold">{searchToCities.length} available</span>
                     </div>
-                    <div className="max-h-48 overflow-y-auto py-1 space-y-0.5">
-                      {popularCities.map((city) => (
+
+                    {/* Quick Search Input */}
+                    <div className="p-2 border-b border-slate-100 flex items-center gap-2 bg-slate-50 rounded-xl my-1">
+                      <span className="material-symbols-outlined text-[16px] text-slate-400">search</span>
+                      <input
+                        type="text"
+                        value={toSearchQuery}
+                        onChange={(e) => setToSearchQuery(e.target.value)}
+                        placeholder="Search destination city or state..."
+                        className="w-full text-xs font-semibold bg-transparent border-0 outline-none p-0 focus:ring-0 text-slate-800 placeholder-slate-400"
+                        autoFocus
+                      />
+                      {toSearchQuery && (
                         <button
-                          key={city}
                           type="button"
-                          onClick={() => handleToCitySelect(city)}
-                          className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-colors flex items-center justify-between ${
-                            toCity === city
-                              ? 'bg-red-50 text-brand-scarlet'
-                              : 'text-slate-700 hover:bg-slate-100'
-                          }`}
+                          onClick={() => setToSearchQuery('')}
+                          className="w-4 h-4 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center text-[10px] shrink-0 transition-colors"
                         >
-                          <span>{city}</span>
-                          {toCity === city && <span>✓</span>}
+                          ✕
                         </button>
-                      ))}
+                      )}
+                    </div>
+
+                    <div className="max-h-56 overflow-y-auto py-1 space-y-1">
+                      {searchToCities.length > 0 ? (
+                        searchToCities.map((item) => {
+                          const isSelected = toCity.toLowerCase() === item.city.toLowerCase();
+                          const isDirectRoute =
+                            fromCity &&
+                            OPERATIONAL_CITIES.find(
+                              (c) => c.city.toLowerCase() === fromCity.toLowerCase().trim()
+                            )?.connectsTo?.some(
+                              (d) => d.toLowerCase() === item.city.toLowerCase()
+                            );
+
+                          return (
+                            <button
+                              key={item.city}
+                              type="button"
+                              onClick={() => handleToCitySelect(item.city)}
+                              className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
+                                isSelected
+                                  ? 'bg-red-50 text-brand-scarlet font-black border border-red-100'
+                                  : 'text-slate-700 hover:bg-slate-100'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2 min-w-0">
+                                <span className={`material-symbols-outlined text-[16px] shrink-0 ${isDirectRoute ? 'text-emerald-600' : 'text-slate-400'}`}>
+                                  {isDirectRoute ? 'verified' : 'pin_drop'}
+                                </span>
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="text-xs leading-tight truncate">{item.city}</span>
+                                    {isDirectRoute && (
+                                      <span className="text-[9px] px-1 py-0.2 bg-emerald-50 text-emerald-700 rounded font-semibold border border-emerald-200">
+                                        Direct
+                                      </span>
+                                    )}
+                                  </div>
+                                  <span className="text-[10px] text-slate-400 font-normal">{item.state}</span>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
+                                  {item.tag}
+                                </span>
+                                {isSelected && <span className="text-brand-scarlet font-bold">✓</span>}
+                              </div>
+                            </button>
+                          );
+                        })
+                      ) : (
+                        <div className="p-3 text-center text-xs text-slate-500">
+                          <p className="font-semibold text-slate-700">No cities found matching &quot;{toSearchQuery}&quot;</p>
+                          <p className="text-[10px] text-slate-400 mt-0.5">Popular destination cities:</p>
+                          <div className="flex flex-wrap gap-1.5 justify-center mt-2">
+                            {OPERATIONAL_CITIES.slice(0, 5).map((c) => (
+                              <button
+                                key={c.city}
+                                type="button"
+                                onClick={() => handleToCitySelect(c.city)}
+                                className="px-2 py-1 rounded-lg bg-slate-100 hover:bg-red-50 hover:text-brand-scarlet text-[11px] font-bold text-slate-700 transition-colors"
+                              >
+                                {c.city}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
