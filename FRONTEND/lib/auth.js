@@ -53,15 +53,8 @@ export async function logoutUser(redirectTo = '/') {
 }
 
 export function getUserAvatar(user) {
-  if (user?.avatar && typeof user.avatar === 'string' && user.avatar.startsWith('http')) {
+  if (user?.avatar && typeof user.avatar === 'string' && (user.avatar.startsWith('http') || user.avatar.startsWith('/')) && !user.avatar.includes('pravatar')) {
     return user.avatar;
   }
-  const seed = String(user?.id || user?.email || user?.phone || user?.name || 'traveler_user');
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = (hash << 5) - hash + seed.charCodeAt(i);
-    hash |= 0;
-  }
-  const avatarIndex = (Math.abs(hash) % 70) + 1;
-  return `https://i.pravatar.cc/150?img=${avatarIndex}`;
+  return '/images/avatar.png';
 }

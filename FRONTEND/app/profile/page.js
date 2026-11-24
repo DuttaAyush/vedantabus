@@ -505,7 +505,9 @@ export default function CustomerProfilePage() {
               <div className="space-y-0.5 sm:space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h1 className="text-xl sm:text-2xl lg:text-3xl font-serif font-extrabold text-slate-950 tracking-tight">
-                    {userProfile?.name || 'Traveller'}
+                    {userProfile?.name && userProfile.name.trim().toLowerCase() !== 'traveller'
+                      ? `Hey, ${userProfile.name}`
+                      : 'Hey Traveller'}
                   </h1>
                   <span className="px-2.5 py-0.5 rounded-full bg-amber-200/90 text-amber-950 font-extrabold text-[11px] border border-amber-300 shadow-sm flex items-center gap-1 whitespace-nowrap">
                     ⭐ VIP Club Member
