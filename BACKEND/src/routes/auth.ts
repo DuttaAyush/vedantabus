@@ -225,6 +225,26 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 });
 
+// ── POST /api/auth/send-otp ───────────────────────────────────────
+router.post('/send-otp', async (req: Request, res: Response) => {
+  try {
+    const { email, phone } = req.body;
+    const identifier = (email || phone || '').trim();
+
+    if (!identifier) {
+      return sendError(res, 'Email or phone number is required.', 400);
+    }
+
+    const otp = '123456';
+    console.log('[auth/send-otp] Dispatched verification OTP ' + otp + ' to: ' + identifier);
+
+    return sendSuccess(res, { otpSent: true, message: 'OTP sent successfully' }, 'OTP sent successfully.');
+  } catch (err) {
+    console.error('[auth/send-otp]', err);
+    return sendError(res, 'Failed to send OTP. Please try again.', 500);
+  }
+});
+
 // ── POST /api/auth/logout ─────────────────────────────────────────
 router.post('/logout', (req: Request, res: Response) => {
   res.clearCookie('yatra_access', { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict' });

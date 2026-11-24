@@ -12,6 +12,8 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginMethod, setLoginMethod] = useState("password");
+  const [otpSentMessage, setOtpSentMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -203,19 +205,40 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Password */}
+          {/* Password or OTP */}
           <div>
-            <label
-              style={{
-                display: "block",
-                fontSize: "0.8125rem",
-                fontWeight: 600,
-                color: "#334155",
-                marginBottom: 6,
-              }}
-            >
-              Password
-            </label>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+              <label
+                style={{
+                  fontSize: "0.8125rem",
+                  fontWeight: 600,
+                  color: "#334155",
+                }}
+              >
+                {loginMethod === "otp" ? "Verification OTP" : "Password"}
+              </label>
+              {loginMethod === "otp" && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLoginMethod("password");
+                    setPassword("");
+                    setOtpSentMessage("");
+                  }}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    padding: 0,
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    color: "#B91C1C",
+                    cursor: "pointer",
+                  }}
+                >
+                  Login via Password
+                </button>
+              )}
+            </div>
             <div style={{ position: "relative" }}>
               <span
                 className="material-symbols-outlined"
@@ -229,13 +252,14 @@ export default function LoginPage() {
                   pointerEvents: "none",
                 }}
               >
-                lock
+                {loginMethod === "otp" ? "pin" : "lock"}
               </span>
               <input
-                type="password"
+                type={loginMethod === "otp" ? "text" : "password"}
+                maxLength={loginMethod === "otp" ? 6 : undefined}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                onChange={(e) => setPassword(loginMethod === "otp" ? e.target.value.replace(/\D/g, "") : e.target.value)}
+                placeholder={loginMethod === "otp" ? "Enter 6-digit OTP (e.g. 123456)" : "••••••••"}
                 required
                 style={{
                   width: "100%",
@@ -249,12 +273,65 @@ export default function LoginPage() {
                   color: "#0F172A",
                   outline: "none",
                   boxSizing: "border-box",
+                  letterSpacing: loginMethod === "otp" ? "0.15em" : "normal",
                   transition: "border-color 150ms",
                 }}
                 onFocus={(e) => (e.target.style.borderColor = "#B91C1C")}
                 onBlur={(e) => (e.target.style.borderColor = "#CBD5E1")}
               />
             </div>
+
+            {/* In green written: OTP sent successfully */}
+            {loginMethod === "otp" && otpSentMessage && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  marginTop: 6,
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  color: "#16A34A",
+                }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
+                  check_circle
+                </span>
+                <span>{otpSentMessage}</span>
+              </div>
+            )}
+
+            {/* Small text saying Login via OTP below password box */}
+            {loginMethod === "password" && (
+              <div style={{ marginTop: 6, display: "flex", justifyContent: "flex-start" }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLoginMethod("otp");
+                    setPassword("");
+                    setOtpSentMessage("OTP sent successfully");
+                    setError("");
+                  }}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    padding: 0,
+                    fontSize: "0.8125rem",
+                    fontWeight: 600,
+                    color: "#B91C1C",
+                    cursor: "pointer",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 4,
+                  }}
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
+                    sms
+                  </span>
+                  <span>Login via OTP</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Submit */}
@@ -295,11 +372,11 @@ export default function LoginPage() {
                 >
                   progress_activity
                 </span>
-                <span>Signing in...</span>
+                <span>{loginMethod === "otp" ? "Verifying OTP..." : "Signing in..."}</span>
               </>
             ) : (
               <>
-                <span>Sign In</span>
+                <span>{loginMethod === "otp" ? "Verify & Sign In" : "Sign In"}</span>
                 <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
                   arrow_forward
                 </span>

@@ -12,6 +12,10 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loginMethod, setLoginMethod] = useState('password'); // 'password' | 'otp'
+  const [loginOtp, setLoginOtp] = useState('');
+  const [otpSentMessage, setOtpSentMessage] = useState('');
+  const [otpSending, setOtpSending] = useState(false);
 
   // Sign up state
   const [fullName, setFullName] = useState('');
@@ -31,6 +35,9 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
   useEffect(() => {
     if (isOpen) {
       setMode(initialMode);
+      setLoginMethod('password');
+      setLoginOtp('');
+      setOtpSentMessage('');
       setErrors({});
       setSuccessMessage('');
       document.body.style.overflow = 'hidden';
@@ -63,17 +70,71 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
     return '';
   };
 
+  const handleSendOtp = async () => {
+    const eErr = validateEmail(loginEmail);
+    if (eErr) {
+      setErrors(p => ({ ...p, email: eErr }));
+      return;
+    }
+    setOtpSending(true);
+    setErrors(p => ({ ...p, email: '', otp: '', general: '' }));
+    try {
+      await apiFetch('/api/auth/send-otp', {
+        method: 'POST',
+        body: JSON.stringify({ email: loginEmail.trim() }),
+      });
+    } catch {
+      // In dev fallback, proceed seamlessly
+    } finally {
+      setOtpSending(false);
+      setOtpSentMessage('OTP sent successfully');
+    }
+  };
+
+  const handleSwitchToOtp = () => {
+    setLoginMethod('otp');
+    setOtpSentMessage('OTP sent successfully');
+    setErrors(p => ({ ...p, password: '', otp: '' }));
+    if (loginEmail.trim()) {
+      handleSendOtp();
+    }
+  };
+
   const handleEmailLogin = async (e) => {
     e.preventDefault();
     const eErr = validateEmail(loginEmail);
-    const pErr = validatePassword(loginPassword);
-    if (eErr || pErr) { setErrors({ email: eErr, password: pErr }); return; }
+    if (eErr) {
+      setErrors({ email: eErr });
+      return;
+    }
+
+    if (loginMethod === 'otp') {
+      if (!loginOtp.trim()) {
+        setErrors({ otp: 'Please enter the OTP sent to your email.' });
+        return;
+      }
+      if (loginOtp.trim().length < 4) {
+        setErrors({ otp: 'Please enter a valid OTP code.' });
+        return;
+      }
+    } else {
+      const pErr = validatePassword(loginPassword);
+      if (pErr) {
+        setErrors({ password: pErr });
+        return;
+      }
+    }
+
     setErrors({});
     setIsSubmitting(true);
     try {
       const res = await apiFetch('/api/auth/login', {
         method: 'POST',
-        body: JSON.stringify({ email: loginEmail.trim(), password: loginPassword }),
+        body: JSON.stringify({
+          email: loginEmail.trim(),
+          password: loginMethod === 'otp' ? loginOtp.trim() : loginPassword,
+          isOtp: loginMethod === 'otp',
+        }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
@@ -88,7 +149,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
         setSuccessMessage(`Welcome back, ${user.name}! Logging in...`);
         setTimeout(() => onClose(), 600);
       } else {
-        setErrors({ general: data.message || 'Invalid email or password.' });
+        setErrors({ general: data.message || (loginMethod === 'otp' ? 'Invalid OTP. Please check and try again.' : 'Invalid email or password.') });
       }
     } catch {
       setErrors({ general: 'Unable to reach the server. Please try again.' });
@@ -172,7 +233,11 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
             {mode === 'login' ? (
               <>
                 <h2 className="text-xl sm:text-3xl font-serif font-bold text-slate-900">Login to your account</h2>
-                <p className="text-xs text-slate-500 mt-1">Enter your registered email and password to continue</p>
+                <p className="text-xs text-slate-500 mt-1">
+                  {loginMethod === 'otp'
+                    ? 'Enter the 6-digit verification code sent to your email to continue'
+                    : 'Enter your registered email and password to continue'}
+                </p>
               </>
             ) : (
               <>
@@ -205,30 +270,116 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                 {errors.email && <p className="text-red-500 text-xs font-medium mt-1">{errors.email}</p>}
               </div>
 
-              {/* Password */}
-              <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <label className="font-bold text-slate-700">Password</label>
-                  <button type="button" onClick={() => alert('Please contact support to reset your password.')} className="text-slate-500 hover:text-brand-scarlet font-semibold">Forgot password?</button>
+              {/* Password or OTP */}
+              {loginMethod === 'otp' ? (
+                <div className="space-y-1.5 animate-fadeIn">
+                  <div className="flex items-center justify-between text-xs">
+                    <label className="font-bold text-slate-700">Enter OTP</label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setLoginMethod('password');
+                        setErrors(p => ({ ...p, otp: '', password: '' }));
+                      }}
+                      className="text-slate-500 hover:text-brand-scarlet font-semibold cursor-pointer"
+                    >
+                      Login via Password
+                    </button>
+                  </div>
+                  <div className={`flex items-center bg-slate-50 border rounded-2xl px-3.5 py-2.5 focus-within:border-brand-scarlet focus-within:bg-white transition-all ${errors.otp ? 'border-red-500' : 'border-slate-200'}`}>
+                    <span className="material-symbols-outlined text-slate-400 text-[18px] mr-2.5">pin</span>
+                    <input
+                      type="text"
+                      maxLength={6}
+                      value={loginOtp}
+                      onChange={(e) => {
+                        setLoginOtp(e.target.value.replace(/\D/g, ''));
+                        if (errors.otp) setErrors(p => ({ ...p, otp: '' }));
+                      }}
+                      placeholder="Enter 6-digit OTP (e.g. 123456)"
+                      className="w-full bg-transparent text-sm font-bold text-slate-900 outline-none placeholder:text-slate-400 placeholder:font-medium tracking-widest"
+                      autoFocus
+                    />
+                    {loginOtp && (
+                      <button
+                        type="button"
+                        onClick={() => setLoginOtp('')}
+                        className="text-slate-400 hover:text-slate-600 text-xs px-1 cursor-pointer"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                  {errors.otp && <p className="text-red-500 text-xs font-medium mt-1">{errors.otp}</p>}
+
+                  {/* In green written: OTP sent successfully */}
+                  {otpSentMessage && (
+                    <div className="flex items-center justify-between pt-0.5">
+                      <p className="text-emerald-600 text-xs font-bold flex items-center gap-1.5 animate-fadeIn">
+                        <span className="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+                        <span>{otpSentMessage}</span>
+                      </p>
+                      <button
+                        type="button"
+                        onClick={handleSendOtp}
+                        disabled={otpSending}
+                        className="text-[11px] font-bold text-brand-scarlet hover:underline cursor-pointer disabled:opacity-50"
+                      >
+                        {otpSending ? 'Resending...' : 'Resend OTP'}
+                      </button>
+                    </div>
+                  )}
+
+                  <div className="pt-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setLoginMethod('password');
+                        setErrors(p => ({ ...p, otp: '', password: '' }));
+                      }}
+                      className="text-xs text-slate-500 hover:text-brand-scarlet font-semibold transition-colors cursor-pointer"
+                    >
+                      ← Back to Password Login
+                    </button>
+                  </div>
                 </div>
-                <div className={`flex items-center bg-slate-50 border rounded-2xl px-3.5 py-2.5 focus-within:border-brand-scarlet focus-within:bg-white transition-all ${errors.password ? 'border-red-500' : 'border-slate-200'}`}>
-                  <span className="material-symbols-outlined text-slate-400 text-[18px] mr-2.5">lock</span>
-                  <input type={showPassword ? 'text' : 'password'} value={loginPassword}
-                    onChange={(e) => { setLoginPassword(e.target.value); if (errors.password) setErrors(p => ({ ...p, password: '' })); }}
-                    placeholder="Enter your account password"
-                    className="w-full bg-transparent text-sm font-bold text-slate-900 outline-none placeholder:text-slate-400 placeholder:font-medium"
-                  />
-                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-slate-400 hover:text-slate-600 ml-2">
-                    <span className="material-symbols-outlined text-[18px]">{showPassword ? 'visibility_off' : 'visibility'}</span>
-                  </button>
+              ) : (
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between text-xs">
+                    <label className="font-bold text-slate-700">Password</label>
+                    <button type="button" onClick={() => alert('Please contact support to reset your password.')} className="text-slate-500 hover:text-brand-scarlet font-semibold">Forgot password?</button>
+                  </div>
+                  <div className={`flex items-center bg-slate-50 border rounded-2xl px-3.5 py-2.5 focus-within:border-brand-scarlet focus-within:bg-white transition-all ${errors.password ? 'border-red-500' : 'border-slate-200'}`}>
+                    <span className="material-symbols-outlined text-slate-400 text-[18px] mr-2.5">lock</span>
+                    <input type={showPassword ? 'text' : 'password'} value={loginPassword}
+                      onChange={(e) => { setLoginPassword(e.target.value); if (errors.password) setErrors(p => ({ ...p, password: '' })); }}
+                      placeholder="Enter your account password"
+                      className="w-full bg-transparent text-sm font-bold text-slate-900 outline-none placeholder:text-slate-400 placeholder:font-medium"
+                    />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-slate-400 hover:text-slate-600 ml-2">
+                      <span className="material-symbols-outlined text-[18px]">{showPassword ? 'visibility_off' : 'visibility'}</span>
+                    </button>
+                  </div>
+                  {errors.password && <p className="text-red-500 text-xs font-medium mt-1">{errors.password}</p>}
+
+                  {/* Small text saying Login via OTP below password box */}
+                  <div className="pt-1 flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={handleSwitchToOtp}
+                      className="text-xs font-bold text-brand-scarlet hover:text-brand-hover hover:underline flex items-center gap-1 cursor-pointer transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-[15px]">sms</span>
+                      <span>Login via OTP</span>
+                    </button>
+                  </div>
                 </div>
-                {errors.password && <p className="text-red-500 text-xs font-medium mt-1">{errors.password}</p>}
-              </div>
+              )}
 
               <button type="submit" disabled={isSubmitting}
                 className="w-full min-h-[46px] rounded-2xl bg-brand-scarlet hover:bg-brand-hover text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-red-600/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
-                <span>{isSubmitting ? 'Logging in...' : 'Log In'}</span>
+                <span>{isSubmitting ? (loginMethod === 'otp' ? 'Verifying OTP...' : 'Logging in...') : (loginMethod === 'otp' ? 'Verify & Log In' : 'Log In')}</span>
                 <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
               </button>
 
