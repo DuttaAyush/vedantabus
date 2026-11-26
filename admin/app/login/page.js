@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { adminFetch } from "@/lib/api";
 
@@ -14,8 +14,65 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loginMethod, setLoginMethod] = useState("password");
   const [otpSentMessage, setOtpSentMessage] = useState("");
+  const [otpCooldown, setOtpCooldown] = useState(0);
+  const lastOtpSentRef = useRef(0);
+  const lastOtpEmailRef = useRef("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    let interval;
+    if (otpCooldown > 0) {
+      interval = setInterval(() => {
+        setOtpCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [otpCooldown]);
+
+  const handleSendAdminOtp = async () => {
+    if (!email.trim()) {
+      setError("Please enter your admin email first.");
+      return;
+    }
+    const cleanEmail = email.trim().toLowerCase();
+    const now = Date.now();
+    if (now - lastOtpSentRef.current < 20000 && lastOtpEmailRef.current === cleanEmail) {
+      setOtpSentMessage("OTP sent successfully");
+      return;
+    }
+    if (otpCooldown > 0) return;
+
+    try {
+      await adminFetch("/api/auth/send-otp", {
+        method: "POST",
+        body: JSON.stringify({ email: cleanEmail }),
+      });
+    } catch {}
+    setOtpCooldown(20);
+    lastOtpSentRef.current = Date.now();
+    lastOtpEmailRef.current = cleanEmail;
+    setOtpSentMessage("OTP sent successfully");
+  };
+
+  const handleSwitchToOtp = () => {
+    setLoginMethod("otp");
+    setPassword("");
+    setError("");
+
+    const cleanEmail = email.trim().toLowerCase();
+    const now = Date.now();
+    if (now - lastOtpSentRef.current < 20000 && lastOtpEmailRef.current === cleanEmail && cleanEmail) {
+      setOtpSentMessage("OTP sent successfully");
+      return;
+    }
+
+    if (cleanEmail) {
+      handleSendAdminOtp();
+    } else {
+      setOtpSentMessage("");
+    }
+  };
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
@@ -287,17 +344,35 @@ export default function LoginPage() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 6,
+                  justifyContent: "space-between",
                   marginTop: 6,
                   fontSize: "0.75rem",
                   fontWeight: 600,
-                  color: "#16A34A",
                 }}
               >
-                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
-                  check_circle
-                </span>
-                <span>{otpSentMessage}</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#16A34A" }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
+                    check_circle
+                  </span>
+                  <span>{otpSentMessage}</span>
+                </div>
+                <button
+                  type="button"
+                  disabled={otpCooldown > 0}
+                  onClick={handleSendAdminOtp}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    padding: 0,
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    color: otpCooldown > 0 ? "#94A3B8" : "#B91C1C",
+                    cursor: otpCooldown > 0 ? "not-allowed" : "pointer",
+                    textDecoration: otpCooldown > 0 ? "none" : "underline",
+                  }}
+                >
+                  {otpCooldown > 0 ? `Resend in ${otpCooldown}s` : "Resend OTP"}
+                </button>
               </div>
             )}
 
@@ -306,12 +381,7 @@ export default function LoginPage() {
               <div style={{ marginTop: 6, display: "flex", justifyContent: "flex-start" }}>
                 <button
                   type="button"
-                  onClick={() => {
-                    setLoginMethod("otp");
-                    setPassword("");
-                    setOtpSentMessage("OTP sent successfully");
-                    setError("");
-                  }}
+                  onClick={handleSwitchToOtp}
                   style={{
                     background: "none",
                     border: "none",

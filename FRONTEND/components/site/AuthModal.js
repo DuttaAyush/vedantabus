@@ -1,8 +1,9 @@
 ﻿'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { apiFetch } from '@/lib/api';
+import { sendOtpEmail } from '@/lib/emailjs';
 
 export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
   const [mounted, setMounted] = useState(false);
@@ -16,6 +17,9 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
   const [loginOtp, setLoginOtp] = useState('');
   const [otpSentMessage, setOtpSentMessage] = useState('');
   const [otpSending, setOtpSending] = useState(false);
+  const [otpCooldown, setOtpCooldown] = useState(0);
+  const lastOtpSentRef = useRef(0);
+  const lastOtpEmailRef = useRef('');
 
   // Sign up state
   const [fullName, setFullName] = useState('');
@@ -47,6 +51,17 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isOpen, initialMode]);
 
+  // 20-second cooldown timer to prevent OTP credit exhaustion & brute attacks
+  useEffect(() => {
+    let interval;
+    if (otpCooldown > 0) {
+      interval = setInterval(() => {
+        setOtpCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [otpCooldown]);
+
   if (!isOpen || !mounted) return null;
 
   const validateEmail = (val) => {
@@ -70,33 +85,70 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
     return '';
   };
 
-  const handleSendOtp = async () => {
-    const eErr = validateEmail(loginEmail);
+  const handleSendOtp = async (targetEmail = loginEmail) => {
+    const cleanEmail = (targetEmail || '').trim();
+    const eErr = validateEmail(cleanEmail);
     if (eErr) {
       setErrors(p => ({ ...p, email: eErr }));
-      return;
+      return false;
     }
+
+    // Protection: If within 20s cooldown and same email, block duplicate dispatch
+    const now = Date.now();
+    const timeSinceLast = now - lastOtpSentRef.current;
+    if (timeSinceLast < 20000 && lastOtpEmailRef.current === cleanEmail) {
+      setOtpSentMessage('OTP sent successfully');
+      return true;
+    }
+
+    if (otpSending || otpCooldown > 0) return false;
+
     setOtpSending(true);
     setErrors(p => ({ ...p, email: '', otp: '', general: '' }));
+
+    // Generate a 6-digit OTP code for EmailJS / backend
+    const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
     try {
+      // 1. Dispatch via EmailJS (if service credentials configured in .env.local)
+      await sendOtpEmail(cleanEmail, generatedOtp);
+
+      // 2. Notify backend endpoint for auditing/validation
       await apiFetch('/api/auth/send-otp', {
         method: 'POST',
-        body: JSON.stringify({ email: loginEmail.trim() }),
+        body: JSON.stringify({ email: cleanEmail, otp: generatedOtp }),
       });
     } catch {
-      // In dev fallback, proceed seamlessly
+      // Dev mock fallback
     } finally {
       setOtpSending(false);
+      setOtpCooldown(20);
+      lastOtpSentRef.current = Date.now();
+      lastOtpEmailRef.current = cleanEmail;
       setOtpSentMessage('OTP sent successfully');
     }
+    return true;
   };
 
   const handleSwitchToOtp = () => {
     setLoginMethod('otp');
-    setOtpSentMessage('OTP sent successfully');
     setErrors(p => ({ ...p, password: '', otp: '' }));
-    if (loginEmail.trim()) {
-      handleSendOtp();
+
+    const cleanEmail = loginEmail.trim();
+    const now = Date.now();
+    const timeSinceLast = now - lastOtpSentRef.current;
+
+    // Attack/credit-drain protection:
+    // If user flips back and forth between password and OTP, do NOT dispatch new OTP if 20s cooldown is active!
+    if (timeSinceLast < 20000 && lastOtpEmailRef.current === cleanEmail && cleanEmail) {
+      setOtpSentMessage('OTP sent successfully');
+      return;
+    }
+
+    if (cleanEmail) {
+      handleSendOtp(cleanEmail);
+    } else {
+      setOtpSentMessage('');
     }
   };
 
@@ -321,11 +373,19 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                       </p>
                       <button
                         type="button"
-                        onClick={handleSendOtp}
-                        disabled={otpSending}
-                        className="text-[11px] font-bold text-brand-scarlet hover:underline cursor-pointer disabled:opacity-50"
+                        onClick={() => handleSendOtp(loginEmail)}
+                        disabled={otpSending || otpCooldown > 0}
+                        className={`text-[11px] font-bold transition-all ${
+                          otpCooldown > 0
+                            ? 'text-slate-400 cursor-not-allowed bg-slate-100 px-2 py-0.5 rounded-md'
+                            : 'text-brand-scarlet hover:underline cursor-pointer'
+                        }`}
                       >
-                        {otpSending ? 'Resending...' : 'Resend OTP'}
+                        {otpSending
+                          ? 'Sending...'
+                          : otpCooldown > 0
+                          ? `Resend in ${otpCooldown}s`
+                          : 'Resend OTP'}
                       </button>
                     </div>
                   )}
