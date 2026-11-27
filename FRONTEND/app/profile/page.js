@@ -51,8 +51,8 @@ export default function CustomerProfilePage() {
       seats: Array.isArray(trip.seats) ? trip.seats : (trip.seatNumbers ? trip.seatNumbers : [trip.seats || 'L1']),
       passengers: trip.passengers || trip.travelers || [],
       totalFare: trip.totalFare || trip.totalAmount || trip.paidAmount || 850,
-      driverName: trip.driverName || 'Sunil Sharma (Verified Captain)',
-      driverPhone: trip.driverPhone || '+91-8208024895',
+      driverName: trip.driverName || 'Assigned Fleet Captain',
+      driverPhone: trip.driverPhone || 'Shared on departure',
       reportingTime: '30 mins before scheduled departure',
       isPackage: !!trip.isPackage,
       packageTitle: trip.title || '',
@@ -671,104 +671,106 @@ export default function CustomerProfilePage() {
                   return (
                     <div
                       key={trip.id}
-                      className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm hover:shadow-md transition-all space-y-4"
+                      className="bg-white rounded-3xl border border-slate-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.04)] overflow-hidden transition-all hover:shadow-md"
                     >
-                      {/* TOP HEADER BAND */}
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className={`px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${
-                              isSpiritual
-                                ? 'bg-amber-100 text-amber-800 border-amber-300'
-                                : 'bg-teal-100 text-teal-800 border-teal-300'
-                            }`}>
-                              {isSpiritual ? '🛕 DEVSTHAN PILGRIMAGE CIRCUIT' : '🏖️ CURATED HOLIDAY PACKAGE'}
-                            </span>
-                            <span className="text-xs font-mono font-bold text-slate-500">#{trip.bookingId || trip.id}</span>
-                          </div>
-                          <h3 className="text-lg font-serif font-bold text-slate-900">{trip.title}</h3>
-                          <p className="text-xs text-slate-500 font-semibold">{trip.subtitle || trip.category}</p>
-                        </div>
-
-                        {/* CATEGORY DURATION PILL */}
-                        <div className="p-3 rounded-2xl bg-slate-900 text-white flex items-center gap-3 shadow-md shrink-0">
-                          <span className="material-symbols-outlined text-[24px] text-amber-400">
-                            {isSpiritual ? 'temple_hindu' : 'luggage'}
-                          </span>
+                      <div className="p-5 sm:px-7 sm:py-6 space-y-4">
+                        {/* TOP HEADER BAND */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
                           <div>
-                            <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-widest">
-                              TOUR DURATION
-                            </span>
-                            <span className="text-sm font-extrabold text-amber-300">
-                              {trip.duration}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* PACKAGE DETAILS & CUSTOMIZATION SNAPSHOT */}
-                      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center py-2">
-                        {/* Package Thumbnail & Dates */}
-                        <div className="md:col-span-4 flex items-center gap-3">
-                          {trip.image && (
-                            <img
-                              src={trip.image}
-                              alt={trip.title}
-                              className="w-20 h-20 rounded-2xl object-cover shadow-sm border border-slate-200 shrink-0"
-                            />
-                          )}
-                          <div className="space-y-1">
-                            <span className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Departure Date</span>
-                            <div className="text-sm font-bold text-slate-900">{trip.date || trip.departureDate || 'Scheduled in 7 Days'}</div>
-                            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                              <span className="material-symbols-outlined text-[13px]">check_circle</span>
-                              Voucher Active
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Custom Inclusions / Upgrades */}
-                        <div className="md:col-span-5 space-y-1.5 text-xs text-slate-600">
-                          <div className="flex items-center gap-1.5">
-                            <span className="material-symbols-outlined text-[16px] text-brand-scarlet">hotel</span>
-                            <span>Stay: <strong>{trip.hotelTier === '5star' ? '5★ Luxury Resort' : trip.hotelTier === '4star' ? '4★ Deluxe Resort' : '3★ Standard Hotel'}</strong></span>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <span className="material-symbols-outlined text-[16px] text-brand-scarlet">directions_bus</span>
-                            <span>Vehicle: <strong>{trip.transportMode === 'private-suv' ? 'Private Innova Crysta SUV' : trip.transportMode === 'private-sedan' ? 'Private AC Sedan' : 'BharatBenz AC Pushback Coach'}</strong></span>
-                          </div>
-                          {trip.selectedAddons && trip.selectedAddons.length > 0 && (
-                            <div className="flex items-center gap-1.5">
-                              <span className="material-symbols-outlined text-[16px] text-amber-600">tune</span>
-                              <span>Add-ons: <strong>{trip.selectedAddons.map(a => a.label).join(', ')}</strong></span>
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className={`px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${
+                                isSpiritual
+                                  ? 'bg-amber-100 text-amber-800 border-amber-300'
+                                  : 'bg-teal-100 text-teal-800 border-teal-300'
+                              }`}>
+                                {isSpiritual ? '🛕 DEVSTHAN PILGRIMAGE CIRCUIT' : '🏖️ CURATED HOLIDAY PACKAGE'}
+                              </span>
+                              <span className="text-xs font-mono font-bold text-slate-500">#{trip.bookingId || trip.id}</span>
                             </div>
-                          )}
+                            <h3 className="text-lg font-serif font-bold text-slate-900">{trip.title}</h3>
+                            <p className="text-xs text-slate-500 font-semibold">{trip.subtitle || trip.category}</p>
+                          </div>
+
+                          {/* CATEGORY DURATION PILL */}
+                          <div className="p-3 rounded-2xl bg-slate-900 text-white flex items-center gap-3 shadow-md shrink-0">
+                            <span className="material-symbols-outlined text-[24px] text-amber-400">
+                              {isSpiritual ? 'temple_hindu' : 'luggage'}
+                            </span>
+                            <div>
+                              <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-widest">
+                                TOUR DURATION
+                              </span>
+                              <span className="text-sm font-extrabold text-amber-300">
+                                {trip.duration}
+                              </span>
+                            </div>
+                          </div>
                         </div>
 
-                        {/* Price & Travelers */}
-                        <div className="md:col-span-3 text-left md:text-right space-y-1">
-                          <span className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">
-                            {trip.travelerCount || (trip.travelers && trip.travelers.length) || 1} Traveler(s)
-                          </span>
-                          <div className="text-xl font-black text-slate-900">
-                            ₹{(trip.totalAmount || trip.paidAmount || 0).toLocaleString('en-IN')}
+                        {/* PACKAGE DETAILS & CUSTOMIZATION SNAPSHOT */}
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center py-2">
+                          {/* Package Thumbnail & Dates */}
+                          <div className="md:col-span-4 flex items-center gap-3">
+                            {trip.image && (
+                              <img
+                                src={trip.image}
+                                alt={trip.title}
+                                className="w-20 h-20 rounded-2xl object-cover shadow-sm border border-slate-200 shrink-0"
+                              />
+                            )}
+                            <div className="space-y-1">
+                              <span className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Departure Date</span>
+                              <div className="text-sm font-bold text-slate-900">{trip.date || trip.departureDate || 'Scheduled in 7 Days'}</div>
+                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                                <span className="material-symbols-outlined text-[13px]">check_circle</span>
+                                Voucher Active
+                              </span>
+                            </div>
                           </div>
-                          <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                            Fully Paid
-                          </span>
+
+                          {/* Custom Inclusions / Upgrades */}
+                          <div className="md:col-span-5 space-y-1.5 text-xs text-slate-600">
+                            <div className="flex items-center gap-1.5">
+                              <span className="material-symbols-outlined text-[16px] text-brand-scarlet">hotel</span>
+                              <span>Stay: <strong>{trip.hotelTier === '5star' ? '5★ Luxury Resort' : trip.hotelTier === '4star' ? '4★ Deluxe Resort' : '3★ Standard Hotel'}</strong></span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="material-symbols-outlined text-[16px] text-brand-scarlet">directions_bus</span>
+                              <span>Vehicle: <strong>{trip.transportMode === 'private-suv' ? 'Private Innova Crysta SUV' : trip.transportMode === 'private-sedan' ? 'Private AC Sedan' : 'BharatBenz AC Pushback Coach'}</strong></span>
+                            </div>
+                            {trip.selectedAddons && trip.selectedAddons.length > 0 && (
+                              <div className="flex items-center gap-1.5">
+                                <span className="material-symbols-outlined text-[16px] text-amber-600">tune</span>
+                                <span>Add-ons: <strong>{trip.selectedAddons.map(a => a.label).join(', ')}</strong></span>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Price & Travelers */}
+                          <div className="md:col-span-3 text-left md:text-right space-y-1">
+                            <span className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">
+                              {trip.travelerCount || (trip.travelers && trip.travelers.length) || 1} Traveler(s)
+                            </span>
+                            <div className="text-xl font-black text-slate-900">
+                              ₹{(trip.totalAmount || trip.paidAmount || 0).toLocaleString('en-IN')}
+                            </div>
+                            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                              Fully Paid
+                            </span>
+                          </div>
                         </div>
                       </div>
 
-                      {/* BOTTOM ACTION BUTTONS */}
-                      <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                      {/* BOTTOM ROW: INCLUSION + ACTION BUTTONS (MATCHES BUS TICKET STYLING) */}
+                      <div className="bg-slate-50/70 border-t border-slate-100 px-5 sm:px-7 py-3 flex flex-wrap items-center justify-between gap-3">
                         <div className="flex items-center gap-2 text-xs text-slate-600">
                           <span className="material-symbols-outlined text-[16px] text-emerald-600">verified_user</span>
                           <span>Instant Confirmation • All-Inclusive Guide &amp; Permits</span>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           {trip.status === 'Cancelled' ? (
-                            <span className="px-3.5 py-2 rounded-xl bg-red-100 text-red-700 font-bold text-xs border border-red-200 flex items-center gap-1">
+                            <span className="px-4 py-2 rounded-full bg-red-100 text-red-700 font-bold text-xs border border-red-200 flex items-center gap-1.5 whitespace-nowrap">
                               <span className="material-symbols-outlined text-[15px]">cancel</span>
                               <span>Package Cancelled</span>
                             </span>
@@ -776,25 +778,25 @@ export default function CustomerProfilePage() {
                             <button
                               type="button"
                               onClick={() => openCancelModal(trip)}
-                              className="px-3 py-2 rounded-xl bg-red-50 hover:bg-red-600 hover:text-white text-red-700 font-bold text-xs border border-red-200 transition-all flex items-center gap-1 cursor-pointer"
+                              className="px-4 py-2 rounded-full border border-red-300 text-red-600 bg-white hover:bg-red-50 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer active:scale-95 whitespace-nowrap"
                             >
-                              <span className="material-symbols-outlined text-[15px]">cancel</span>
+                              <span className="material-symbols-outlined text-[16px] text-red-500">cancel</span>
                               <span>Cancel Package</span>
                             </button>
                           )}
 
                           <Link
                             href={`/customize-package/${trip.pkgId || 'chardham'}`}
-                            className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
+                            className="px-4 py-2 rounded-full bg-[#0B1527] hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer active:scale-95 whitespace-nowrap"
                           >
-                            <span className="material-symbols-outlined text-[16px]">tune</span>
+                            <span className="material-symbols-outlined text-[16px] text-amber-400">tune</span>
                             <span>View / Re-Customize</span>
                           </Link>
 
                           <button
                             type="button"
                             onClick={() => openBoardingPassModal(trip)}
-                            className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs border border-slate-200 transition-all flex items-center gap-1.5 cursor-pointer"
+                            className="px-4 py-2 rounded-full border border-slate-200 text-slate-700 bg-white hover:bg-slate-50 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer active:scale-95 whitespace-nowrap"
                           >
                             <span className="material-symbols-outlined text-[16px] text-brand-scarlet">print</span>
                             <span>Tour Voucher &amp; Pass</span>
@@ -819,10 +821,11 @@ export default function CustomerProfilePage() {
                                 setTimeout(() => setShareToast(''), 3000);
                               }
                             }}
-                            className="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 hover:bg-brand-scarlet hover:text-white border border-slate-200 flex items-center justify-center transition-all cursor-pointer"
+                            className="px-4 py-2 rounded-full border border-slate-200 text-slate-700 bg-white hover:bg-slate-50 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer active:scale-95 whitespace-nowrap"
                             title="Share Tour Package"
                           >
-                            <span className="material-symbols-outlined text-[18px]">share</span>
+                            <span className="material-symbols-outlined text-[16px] text-slate-600">share</span>
+                            <span>Share</span>
                           </button>
                         </div>
                       </div>
