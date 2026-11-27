@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { adminFetch } from "@/lib/api";
+import { sendOtpEmail } from "@/lib/emailjs";
 
 // Only this exact email (or a backend-returned role===SUPER_ADMIN) gets super admin access.
 // All other admin accounts get the ADMIN role.
@@ -43,12 +44,20 @@ export default function LoginPage() {
     }
     if (otpCooldown > 0) return;
 
+    setError("");
+    const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
     try {
+      // 1. Dispatch via EmailJS (if configured)
+      await sendOtpEmail(cleanEmail, generatedOtp);
+
+      // 2. Store on backend for server-side verification
       await adminFetch("/api/auth/send-otp", {
         method: "POST",
-        body: JSON.stringify({ email: cleanEmail }),
+        body: JSON.stringify({ email: cleanEmail, otp: generatedOtp }),
       });
     } catch {}
+
     setOtpCooldown(20);
     lastOtpSentRef.current = Date.now();
     lastOtpEmailRef.current = cleanEmail;
@@ -208,6 +217,73 @@ export default function LoginPage() {
           onSubmit={handleSubmit}
           style={{ display: "flex", flexDirection: "column", gap: "1.125rem" }}
         >
+          {/* Method Selector: Password vs OTP */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "#F1F5F9",
+              borderRadius: 10,
+              padding: 4,
+              gap: 4,
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => {
+                setLoginMethod("password");
+                setPassword("");
+                setOtpSentMessage("");
+                setError("");
+              }}
+              style={{
+                flex: 1,
+                padding: "8px 12px",
+                borderRadius: 8,
+                border: "none",
+                fontSize: "0.8125rem",
+                fontWeight: 700,
+                cursor: "pointer",
+                backgroundColor: loginMethod === "password" ? "#FFFFFF" : "transparent",
+                color: loginMethod === "password" ? "#B91C1C" : "#64748B",
+                boxShadow: loginMethod === "password" ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 6,
+                transition: "all 150ms",
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: 16 }}>lock</span>
+              <span>Password</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleSwitchToOtp}
+              style={{
+                flex: 1,
+                padding: "8px 12px",
+                borderRadius: 8,
+                border: "none",
+                fontSize: "0.8125rem",
+                fontWeight: 700,
+                cursor: "pointer",
+                backgroundColor: loginMethod === "otp" ? "#FFFFFF" : "transparent",
+                color: loginMethod === "otp" ? "#B91C1C" : "#64748B",
+                boxShadow: loginMethod === "otp" ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 6,
+                transition: "all 150ms",
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: 16 }}>sms</span>
+              <span>Login via OTP</span>
+            </button>
+          </div>
+
           {/* Email */}
           <div>
             <label

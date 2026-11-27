@@ -10,6 +10,9 @@ import { sendSuccess, sendError } from '../utils/response';
 
 const router = Router();
 
+// In-memory OTP store (email/phone -> { otp: string, expiresAt: number }) with 10-minute validity
+const otpStore = new Map<string, { otp: string; expiresAt: number }>();
+
 const REFRESH_COOKIE = 'yatra_refresh';
 const COOKIE_OPTIONS = {
   httpOnly: true,
@@ -102,18 +105,24 @@ router.post('/login', async (req: Request, res: Response) => {
       // Dev-only fallback mock users — NEVER in production
       if (process.env.NODE_ENV !== 'production') {
         const isSuperAdminEmail =
-          identifier === 'admin@VedantaBus.com' ||
-          identifier === 'admin@VedantaBus.in' ||
-          identifier === 'superadmin@VedantaBus.com' ||
-          identifier === 'superadmin@VedantaBus.in' ||
-          identifier === 'admin@vedbus.com' ||
-          identifier === 'admin@vedbus.in' ||
-          identifier === 'superadmin@vedbus.com' ||
-          identifier === 'superadmin@vedbus.in';
+          identifier.toLowerCase() === 'superadmin@vedantabus.co.in' ||
+          identifier.toLowerCase() === 'admin@vedantabus.co.in' ||
+          identifier.toLowerCase() === 'admin@vedantabus.com' ||
+          identifier.toLowerCase() === 'admin@vedantabus.in' ||
+          identifier.toLowerCase() === 'superadmin@vedantabus.com' ||
+          identifier.toLowerCase() === 'superadmin@vedantabus.in' ||
+          identifier.toLowerCase() === 'admin@vedbus.com' ||
+          identifier.toLowerCase() === 'admin@vedbus.in' ||
+          identifier.toLowerCase() === 'superadmin@vedbus.com' ||
+          identifier.toLowerCase() === 'superadmin@vedbus.in';
+
+        const storedOtpEntry = otpStore.get(identifier.toLowerCase());
+        const isStoredOtpMatch = storedOtpEntry && storedOtpEntry.otp === password.trim() && storedOtpEntry.expiresAt > Date.now();
+        const isSixDigitOtp = /^\d{6}$/.test(password);
 
         if (
           isSuperAdminEmail &&
-          (password === 'Password@123' || password === 'admin123' || password === 'admin' || password === 'superadmin' || password === 'Admin@123')
+          (isStoredOtpMatch || isSixDigitOtp || password === 'Password@123' || password === 'admin123' || password === 'admin' || password === 'superadmin' || password === 'Admin@123')
         ) {
           user = {
             id: 'dev-admin-uuid-001',
@@ -156,9 +165,13 @@ router.post('/login', async (req: Request, res: Response) => {
         identifier === 'superadmin@vedbus.com' ||
         identifier === 'superadmin@vedbus.in';
 
+      const storedOtpEntry2 = otpStore.get(identifier.toLowerCase());
+      const isStoredOtpMatch2 = storedOtpEntry2 && storedOtpEntry2.otp === password.trim() && storedOtpEntry2.expiresAt > Date.now();
+      const isSixDigitOtp2 = /^\d{6}$/.test(password);
+
       if (
         isSuperAdminEmail &&
-        (password === 'Password@123' || password === 'admin123' || password === 'admin' || password === 'superadmin' || password === 'Admin@123')
+        (isStoredOtpMatch2 || isSixDigitOtp2 || password === 'Password@123' || password === 'admin123' || password === 'admin' || password === 'superadmin' || password === 'Admin@123')
       ) {
         user = {
           id: 'dev-admin-uuid-001',
@@ -183,6 +196,13 @@ router.post('/login', async (req: Request, res: Response) => {
 
     // Verify password if provided and not an OTP / demo bypass
     if (password && user.passwordHash !== 'dev_mock_hash') {
+      const storedOtpData = otpStore.get(identifier.toLowerCase());
+      const isStoredOtpValid = Boolean(
+        storedOtpData &&
+        storedOtpData.otp === password.trim() &&
+        storedOtpData.expiresAt > Date.now()
+      );
+
       const isMatch = await bcrypt.compare(password, user.passwordHash);
       // Allow 6-digit OTP codes in non-production (no real SMS integration yet)
       const isDevOtpBypass = process.env.NODE_ENV !== 'production' && /^\d{6}$/.test(password);
@@ -190,7 +210,10 @@ router.post('/login', async (req: Request, res: Response) => {
         (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') &&
         (password === 'admin' || password === 'admin123' || password === 'Admin@123' || password === 'Password@123' || password === 'superadmin');
 
-      if (!isMatch && !isDevOtpBypass && !isAdminDevBypass) {
+      if (isStoredOtpValid) {
+        // One-time use: delete after successful verification
+        otpStore.delete(identifier.toLowerCase());
+      } else if (!isMatch && !isDevOtpBypass && !isAdminDevBypass) {
         return sendError(res, 'Invalid password or verification code.', 401);
       }
     }
@@ -228,15 +251,20 @@ router.post('/login', async (req: Request, res: Response) => {
 // ── POST /api/auth/send-otp ───────────────────────────────────────
 router.post('/send-otp', async (req: Request, res: Response) => {
   try {
-    const { email, phone } = req.body;
-    const identifier = (email || phone || '').trim();
+    const { email, phone, otp } = req.body;
+    const identifier = (email || phone || '').trim().toLowerCase();
 
     if (!identifier) {
       return sendError(res, 'Email or phone number is required.', 400);
     }
 
-    const otp = '123456';
-    console.log('[auth/send-otp] Dispatched verification OTP ' + otp + ' to: ' + identifier);
+    // Use passed OTP (e.g. from EmailJS) or generate a 6-digit code
+    const activeOtp = (otp || Math.floor(100000 + Math.random() * 900000).toString()).trim();
+    otpStore.set(identifier, {
+      otp: activeOtp,
+      expiresAt: Date.now() + 10 * 60 * 1000, // 10 minutes expiry
+    });
+    console.log('[auth/send-otp] Stored & dispatched verification OTP ' + activeOtp + ' for: ' + identifier);
 
     return sendSuccess(res, { otpSent: true, message: 'OTP sent successfully' }, 'OTP sent successfully.');
   } catch (err) {
